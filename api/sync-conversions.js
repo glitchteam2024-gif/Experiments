@@ -3,10 +3,7 @@
  * Pulls approved conversions from affiliate network and sends to TikTok
  * 
  * Deploy to: /api/sync-conversions.js on Vercel
- * Set up cron job: 0 */15 * * * * (every 15 minutes)
  */
-
-import fetch from 'node-fetch';
 
 // Configuration
 const CONFIG = {
@@ -24,6 +21,23 @@ const CONFIG = {
   SYNC_INTERVAL_MINUTES: 15,
   ONLY_APPROVED: true
 };
+
+/**
+ * Hash value for TikTok (SHA256)
+ */
+async function hashValue(value) {
+  if (!value) return null;
+  try {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(value.toLowerCase().trim());
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  } catch (error) {
+    console.error('Hash error:', error);
+    return null;
+  }
+}
 
 /**
  * Get conversions from affiliate network
@@ -75,18 +89,6 @@ async function getAffiliateConversions(startDate, endDate) {
 }
 
 /**
- * Hash value for TikTok (SHA256)
- */
-async function hashValue(value) {
-  if (!value) return null;
-  const encoder = new TextEncoder();
-  const data = encoder.encode(value.toLowerCase().trim());
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-/**
  * Send conversion to TikTok
  */
 async function sendConversionToTikTok(conversion) {
@@ -107,9 +109,8 @@ async function sendConversionToTikTok(conversion) {
     } = conversion;
 
     // Extract user data from tracking_id or sub IDs if available
-    // This depends on how you're passing user data through the affiliate network
-    const userEmail = subid_1; // Adjust based on your setup
-    const userPhone = subid_2; // Adjust based on your setup
+    const userEmail = subid_1;
+    const userPhone = subid_2;
     const userId = tracking_id;
 
     // Hash user identifiers
@@ -189,7 +190,7 @@ async function syncConversions() {
 
     if (conversions.length === 0) {
       console.log('ℹ️  No new conversions found');
-      return { success: true, synced: 0 };
+      return { success: true, synced: 0, total: 0 };
     }
 
     // Send each conversion to TikTok
@@ -223,10 +224,12 @@ export default async function handler(req, res) {
   try {
     // Verify it's a GET request (for cron jobs) or POST with auth token
     if (req.method === 'GET') {
-      // Optional: Add auth token verification
+      // Verify auth token
       const token = req.query.token;
-      if (token !== process.env.CRON_SECRET) {
-        return res.status(401).json({ error: 'Unauthorized' });
+      const expectedToken = process.env.CRON_SECRET || 'tiktok_sync_secret_123';
+      
+      if (token !== expectedToken) {
+        return res.status(401).json({ error: 'Unauthorized - Invalid token' });
       }
     } else if (req.method !== 'POST') {
       return res.status(405).json({ error: 'Method not allowed' });
