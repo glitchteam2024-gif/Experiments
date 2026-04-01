@@ -65,7 +65,8 @@ async function getAffiliateConversions(startDate, endDate) {
   }
 }
 
-async function sendConversionToTikTok(conversion) {
+// Added: testEventCode parameter for TikTok test mode
+async function sendConversionToTikTok(conversion, testEventCode) {
   try {
     const {
       conversion_id,
@@ -115,6 +116,11 @@ async function sendConversionToTikTok(conversion) {
       event_source_id: CONFIG.TIKTOK_EVENT_SET_ID
     };
 
+    // Add test_event_code if provided (for TikTok Events Manager testing)
+    if (testEventCode) {
+      payload.test_event_code = testEventCode;
+    }
+
     const response = await fetch(CONFIG.TIKTOK_API_URL, {
       method: 'POST',
       headers: {
@@ -139,7 +145,8 @@ async function sendConversionToTikTok(conversion) {
   }
 }
 
-async function syncConversions() {
+// Added: testEventCode parameter passed through
+async function syncConversions(testEventCode) {
   try {
     const now = new Date();
     const endDate = new Date(now.getTime() - 2 * 60000);
@@ -151,12 +158,17 @@ async function syncConversions() {
     const conversions = await getAffiliateConversions(startDateStr, endDateStr);
 
     if (conversions.length === 0) {
+      // If testing and no real conversions, send a dummy test event
+      if (testEventCode) {
+        const testResult = await sendTestEvent(testEventCode);
+        return { success: true, synced: 0, total: 0, test_mode: true, test_event_sent: testResult };
+      }
       return { success: true, synced: 0, total: 0 };
     }
 
     let successCount = 0;
     for (const conversion of conversions) {
-      const sent = await sendConversionToTikTok(conversion);
+      const sent = await sendConversionToTikTok(conversion, testEventCode);
       if (sent) successCount++;
       await new Promise(resolve => setTimeout(resolve, 100));
     }
@@ -165,11 +177,57 @@ async function syncConversions() {
       success: true,
       total: conversions.length,
       synced: successCount,
-      failed: conversions.length - successCount
+      failed: conversions.length - successCount,
+      test_mode: !!testEventCode
     };
   } catch (error) {
     console.error('Sync error:', error);
     return { success: false, error: error.message };
+  }
+}
+
+// NEW: Send a dummy test event when there are no real conversions to test with
+async function sendTestEvent(testEventCode) {
+  try {
+    const payload = {
+      event_source: 'web',
+      event_source_id: CONFIG.TIKTOK_EVENT_SET_ID,
+      test_event_code: testEventCode,
+      data: [{
+        event: 'Purchase',
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: 'test_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+        user: {
+          ip: '75.141.208.17',
+          user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36'
+        },
+        properties: {
+          currency: 'USD',
+          value: 1,
+          content_name: 'test_conversion',
+          content_type: 'product'
+        },
+        page: {
+          url: 'https://www.scrolledrewards.com/RPA1.html'
+        }
+      }]
+    };
+
+    const response = await fetch(CONFIG.TIKTOK_API_URL, {
+      method: 'POST',
+      headers: {
+        'Access-Token': CONFIG.TIKTOK_ACCESS_TOKEN,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+    console.log('Test event result:', result);
+    return { sent: true, tiktok_response: result };
+  } catch (error) {
+    console.error('Test event error:', error);
+    return { sent: false, error: error.message };
   }
 }
 
@@ -186,7 +244,10 @@ module.exports = async function handler(req, res) {
       return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const result = await syncConversions();
+    // NEW: Get test_event_code from query or body
+    const testEventCode = req.query.test_event_code || (req.body && req.body.test_event_code) || null;
+
+    const result = await syncConversions(testEventCode);
     return res.status(200).json(result);
   } catch (error) {
     console.error('Handler error:', error);
