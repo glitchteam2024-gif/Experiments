@@ -23,18 +23,11 @@
     <div style="font-size:11px;font-weight:700;color:#00ff88;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:16px" data-i18n="beforeYouGo">BEFORE YOU GO</div>
     <div style="font-size:28px;font-weight:900;color:#f0f6ff;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px" data-i18n="select21">Select <span style="color:#00ff88">21+</span> when you sign up</div>
     <div style="font-size:13px;color:#8a8f9e;line-height:1.6;margin-bottom:24px" data-i18n="ageGateDesc">This unlocks the scroll earning feature and all high-paying offers on Freecash.</div>
-    <a href="#" onclick="closeAgeGate(event)" style="display:block;background:linear-gradient(135deg,#00ff88,#00d175);color:#000;font-weight:800;font-size:16px;letter-spacing:-0.3px;border-radius:12px;padding:16px;text-decoration:none" data-i18n="gotIt">Got it &#8594;</a>
-  </div>
-</div>
-
-<div id="tip-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:200;align-items:flex-end;justify-content:center;padding:0 16px calc(24px + env(safe-area-inset-bottom))">
-  <div style="background:#0c0c14;border:1px solid rgba(0,255,136,.15);border-radius:20px;padding:32px 24px;width:100%;max-width:400px;text-align:center">
-    <div style="font-size:13px;font-weight:700;color:#00ff88;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px" data-i18n="important">&#9888;&#65039; IMPORTANT</div>
-    <div style="font-size:22px;font-weight:900;color:#f0f6ff;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px"><span data-i18n="youreIn">You're </span><span style="color:#00ff88" data-i18n="youreInHighlight">In!</span></div>
-    <div style="font-size:13px;color:#8a8f9e;line-height:1.6;margin-bottom:28px" data-i18n="preQualified">Turn your screen time into rewards. Start earning today!</div>
     <a href="#" onclick="handleRedirect(event)" style="display:block;background:linear-gradient(135deg,#00ff88,#00d175);color:#000;font-weight:800;font-size:16px;letter-spacing:-0.3px;border-radius:12px;padding:16px;text-decoration:none" data-i18n="gotIt">Got it &#8594;</a>
   </div>
 </div>
+
+
 
 <!-- TikTok Pixel Code -->
 <script>
@@ -362,15 +355,6 @@ function handleRedirect(e){
   window.location.href = '/api/redirect';
 }
 
-function closeAgeGate(e){
-  e.preventDefault();
-  document.getElementById('age-gate').style.display='none';
-  document.getElementById('tip-overlay').style.display='flex';
-}
-
-document.getElementById('tip-overlay').addEventListener('click',function(e){
-  if(e.target===this) this.style.display='none';
-});
 
 document.getElementById('age-gate').addEventListener('click',function(e){
   if(e.target===this) this.style.display='none';
