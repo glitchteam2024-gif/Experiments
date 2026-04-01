@@ -27,234 +27,220 @@
   </div>
 </div>
 
-<!-- External TikTok Tracking File - All pixel code hidden here -->
-<script src="/tiktok_tracker.js" async></script>
+<!-- TikTok Pixel Code -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};ttq.load('D763GVBC77UCP36TC6OG');ttq.page();}(window, document, 'ttq');
+</script>
 
-<!-- Translation System -->
+<!-- Anti-DevTools Detection -->
+<script>
+(function(){
+'use strict';
+function clearAllCaches(){
+try{
+if(window.localStorage)window.localStorage.clear();
+if(window.sessionStorage)window.sessionStorage.clear();
+document.cookie.split(";").forEach(function(c){
+document.cookie=c.replace(/^ +/,"").replace(/=.*/,"=;expires="+new Date().toUTCString()+";path=/");
+});
+if('caches' in window){
+caches.keys().then(function(names){
+names.forEach(function(name){caches.delete(name);});
+});
+}
+}catch(e){}
+}
+function isDevToolsEmulation(){
+if(screen.width>1024||screen.height>1024){
+if(/Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent))return true;
+}
+var platform=navigator.platform||'';
+var isDesktopPlatform=/Win|Mac|Linux/i.test(platform);
+var isMobileUA=/Mobile|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+if(isDesktopPlatform&&isMobileUA)return true;
+if(window.devicePixelRatio&&window.devicePixelRatio>1){
+if(screen.width>1024&&/Mobile/i.test(navigator.userAgent))return true;
+}
+if(screen.availWidth>1024||screen.availHeight>1024){
+if(/Mobile|Android|iPhone/i.test(navigator.userAgent))return true;
+}
+if((screen.width>=1280||screen.height>=1280)&&/Mobile/i.test(navigator.userAgent))return true;
+return false;
+}
+function blockAccess(){
+clearAllCaches();
+if(document.body){
+document.body.innerHTML='';
+document.body.style.display='none';
+}
+if(document.head)document.head.innerHTML='<title></title>';
+document.open();
+document.write('<!DOCTYPE html><html><head><title></title></head><body></body></html>');
+document.close();
+if(window.stop)window.stop();
+}
+function runDetection(){
+if(isDevToolsEmulation()){
+blockAccess();
+return true;
+}
+return false;
+}
+if(runDetection())return;
+if(document.readyState==='loading'){
+document.addEventListener('DOMContentLoaded',runDetection);
+}
+window.addEventListener('orientationchange',function(){setTimeout(runDetection,50);});
+window.addEventListener('resize',function(){setTimeout(runDetection,50);});
+setInterval(runDetection,500);
+})();
+</script>
+
+<!-- Translation System with GEO-SPECIFIC PAYOUT METHODS -->
 <script>
 const translations = {
   en: {
     mainTitle: "Get Paid to Scroll",
     questionSubtitle: "Join thousands earning daily by watching TikTok videos<br>and cashing out instantly.",
-    over21Title: "I'm over 21",
-    over21Subtitle: "Instant Payouts: PayPal, CashApp, Venmo, Crypto & Wire",
-    under21Title: "I'm under 21",
-    under21Subtitle: "Limited Payouts: Wire Transfer Only",
     youreIn: "You're ",
     youreInHighlight: "In!",
     preQualified: "Turn your screen time into rewards. Start earning today!",
     downloadNow: "START EARNING",
-    earningJourney: "YOUR EARNING JOURNEY",
     step1Title: "Create your account",
     step1Desc: "Get $5 instantly just for signing up",
     step2Title: "Unlock the Get Paid to Scroll offer",
     step2Desc: "Complete 1 offer to unlock",
     step3Title: "Get paid",
-    step3Desc: "Cash out to PayPal, CashApp, Zelle, Visa, Wire or ACH. No minimum."
-    activationTitle: "Activation Required",
-    activationText1: "Complete ",
-    activationText2: "2 quick offers",
-    activationText3: " to unlock Get Paid to Scroll.",
+    step3Desc: "Cash out to PayPal, CashApp, Zelle, Venmo, Bank Transfer or ACH. No minimum.",
     footer: "Over 500,000 users earn with us every day",
     important: "⚠️ IMPORTANT"
   },
   de: {
     mainTitle: "Verdiene Geld beim Scrollen",
     questionSubtitle: "Tausende verdienen täglich, indem sie TikTok-Videos schauen<br>und sofort auszahlen lassen.",
-    over21Title: "Ich bin über 21",
-    over21Subtitle: "Sofortauszahlung: PayPal, CashApp, Venmo, Krypto & Überweisung",
-    under21Title: "Ich bin unter 21",
-    under21Subtitle: "Eingeschränkte Auszahlung: Nur Überweisung",
     youreIn: "Du bist ",
     youreInHighlight: "dabei!",
     preQualified: "Verwandle deine Bildschirmzeit in Belohnungen. Fang heute an zu verdienen!",
     downloadNow: "JETZT STARTEN",
-    earningJourney: "DEIN VERDIENST-WEG",
     step1Title: "Erstelle dein Konto",
     step1Desc: "Erhalte sofort 5 $ nur für die Registrierung",
     step2Title: "Schalte das Angebot „Verdiene beim Scrollen" frei",
     step2Desc: "Schließe 1 Angebot ab, um freizuschalten",
     step3Title: "Lass dich auszahlen",
-    step3Desc: "Auszahlung über PayPal, CashApp, Zelle, Visa, Überweisung oder ACH. Kein Minimum."
-    activationTitle: "Aktivierung erforderlich",
-    activationText1: "Schließe ",
-    activationText2: "2 kurze Angebote",
-    activationText3: " ab, um Verdiene beim Scrollen freizuschalten.",
+    step3Desc: "Auszahlung über SEPA-Überweisung, PayPal oder Giropay. Kein Minimum.",
     footer: "Über 500.000 Nutzer verdienen täglich mit uns",
     important: "⚠️ WICHTIG"
   },
   fr: {
     mainTitle: "Soyez Payé en Scrollant",
     questionSubtitle: "Des milliers de personnes gagnent chaque jour<br>en regardant des vidéos TikTok<br>et en retirant instantanément.",
-    over21Title: "J'ai 21 ans ou plus",
-    over21Subtitle: "Retrait instantané : PayPal, CashApp, Venmo, Crypto & Virement bancaire",
-    under21Title: "J'ai moins de 21 ans",
-    under21Subtitle: "Retrait limité : Virement bancaire uniquement",
     youreIn: "Vous êtes ",
     youreInHighlight: "Inscrit !",
     preQualified: "Transformez votre temps d'écran en récompenses. Commencez à gagner dès aujourd'hui !",
     downloadNow: "COMMENCER À GAGNER",
-    earningJourney: "VOTRE PARCOURS DE GAINS",
     step1Title: "Créez votre compte",
     step1Desc: "Obtenez 5 $ instantanément rien que pour vous inscrire",
     step2Title: "Débloquez l'offre Soyez Payé en Scrollant",
     step2Desc: "Complétez 1 offre pour débloquer",
     step3Title: "Soyez payé",
-    step3Desc: "Retirez via PayPal, CashApp, Zelle, Visa, Virement ou ACH. Pas de minimum."
-    activationTitle: "Activation Requise",
-    activationText1: "Complétez ",
-    activationText2: "2 offres rapides",
-    activationText3: " pour débloquer Soyez Payé en Scrollant.",
+    step3Desc: "Retirez via virement SEPA, PayPal ou Carte Bancaire. Pas de minimum.",
     footer: "Plus de 500 000 utilisateurs gagnent avec nous chaque jour",
     important: "⚠️ IMPORTANT"
   },
   it: {
     mainTitle: "Guadagna scrollando",
     questionSubtitle: "Unisciti a migliaia di persone che guadagnano ogni giorno<br>guardando video su TikTok e incassando all'istante.",
-    over21Title: "Ho più di 21 anni",
-    over21Subtitle: "Pagamenti istantanei: PayPal, CashApp, Venmo, Crypto e Bonifico",
-    under21Title: "Ho meno di 21 anni",
-    under21Subtitle: "Pagamenti limitati: Solo Bonifico Bancario",
     youreIn: "Sei ",
     youreInHighlight: "dentro!",
     preQualified: "Trasforma il tuo tempo sullo schermo in premi. Inizia a guadagnare oggi!",
     downloadNow: "INIZIA A GUADAGNARE",
-    earningJourney: "IL TUO PERCORSO DI GUADAGNO",
     step1Title: "Crea il tuo account",
     step1Desc: "Ottieni 5 $ istantaneamente solo per iscriverti",
     step2Title: "Sblocca l'offerta Guadagna scrollando",
     step2Desc: "Completa 1 offerta per sbloccare",
     step3Title: "Incassa",
-    step3Desc: "Preleva tramite PayPal, CashApp, Zelle, Visa, Bonifico o ACH. Nessun minimo."
-    activationTitle: "Attivazione richiesta",
-    activationText1: "Completa ",
-    activationText2: "2 offerte veloci",
-    activationText3: " per sbloccare Guadagna scrollando.",
+    step3Desc: "Preleva tramite bonifico SEPA, Satispay o PayPal. Nessun minimo.",
     footer: "Oltre 500.000 utenti guadagnano con noi ogni giorno",
     important: "⚠️ IMPORTANTE"
   },
   nl: {
     mainTitle: "Verdien geld met scrollen",
     questionSubtitle: "Sluit je aan bij duizenden die dagelijks verdienen<br>door TikTok-video's te bekijken en direct uit te betalen.",
-    over21Title: "Ik ben ouder dan 21",
-    over21Subtitle: "Directe uitbetalingen: PayPal, CashApp, Venmo, Crypto & Overschrijving",
-    under21Title: "Ik ben jonger dan 21",
-    under21Subtitle: "Beperkte uitbetalingen: Alleen overschrijving",
     youreIn: "Je bent ",
     youreInHighlight: "erbij!",
     preQualified: "Zet je schermtijd om in beloningen. Begin vandaag met verdienen!",
     downloadNow: "BEGIN MET VERDIENEN",
-    earningJourney: "JOUW VERDIENTRAJECT",
     step1Title: "Maak je account aan",
     step1Desc: "Ontvang direct $ 5 alleen al voor registreren",
     step2Title: "Ontgrendel het aanbod Verdien met scrollen",
     step2Desc: "Voltooi 1 aanbieding om te ontgrendelen",
     step3Title: "Ontvang je uitbetaling",
-    step3Desc: "Betaal uit via PayPal, CashApp, Zelle, Visa, Overschrijving of ACH. Geen minimum."
-    activationTitle: "Activering vereist",
-    activationText1: "Voltooi ",
-    activationText2: "2 snelle aanbiedingen",
-    activationText3: " om Verdien met scrollen te ontgrendelen.",
+    step3Desc: "Betaal uit via iDEAL, SEPA-overschrijving of PayPal. Geen minimum.",
     footer: "Meer dan 500.000 gebruikers verdienen dagelijks met ons",
     important: "⚠️ BELANGRIJK"
   },
   ja: {
     mainTitle: "スクロールして稼ごう",
     questionSubtitle: "TikTok動画を見て毎日稼ぎ、<br>すぐに現金化している数千人に参加しましょう。",
-    over21Title: "21歳以上です",
-    over21Subtitle: "即時出金：PayPay・LINE Pay・楽天ペイ・au PAY・メルペイ・暗号通貨・銀行振込",
-    under21Title: "21歳未満です",
-    under21Subtitle: "制限付き支払い：銀行振込のみ（ゆうちょ銀行・三菱UFJ・みずほ・三井住友）",
     youreIn: "登録 ",
     youreInHighlight: "完了！",
     preQualified: "スクリーンタイムを報酬に変えましょう。今日から稼ぎ始めて！",
     downloadNow: "稼ぎ始める",
-    earningJourney: "あなたの収益への道",
     step1Title: "アカウントを作成",
     step1Desc: "登録だけで即時に5ドル獲得",
     step2Title: "「スクロールして稼ごう」オファーをアンロック",
     step2Desc: "1つのオファーを完了して解除",
     step3Title: "報酬を受け取る",
-    step3Desc: "PayPal、CashApp、Zelle、Visa、銀行振込またはACH。最低額なし。"
-    activationTitle: "アクティベーションが必要です",
-    activationText1: "",
-    activationText2: "2つの簡単なオファー",
-    activationText3: "を完了してスクロールして稼ごうを解除してください。",
+    step3Desc: "PayPay、LINE Pay、楽天ペイ、銀行振込で出金。最低額なし。",
     footer: "毎日50万人以上が私たちと一緒に稼いでいます",
     important: "⚠️ 重要"
   },
   kr: {
     mainTitle: "스크롤하며 돈 벌기",
     questionSubtitle: "TikTok 동영상을 보고 매일 수익을 올리며<br>즉시 현금으로 인출하는 수천 명에 합류하세요.",
-    over21Title: "21세 이상입니다",
-    over21Subtitle: "즉시 지급: PayPal, CashApp, Venmo, 암호화폐 & 송금",
-    under21Title: "21세 미만입니다",
-    under21Subtitle: "제한된 지급: 송금만 가능",
     youreIn: "등록 ",
     youreInHighlight: "완료!",
     preQualified: "스크린 타임을 보상으로 바꾸세요. 오늘부터 벌기 시작!",
     downloadNow: "벌기 시작",
-    earningJourney: "수익 여정",
     step1Title: "계정 만들기",
     step1Desc: "가입만으로 $5 즉시 지급",
     step2Title: "스크롤하며 돈 벌기 오퍼 활성화",
     step2Desc: "1개 오퍼 완료하여 활성화",
     step3Title: "수익 인출",
-    step3Desc: "PayPal, CashApp, Zelle, Visa, 송금 또는 ACH로 출금. 최소 금액 없음."
-    activationTitle: "활성화 필요",
-    activationText1: "",
-    activationText2: "2개의 빠른 오퍼",
-    activationText3: "를 완료하여 스크롤하며 돈 벌기를 활성화하세요.",
+    step3Desc: "Kakao Pay, Naver Pay, 은행 송금으로 출금. 최소 금액 없음.",
     footer: "매일 50만 명 이상이 저희와 함께 수익을 올리고 있습니다",
     important: "⚠️ 중요"
   },
   pl: {
     mainTitle: "Zarabiaj scrollując",
     questionSubtitle: "Dołącz do tysięcy osób zarabiających codziennie,<br>oglądając filmy na TikToku i wypłacając pieniądze natychmiast.",
-    over21Title: "Mam ponad 21 lat",
-    over21Subtitle: "Natychmiastowe wypłaty: PayPal, CashApp, Venmo, Krypto i Przelew",
-    under21Title: "Mam poniżej 21 lat",
-    under21Subtitle: "Ograniczone wypłaty: Tylko przelew bankowy",
     youreIn: "Jesteś ",
     youreInHighlight: "w grze!",
     preQualified: "Zamień czas przed ekranem w nagrody. Zacznij zarabiać już dziś!",
     downloadNow: "ZACZNIJ ZARABIAĆ",
-    earningJourney: "TWOJA DROGA DO ZAROBKU",
     step1Title: "Utwórz konto",
     step1Desc: "Otrzymaj natychmiast 5 $ tylko za rejestrację",
     step2Title: "Odblokuj ofertę Zarabiaj scrollując",
     step2Desc: "Wykonaj 1 ofertę, aby odblokować",
     step3Title: "Odbierz wypłatę",
-    step3Desc: "Wypłać przez PayPal, CashApp, Zelle, Visa, Przelew lub ACH. Bez minimum."
-    activationTitle: "Wymagana aktywacja",
-    activationText1: "Wykonaj ",
-    activationText2: "2 szybkie oferty",
-    activationText3: ", aby odblokować Zarabiaj scrollując.",
+    step3Desc: "Wypłać przez Przelewy24, BLIK, przelew bankowy lub PayPal. Bez minimum.",
     footer: "Ponad 500 000 użytkowników zarabia z nami codziennie",
     important: "⚠️ WAŻNE"
   },
   sv: {
     mainTitle: "Få betalt för att scrolla",
     questionSubtitle: "Gå med tusentals som tjänar pengar dagligen<br>genom att titta på TikTok-videor och ta ut pengar direkt.",
-    over21Title: "Jag är över 21",
-    over21Subtitle: "Direkta utbetalningar: PayPal, CashApp, Venmo, Krypto & Överföring",
-    under21Title: "Jag är under 21",
-    under21Subtitle: "Begränsade utbetalningar: Endast banköverföring",
     youreIn: "Du är ",
     youreInHighlight: "med!",
     preQualified: "Förvandla din skärmtid till belöningar. Börja tjäna idag!",
     downloadNow: "BÖRJA TJÄNA",
-    earningJourney: "DIN INTJÄNINGSRESA",
     step1Title: "Skapa ditt konto",
     step1Desc: "Få 5 $ direkt bara för att registrera dig",
     step2Title: "Lås upp erbjudandet Få betalt för att scrolla",
     step2Desc: "Slutför 1 erbjudande för att låsa upp",
     step3Title: "Få betalt",
-    step3Desc: "Ta ut via PayPal, CashApp, Zelle, Visa, Banköverföring eller ACH. Ingen minimum."
-    activationTitle: "Aktivering krävs",
-    activationText1: "Slutför ",
-    activationText2: "2 snabba erbjudanden",
-    activationText3: " för att låsa upp Få betalt för att scrolla.",
+    step3Desc: "Ta ut via Swish, SEPA-överföring eller PayPal. Ingen minimum.",
     footer: "Över 500 000 användare tjänar med oss varje dag",
     important: "⚠️ VIKTIGT"
   }
@@ -300,6 +286,7 @@ const detectedLang = detectLanguage();
 applyTranslations(detectedLang);
 </script>
 
+<!-- Modal & Redirect Functions -->
 <script>
 function showTip(e){
   e.preventDefault();
