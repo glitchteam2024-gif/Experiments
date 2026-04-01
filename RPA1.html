@@ -291,8 +291,18 @@ function applyTranslations(lang) {
   });
 }
 
-const detectedLang = detectLanguage();
-applyTranslations(detectedLang);
+// Wait for DOM to be ready before applying translations
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    const detectedLang = detectLanguage();
+    console.log('Detected language:', detectedLang);
+    applyTranslations(detectedLang);
+  });
+} else {
+  const detectedLang = detectLanguage();
+  console.log('Detected language:', detectedLang);
+  applyTranslations(detectedLang);
+}
 </script>
 
 <!-- Modal & Redirect Functions -->
