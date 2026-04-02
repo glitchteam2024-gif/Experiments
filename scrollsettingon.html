@@ -65,15 +65,19 @@
             <!-- Settings Section -->
             <div class="mb-6">
               <h3 class="text-xs text-[#8a8f9e] tracking-wider mb-3 uppercase">Settings</h3>
-              <div class="bg-[#12121e] border border-[#1a1a27] rounded-xl p-4 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                  <span class="text-sm text-[#f0f6ff]">Get Paid While Scrolling</span>
+              <div class="bg-[#12121e] border border-[#1a1a27] rounded-2xl p-5 flex items-center justify-between" style="box-shadow: 0 0 20px rgba(0,255,136,0.08);">
+                <div class="flex items-center gap-4">
+                  <div class="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0" style="background: #0a2a1a; border: 1px solid rgba(0,255,136,0.3);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  </div>
+                  <span class="text-lg font-bold text-[#f0f6ff]">Get Paid While Scrolling</span>
                 </div>
                 <button
                   onclick="window.toggleScroll()"
-                  class="relative w-12 h-7 rounded-full transition-all ${scrollToggle ? 'bg-[#00ff88]' : 'bg-[#2a2a3d]'}"
+                  class="relative w-14 h-8 rounded-full transition-all flex-shrink-0 ${scrollToggle ? 'bg-[#00ff88]' : 'bg-[#2a2a3d]'}"
+                  style="${scrollToggle ? 'box-shadow: 0 0 12px rgba(0,255,136,0.4);' : ''}"
                 >
-                  <div class="absolute top-1 ${scrollToggle ? 'right-1' : 'left-1'} w-5 h-5 bg-white rounded-full transition-all"></div>
+                  <div class="absolute top-1 ${scrollToggle ? 'right-1' : 'left-1'} w-6 h-6 bg-white rounded-full transition-all shadow-md"></div>
                 </button>
               </div>
             </div>
