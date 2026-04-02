@@ -57,7 +57,7 @@
               <div class="flex items-start justify-between mb-6">
                 <div>
                   <p class="text-[#8a8f9e] text-sm mb-1">Available Balance</p>
-                  <p class="text-5xl font-bold text-[#00ff88]">$997.50</p>
+                  <p class="text-5xl font-bold" style="background: linear-gradient(135deg, #ffd700, #ffb800, #e6a800); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">$997.50</p>
                 </div>
               </div>
             </div>
@@ -65,12 +65,15 @@
             <!-- Settings Section -->
             <div class="mb-6">
               <h3 class="text-xs text-[#8a8f9e] tracking-wider mb-3 uppercase">Settings</h3>
-              <div class="bg-[#12121e] border border-[#1a1a27] rounded-2xl p-5 flex items-center justify-between" style="box-shadow: 0 0 20px rgba(0,255,136,0.08);">
+              <div class="rounded-2xl p-5 flex items-center justify-between transition-all" style="background: ${scrollToggle ? '#0a1f14' : '#12121e'}; border: 1px solid ${scrollToggle ? 'rgba(0,255,136,0.3)' : '#1a1a27'}; box-shadow: ${scrollToggle ? '0 0 25px rgba(0,255,136,0.15), inset 0 0 30px rgba(0,255,136,0.05)' : '0 0 20px rgba(0,255,136,0.08)'};">
                 <div class="flex items-center gap-4">
                   <div class="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0" style="background: #0a2a1a; border: 1px solid rgba(0,255,136,0.3);">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                   </div>
-                  <span class="text-lg font-bold text-[#f0f6ff]">Get Paid While Scrolling</span>
+                  <div>
+                    <span class="text-lg font-bold text-[#f0f6ff] block">Get Paid While Scrolling</span>
+                    <span class="text-xs" style="color: ${scrollToggle ? '#00ff88' : '#8a8f9e'};">Current rate: <span class="font-semibold">$25/hr</span></span>
+                  </div>
                 </div>
                 <button
                   onclick="window.toggleScroll()"
