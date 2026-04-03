@@ -173,6 +173,23 @@
             margin-top: 8px;
         }
 
+        /* Video Counter */
+        .video-counter {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: white;
+            z-index: 100;
+            max-width: 448px;
+            pointer-events: none;
+        }
+
         /* Top Header */
         .top-header {
             padding: 24px 16px;
@@ -793,6 +810,8 @@
         <!-- My Offers Tab -->
         <div id="myoffers-tab" class="tab-content hidden">
             <div class="video-feed-container">
+                <!-- Video counter indicator -->
+                <div class="video-counter" id="video-counter">1 / 10</div>
                 <div id="videos-container">
                     <!-- Videos will be loaded here -->
                     <div class="empty-state">
@@ -860,16 +879,109 @@
     </div>
 
     <script>
-        // Sample videos array - replace with your Supabase data
+        // ============================================================
+        //  YOUR 10 VIDEOS — just update the file names to match yours!
+        //  Put your .mp4 files in a "videos/" folder in your repo.
+        //  Example repo structure:
+        //     yourrepo/
+        //       ├── Scroll.html
+        //       ├── images/
+        //       │     └── freecash-logo.png
+        //       └── videos/
+        //             ├── video1.mp4
+        //             ├── video2.mp4
+        //             └── ...etc
+        // ============================================================
         const sampleVideos = [
             {
                 id: '1',
-                video_url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                video_url: 'videos/video1.mp4',
                 thumbnail_url: '',
-                title: 'Watch this video to earn $0.50!',
+                title: 'Watch this video to earn $3.50!',
                 likes_count: 1234,
                 comments_count: 56,
                 views_count: 12500
+            },
+            {
+                id: '2',
+                video_url: 'videos/video2.mp4',
+                thumbnail_url: '',
+                title: 'Complete this offer for $1.00!',
+                likes_count: 987,
+                comments_count: 43,
+                views_count: 9800
+            },
+            {
+                id: '3',
+                video_url: 'videos/video3.mp4',
+                thumbnail_url: '',
+                title: 'Earn $0.75 by watching!',
+                likes_count: 2100,
+                comments_count: 89,
+                views_count: 18400
+            },
+            {
+                id: '4',
+                video_url: 'videos/video4.mp4',
+                thumbnail_url: '',
+                title: 'Quick offer — earn $0.25!',
+                likes_count: 654,
+                comments_count: 21,
+                views_count: 5200
+            },
+            {
+                id: '5',
+                video_url: 'videos/video5.mp4',
+                thumbnail_url: '',
+                title: 'Watch & earn $1.50!',
+                likes_count: 3400,
+                comments_count: 112,
+                views_count: 27600
+            },
+            {
+                id: '6',
+                video_url: 'videos/video6.mp4',
+                thumbnail_url: '',
+                title: 'New offer — $0.60 reward!',
+                likes_count: 890,
+                comments_count: 34,
+                views_count: 7100
+            },
+            {
+                id: '7',
+                video_url: 'videos/video7.mp4',
+                thumbnail_url: '',
+                title: 'Earn $2.00 with this deal!',
+                likes_count: 4500,
+                comments_count: 198,
+                views_count: 41000
+            },
+            {
+                id: '8',
+                video_url: 'videos/video8.mp4',
+                thumbnail_url: '',
+                title: 'Easy $0.30 — just watch!',
+                likes_count: 432,
+                comments_count: 15,
+                views_count: 3800
+            },
+            {
+                id: '9',
+                video_url: 'videos/video9.mp4',
+                thumbnail_url: '',
+                title: 'Limited time — earn $1.25!',
+                likes_count: 1876,
+                comments_count: 67,
+                views_count: 15300
+            },
+            {
+                id: '10',
+                video_url: 'videos/video10.mp4',
+                thumbnail_url: '',
+                title: 'Top offer — $3.00 reward!',
+                likes_count: 5600,
+                comments_count: 245,
+                views_count: 52000
             }
         ];
 
@@ -915,11 +1027,13 @@
 
         function loadVideos() {
             const videosContainer = document.getElementById('videos-container');
+            const videoCounter = document.getElementById('video-counter');
 
             // Clear existing content
             videosContainer.innerHTML = '';
 
             if (sampleVideos.length === 0) {
+                videoCounter.style.display = 'none';
                 videosContainer.innerHTML = `
                     <div class="empty-state">
                         <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -932,12 +1046,17 @@
                 return;
             }
 
+            // Show counter
+            videoCounter.style.display = 'block';
+            videoCounter.textContent = `1 / ${sampleVideos.length}`;
+
             // Create video items
-            sampleVideos.forEach(video => {
+            sampleVideos.forEach((video, index) => {
                 const videoItem = document.createElement('div');
                 videoItem.className = 'video-item';
+                videoItem.setAttribute('data-index', index);
                 videoItem.innerHTML = `
-                    <video src="${video.video_url}" loop playsinline muted ${video.thumbnail_url ? `poster="${video.thumbnail_url}"` : ''}></video>
+                    <video src="${video.video_url}" loop playsinline muted preload="metadata" ${video.thumbnail_url ? `poster="${video.thumbnail_url}"` : ''}></video>
 
                     <div class="video-overlay">
                         <div class="video-content">
@@ -988,19 +1107,34 @@
                 `;
                 videosContainer.appendChild(videoItem);
 
-                // Auto-play video when it comes into view
+                // Auto-play video when it comes into view, pause when out of view
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        const video = entry.target.querySelector('video');
+                        const vid = entry.target.querySelector('video');
                         if (entry.isIntersecting) {
-                            video.play();
+                            vid.play();
+                            // Update counter
+                            const idx = parseInt(entry.target.getAttribute('data-index'));
+                            videoCounter.textContent = `${idx + 1} / ${sampleVideos.length}`;
                         } else {
-                            video.pause();
+                            vid.pause();
                         }
                     });
                 }, { threshold: 0.5 });
 
                 observer.observe(videoItem);
+            });
+
+            // Tap to unmute/mute functionality
+            videosContainer.addEventListener('click', (e) => {
+                // Don't toggle mute if clicking action buttons
+                if (e.target.closest('.action-button') || e.target.closest('.action-icon')) return;
+
+                const videoItem = e.target.closest('.video-item');
+                if (videoItem) {
+                    const vid = videoItem.querySelector('video');
+                    vid.muted = !vid.muted;
+                }
             });
         }
     </script>
