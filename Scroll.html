@@ -67,7 +67,7 @@
             left: 0;
             right: 0;
             padding: 16px;
-            padding-bottom: 96px;
+            padding-bottom: 140px;
             background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4), transparent);
         }
 
@@ -173,22 +173,7 @@
             margin-top: 8px;
         }
 
-        /* Video Counter */
-        .video-counter {
-            position: fixed;
-            top: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            color: white;
-            z-index: 100;
-            max-width: 448px;
-            pointer-events: none;
-        }
+
 
         /* Top Header */
         .top-header {
@@ -810,8 +795,7 @@
         <!-- My Offers Tab -->
         <div id="myoffers-tab" class="tab-content hidden">
             <div class="video-feed-container">
-                <!-- Video counter indicator -->
-                <div class="video-counter" id="video-counter">1 / 10</div>
+
                 <div id="videos-container">
                     <!-- Videos will be loaded here -->
                     <div class="empty-state">
@@ -897,14 +881,14 @@
                 id: '1',
                 video_url: 'videos/1-I’ll be framing this 7622282648366468372.mp4',
                 thumbnail_url: '',
-                title: 'Watch this video to earn $3.50!',
+                title: 'Watch this video to earn $0.50!',
                 likes_count: 1234,
                 comments_count: 56,
                 views_count: 12500
             },
             {
                 id: '2',
-                video_url: 'videos/video2.mp4',
+                video_url: 'videos/1-The song ＂Fly-Day Chinatown＂ (1981) by Japanese 7623536708075736328.mp4',
                 thumbnail_url: '',
                 title: 'Complete this offer for $1.00!',
                 likes_count: 987,
@@ -913,7 +897,7 @@
             },
             {
                 id: '3',
-                video_url: 'videos/video3.mp4',
+                video_url: 'videos/2-All funny friends r like this 😂😂😂 #fyp 7601281951009393934.mp4',
                 thumbnail_url: '',
                 title: 'Earn $0.75 by watching!',
                 likes_count: 2100,
@@ -1027,13 +1011,13 @@
 
         function loadVideos() {
             const videosContainer = document.getElementById('videos-container');
-            const videoCounter = document.getElementById('video-counter');
+
 
             // Clear existing content
             videosContainer.innerHTML = '';
 
             if (sampleVideos.length === 0) {
-                videoCounter.style.display = 'none';
+
                 videosContainer.innerHTML = `
                     <div class="empty-state">
                         <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -1046,9 +1030,7 @@
                 return;
             }
 
-            // Show counter
-            videoCounter.style.display = 'block';
-            videoCounter.textContent = `1 / ${sampleVideos.length}`;
+
 
             // Create video items
             sampleVideos.forEach((video, index) => {
@@ -1113,9 +1095,7 @@
                         const vid = entry.target.querySelector('video');
                         if (entry.isIntersecting) {
                             vid.play();
-                            // Update counter
-                            const idx = parseInt(entry.target.getAttribute('data-index'));
-                            videoCounter.textContent = `${idx + 1} / ${sampleVideos.length}`;
+
                         } else {
                             vid.pause();
                         }
