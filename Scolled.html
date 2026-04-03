@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Rewards App</title>
     <style>
         * {
@@ -11,12 +13,19 @@
             box-sizing: border-box;
         }
 
+        html {
+            height: -webkit-fill-available;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: #1a1d2e;
             color: white;
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
@@ -35,20 +44,28 @@
         /* Video Feed Container */
         .video-feed-container {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background-color: black;
             max-width: 448px;
             margin: 0 auto;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
+            -webkit-scroll-snap-type: y mandatory;
             -webkit-overflow-scrolling: touch;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         .video-item {
             position: relative;
             height: 100vh;
+            height: -webkit-fill-available;
             width: 100%;
             scroll-snap-align: start;
+            -webkit-scroll-snap-align: start;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -147,29 +164,37 @@
             font-weight: 600;
         }
 
-        /* Powered By pill badge */
+        /* Powered By pill badge — fixed at top center */
         .powered-by-pill {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             align-items: center;
-            gap: 6px;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            padding: 6px 14px;
+            justify-content: center;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.55);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            padding: 10px 24px;
             border-radius: 9999px;
-            margin-bottom: 12px;
-            width: fit-content;
+            z-index: 500;
+            max-width: 448px;
+            margin-top: env(safe-area-inset-top, 12px);
         }
 
         .powered-by-pill span {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 12px;
-            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
         .powered-by-pill img {
-            height: 18px;
+            height: 30px;
             width: auto;
-            border-radius: 4px;
+            border-radius: 6px;
         }
 
         .empty-state {
@@ -818,6 +843,11 @@
         <!-- My Offers Tab — NOW VISIBLE BY DEFAULT (no "hidden" class) -->
         <div id="myoffers-tab" class="tab-content">
             <div class="video-feed-container">
+                <!-- Fixed Powered By pill at top center -->
+                <div class="powered-by-pill">
+                    <span>Powered by</span>
+                    <img src="images/your-logo.png" alt="Logo">
+                </div>
                 <div id="videos-container">
                     <!-- Videos will be loaded here -->
                     <div class="empty-state">
@@ -1024,10 +1054,6 @@
                     <video src="${video.video_url}" loop playsinline muted preload="metadata" ${video.thumbnail_url ? `poster="${video.thumbnail_url}"` : ''}></video>
 
                     <div class="video-overlay">
-                        <div class="powered-by-pill">
-                            <span>Powered by</span>
-                            <img src="images/freecash-logo.png" alt="Logo">
-                        </div>
                         <div class="video-content">
                             <div class="video-info">
                                 <h3 class="video-title">${video.title}</h3>
