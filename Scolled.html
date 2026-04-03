@@ -55,8 +55,8 @@
             scroll-snap-type: y mandatory;
             -webkit-scroll-snap-type: y mandatory;
             -webkit-overflow-scrolling: touch;
-            padding-top: env(safe-area-inset-top, 0px);
-            padding-bottom: env(safe-area-inset-bottom, 0px);
+            padding-top: 0;
+            padding-bottom: 0;
         }
 
         .video-item {
@@ -167,7 +167,7 @@
         /* Powered By pill badge — fixed at top center */
         .powered-by-pill {
             position: fixed;
-            top: 0;
+            top: 50px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -181,7 +181,7 @@
             border-radius: 9999px;
             z-index: 500;
             max-width: 448px;
-            margin-top: env(safe-area-inset-top, 12px);
+
         }
 
         .powered-by-pill span {
