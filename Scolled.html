@@ -13,17 +13,15 @@
             box-sizing: border-box;
         }
 
-        html {
-            height: -webkit-fill-available;
+        html, body {
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #1a1d2e;
             color: white;
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
-            overflow-x: hidden;
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
         }
@@ -55,14 +53,12 @@
             scroll-snap-type: y mandatory;
             -webkit-scroll-snap-type: y mandatory;
             -webkit-overflow-scrolling: touch;
-            padding-top: 0;
-            padding-bottom: 0;
         }
 
         .video-item {
             position: relative;
             height: 100vh;
-            height: -webkit-fill-available;
+            height: 100dvh;
             width: 100%;
             scroll-snap-align: start;
             -webkit-scroll-snap-align: start;
@@ -73,6 +69,9 @@
         }
 
         .video-item video {
+            position: absolute;
+            top: 0;
+            left: 0;
             height: 100%;
             width: 100%;
             object-fit: cover;
@@ -846,7 +845,7 @@
                 <!-- Fixed Powered By pill at top center -->
                 <div class="powered-by-pill">
                     <span>Powered by</span>
-                    <img src="images/tiktok.png" alt="Logo">
+                    <img src="images/your-logo.png" alt="Logo">
                 </div>
                 <div id="videos-container">
                     <!-- Videos will be loaded here -->
@@ -923,7 +922,7 @@
         const sampleVideos = [
             {
                 id: '1',
-                video_url: 'videos/1-I%E2%80%99ll%20be%20framing%20this%207622282648366468372.mp4',
+                video_url: 'videos/1-I’ll be framing this 7622282648366468372.mp4',
                 thumbnail_url: '',
                 title: 'Watch this video to earn $4.50!',
                 likes_count: 3342,
@@ -941,7 +940,7 @@
             },
             {
                 id: '3',
-                video_url: 'videos/2-All funny friends r like this 😂😂😂 #fyp 7601281951009393934.mp4',
+                video_url: 'videos/2-All%20funny%20friends%20r%20like%20this%20%F0%9F%98%82%F0%9F%98%82%F0%9F%98%82%20%23fyp%207601281951009393934.mp4',
                 thumbnail_url: '',
                 title: 'Watch this video to earn $3.00!',
                 likes_count: 2100,
@@ -950,7 +949,7 @@
             },
             {
                 id: '4',
-                video_url: '2-i was so lucky to meet you✨ #sunset #fyp 7619631655501827348.mp4',
+                video_url: 'videos/2-i was so lucky to meet you✨ #sunset #fyp 7619631655501827348.mp4',
                 thumbnail_url: '',
                 title: 'Watch this video to earn $5.00!',
                 likes_count: 654,
