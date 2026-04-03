@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #1a1d2e;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 448px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #1a1d2e;
+            padding-bottom: 80px;
+            position: relative;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Video Feed Container */
+        .video-feed-container {
+            position: fixed;
+            inset: 0;
+            background-color: black;
+            max-width: 448px;
+            margin: 0 auto;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .video-item {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+        }
+
+        .video-item video {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            padding-bottom: 96px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4), transparent);
+        }
+
+        .video-content {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+
+        .video-info {
+            flex: 1;
+            padding-right: 16px;
+        }
+
+        .video-title {
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #d1d5db;
+        }
+
+        .video-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .action-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        .action-icon:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .action-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .action-count {
+            font-size: 12px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .empty-state-icon {
+            width: 128px;
+            height: 128px;
+            color: #4b5563;
+            margin-bottom: 24px;
+        }
+
+        .empty-state-text {
+            color: #9ca3af;
+            font-size: 16px;
+        }
+
+        .empty-state-subtext {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        /* Top Header */
+        .top-header {
+            padding: 24px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .avatar-container {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #00ff88;
+            background-color: #2a2d3e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-letter {
+            color: #00ff88;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .avatar-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            background-color: #6b7b9e;
+            border-radius: 50%;
+            border: 2px solid #1a1d2e;
+        }
+
+        .stats-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .stat-box {
+            padding: 6px 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-box.flame {
+            background-color: #3d3328;
+        }
+
+        .stat-box.money {
+            background-color: #2d4a3e;
+        }
+
+        .stat-box.ticket {
+            background-color: #2e3142;
+        }
+
+        .stat-box span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .bell-icon {
+            width: 20px;
+            height: 20px;
+            color: #9ca3af;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        /* Title Section */
+        .title-section {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .title-section h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .settings-icon {
+            width: 24px;
+            height: 24px;
+            color: #00ff88;
+            cursor: pointer;
+        }
+
+        /* Profile Info */
+        .profile-info {
+            padding: 12px 16px;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 12px;
+        }
+
+        .profile-avatar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar .avatar {
+            width: 80px;
+            height: 80px;
+        }
+
+        .profile-avatar .avatar-letter {
+            font-size: 36px;
+        }
+
+        .profile-avatar .avatar-badge {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #1a1d2e;
+        }
+
+        .profile-details {
+            flex: 1;
+            padding-top: 4px;
+            min-width: 0;
+        }
+
+        .profile-name {
+            font-size: 16px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 16px;
+        }
+
+        .profile-stat-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .profile-stat-label {
+            color: #9ca3af;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        /* Level Progress */
+        .level-progress {
+            margin-top: 16px;
+        }
+
+        .level-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .level-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .level-info span {
+            font-size: 14px;
+        }
+
+        .level-info .level-label {
+            color: #00ff88;
+        }
+
+        .level-info .level-number {
+            font-weight: 600;
+        }
+
+        .level-next {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background-color: #2a2d3e;
+            border-radius: 9999px;
+            height: 6px;
+        }
+
+        .progress-fill {
+            background-color: #00ff88;
+            height: 6px;
+            border-radius: 9999px;
+            width: 0%;
+        }
+
+        /* Menu Items */
+        .menu-item {
+            margin: 12px 16px;
+            background-color: #23263a;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #2a2d42;
+        }
+
+        .menu-item:active {
+            transform: scale(0.98);
+        }
+
+        .menu-item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-item-left svg {
+            width: 20px;
+            height: 20px;
+            color: white;
+        }
+
+        .menu-item-left span {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .arrow-icon {
+            width: 20px;
+            height: 20px;
+            color: #9ca3af;
+        }
+
+        /* Started Offers */
+        .started-offers {
+            padding: 12px 16px;
+        }
+
+        .offers-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .offers-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .offers-title h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .info-icon {
+            width: 16px;
+            height: 16px;
+            color: #6b7280;
+        }
+
+        .view-all-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .offers-empty {
+            background-color: #23263a;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .offers-empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .offers-empty-text {
+            color: #9ca3af;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 0 8px;
+        }
+
+        .start-earning-btn {
+            width: 100%;
+            background-color: #00ff88;
+            color: black;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .start-earning-btn:hover {
+            background-color: #00dd77;
+        }
+
+        .start-earning-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #1a1d2e;
+            border-top: 1px solid #2a2d3e;
+            max-width: 448px;
+            margin: 0 auto;
+            z-index: 1000;
+        }
+
+        .bottom-nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 8px;
+        }
+
+        .nav-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 4px 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .nav-button:active {
+            transform: scale(0.95);
+        }
+
+        .nav-icon {
+            width: 36px;
+            height: 36px;
+            background-color: #2a2d3e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .nav-icon.active {
+            background-color: #00ff88;
+        }
+
+        .nav-icon svg {
+            width: 16px;
+            height: 16px;
+            color: #9ca3af;
+        }
+
+        .nav-icon.active svg {
+            color: black;
+        }
+
+        .nav-icon .dollar-sign {
+            font-size: 16px;
+            font-weight: 600;
+            color: #9ca3af;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+
+        .nav-label.active {
+            color: #00ff88;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 16px;
+            height: 16px;
+            background-color: #00ff88;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-badge span {
+            color: black;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* Icons */
+        .icon-flame {
+            color: #f97316;
+            fill: #f97316;
+        }
+
+        .icon-money {
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .icon-ticket {
+            color: #8b7dd8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Rewards Tab -->
+        <div id="rewards-tab" class="tab-content">
+            <!-- Top Header -->
+            <div class="top-header">
+                <div class="avatar-container">
+                    <div class="avatar">
+                        <span class="avatar-letter">W</span>
+                    </div>
+                    <div class="avatar-badge"></div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-box flame">
+                        <svg class="icon-flame" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                            <path d="M8.5 19c3 0 5.5-2.5 5.5-5.5 0-1.5-.5-3-1.5-4 .5 1 1 2.5 1 3.5 0 2-1.5 3.5-3.5 3.5S6.5 15 6.5 13c0-1 .5-2.5 1-3.5-1 1-1.5 2.5-1.5 4C6 16.5 8.5 19 11.5 19zM12 2c0 4-2 6-2 9 0 2.5 2 4.5 4.5 4.5S19 13.5 19 11c0-3-2-5-2-9 0 0-2.5 1.5-2.5 5S12 11 12 11V2z"/>
+                        </svg>
+                        <span>0</span>
+                    </div>
+                    <div class="stat-box money">
+                        <span class="icon-money">$</span>
+                        <span>0.25</span>
+                    </div>
+                    <div class="stat-box ticket">
+                        <svg class="icon-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+                        </svg>
+                        <span>0</span>
+                    </div>
+                </div>
+
+                <svg class="bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+            </div>
+
+            <!-- Title Section -->
+            <div class="title-section">
+                <h1>My Profile</h1>
+                <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+            </div>
+
+            <!-- Profile Info -->
+            <div class="profile-info">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <div class="avatar">
+                            <span class="avatar-letter">W</span>
+                        </div>
+                        <div class="avatar-badge"></div>
+                    </div>
+
+                    <div class="profile-details">
+                        <h2 class="profile-name">westawaygriseldaan2172</h2>
+                        <div class="profile-stats">
+                            <div>
+                                <div class="profile-stat-value">$0.25</div>
+                                <div class="profile-stat-label">Total Earnings</div>
+                            </div>
+                            <div>
+                                <div class="profile-stat-value">0</div>
+                                <div class="profile-stat-label">Offers Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level Progress -->
+                <div class="level-progress">
+                    <div class="level-header">
+                        <div class="level-info">
+                            <span class="level-label">Level</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#00ff88" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="level-number">0</span>
+                        </div>
+                        <span class="level-next">1000 coins to level up</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings Section -->
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>Earnings</span>
+                </div>
+                <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- Started Offers -->
+            <div class="started-offers">
+                <div class="offers-header">
+                    <div class="offers-title">
+                        <h3>Started offers</h3>
+                        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <button class="view-all-btn">
+                        View all
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="offers-empty">
+                    <div class="offers-empty-icon">🛍️🔍</div>
+                    <p class="offers-empty-text">
+                        You have not started any featured offers in the last year
+                    </p>
+                    <button class="start-earning-btn">
+                        Start Earning
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Withdrawals Section -->
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span>Withdrawals</span>
+                </div>
+                <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+
+            <!-- Members Chat Section -->
+            <div class="menu-item">
+                <div class="menu-item-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                    <span>Members Chat</span>
+                </div>
+                <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- My Offers Tab -->
+        <div id="myoffers-tab" class="tab-content hidden">
+            <div class="video-feed-container">
+                <div id="videos-container">
+                    <!-- Videos will be loaded here -->
+                    <div class="empty-state">
+                        <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <p class="empty-state-text">No videos yet</p>
+                        <p class="empty-state-subtext">Add videos to your database to get started</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="bottom-nav-container">
+                <button class="nav-button" data-tab="earn">
+                    <div class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m4-4H8"/>
+                        </svg>
+                    </div>
+                    <span class="nav-label">Earn</span>
+                </button>
+
+                <button class="nav-button" data-tab="deals">
+                    <div class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                    </div>
+                    <span class="nav-label">Deals</span>
+                </button>
+
+                <button class="nav-button" data-tab="myoffers">
+                    <div class="nav-icon" id="myoffers-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <span class="nav-label" id="myoffers-label">My Offers</span>
+                </button>
+
+                <button class="nav-button" data-tab="cashout">
+                    <div class="nav-icon">
+                        <span class="dollar-sign">$</span>
+                    </div>
+                    <span class="nav-label">Cashout</span>
+                </button>
+
+                <button class="nav-button" data-tab="rewards">
+                    <div class="nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                        </svg>
+                        <div class="nav-badge">
+                            <span>1</span>
+                        </div>
+                    </div>
+                    <span class="nav-label">Rewards</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample videos array - replace with your Supabase data
+        const sampleVideos = [
+            {
+                id: '1',
+                video_url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                thumbnail_url: '',
+                title: 'Watch this video to earn $0.50!',
+                likes_count: 1234,
+                comments_count: 56,
+                views_count: 12500
+            }
+        ];
+
+        // Tab switching functionality
+        const navButtons = document.querySelectorAll('.nav-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab');
+
+                // Hide all tabs
+                tabContents.forEach(tab => {
+                    tab.classList.add('hidden');
+                });
+
+                // Show target tab
+                const activeTabContent = document.getElementById(`${targetTab}-tab`);
+                if (activeTabContent) {
+                    activeTabContent.classList.remove('hidden');
+                }
+
+                // Update active states
+                navButtons.forEach(btn => {
+                    const icon = btn.querySelector('.nav-icon');
+                    const label = btn.querySelector('.nav-label');
+                    icon.classList.remove('active');
+                    label.classList.remove('active');
+                });
+
+                // Set active state for clicked button
+                const activeIcon = button.querySelector('.nav-icon');
+                const activeLabel = button.querySelector('.nav-label');
+                activeIcon.classList.add('active');
+                activeLabel.classList.add('active');
+
+                // Load videos when My Offers tab is opened
+                if (targetTab === 'myoffers') {
+                    loadVideos();
+                }
+            });
+        });
+
+        function loadVideos() {
+            const videosContainer = document.getElementById('videos-container');
+
+            // Clear existing content
+            videosContainer.innerHTML = '';
+
+            if (sampleVideos.length === 0) {
+                videosContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <p class="empty-state-text">No videos yet</p>
+                        <p class="empty-state-subtext">Add videos to your database to get started</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Create video items
+            sampleVideos.forEach(video => {
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-item';
+                videoItem.innerHTML = `
+                    <video src="${video.video_url}" loop playsinline muted ${video.thumbnail_url ? `poster="${video.thumbnail_url}"` : ''}></video>
+
+                    <div class="video-overlay">
+                        <div class="video-content">
+                            <div class="video-info">
+                                <h3 class="video-title">${video.title}</h3>
+                                <div class="video-stats">
+                                    <span>${video.views_count.toLocaleString()} views</span>
+                                </div>
+                            </div>
+
+                            <div class="video-actions">
+                                <button class="action-button">
+                                    <div class="action-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                        </svg>
+                                    </div>
+                                    <span class="action-count">${video.likes_count > 999 ? (video.likes_count / 1000).toFixed(1) + 'K' : video.likes_count}</span>
+                                </button>
+
+                                <button class="action-button">
+                                    <div class="action-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                        </svg>
+                                    </div>
+                                    <span class="action-count">${video.comments_count > 999 ? (video.comments_count / 1000).toFixed(1) + 'K' : video.comments_count}</span>
+                                </button>
+
+                                <button class="action-button">
+                                    <div class="action-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                                        </svg>
+                                    </div>
+                                </button>
+
+                                <button class="action-button">
+                                    <div class="action-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                        </svg>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                videosContainer.appendChild(videoItem);
+
+                // Auto-play video when it comes into view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const video = entry.target.querySelector('video');
+                        if (entry.isIntersecting) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                observer.observe(videoItem);
+            });
+        }
+    </script>
+</body>
+</html>
