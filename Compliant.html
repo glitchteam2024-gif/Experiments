@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Freecash - Earn Extra Cash in Your Spare Time</title>
+<meta name="description" content="Join over 500,000 members earning extra cash rewards by completing simple tasks on their phone. Cash out to PayPal, Venmo, or bank transfer.">
+<style>
+:root {
+  --bg: #f8f9fb;
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --muted: #5a5f7a;
+  --accent: #2563eb;
+  --accent2: #1d4ed8;
+  --accent-light: #eff4ff;
+  --green: #059669;
+  --green-light: #ecfdf5;
+  --border: #e2e5ed;
+  --card: #ffffff;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--bg); overscroll-behavior: none; }
+body {
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.w {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+}
+
+/* Top trust bar */
+.trust-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--green-light);
+  border: 1px solid #d1fae5;
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+  margin-bottom: 20px;
+}
+.trust-bar .dot {
+  width: 6px; height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .5; transform: scale(.7); }
+}
+
+/* Logo */
+.logo-wrap {
+  width: 60px; height: 60px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.logo-wrap img { width: 100%; height: 100%; display: block; }
+
+/* Headline */
+h1 {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+h1 .highlight {
+  color: var(--accent);
+}
+
+.sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 24px;
+  padding: 0 4px;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  gap: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  width: 100%;
+  box-shadow: var(--shadow);
+}
+.stat {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  position: relative;
+}
+.stat + .stat::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; height: 60%; width: 1px;
+  background: var(--border);
+}
+.stat-val {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.stat-lbl {
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Testimonial */
+.testimonial {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
+  box-shadow: var(--shadow);
+}
+.testimonial-stars {
+  color: #f59e0b;
+  font-size: 14px;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+.testimonial-text {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.55;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+.testimonial-author {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Steps */
+.steps {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.steps-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 14px 16px 0;
+  margin-bottom: 2px;
+}
+.stp {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.stp:last-child { border-bottom: 0; }
+.stp-n {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.stp b {
+  display: block;
+  font-size: 13.5px;
+  color: var(--text);
+  margin-bottom: 2px;
+  font-weight: 700;
+}
+.stp .d {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* How it works explanation */
+.explainer {
+  background: var(--accent-light);
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
+}
+.explainer-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.explainer-text {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* Payout logos */
+.payout-section {
+  margin-bottom: 20px;
+  width: 100%;
+}
+.payout-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 10px;
+}
+.payout-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.payout-logos span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+
+/* Earnings disclaimer */
+.disclaimer {
+  font-size: 10px;
+  color: #9ca3af;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+/* Sticky CTA */
+.sticky {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--bg) 70%, transparent);
+  pointer-events: none;
+}
+.sticky a {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  background: var(--accent);
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: .2px;
+  border: 0;
+  border-radius: 14px;
+  padding: 16px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.sticky a:active {
+  transform: scale(.97);
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.footer-company {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.footer-links a {
+  font-size: 11px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.footer-links a:hover { text-decoration: underline; }
+.footer-contact {
+  font-size: 10px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
+/* Age gate modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+}
+.modal-box {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 24px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+.modal-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 14px;
+}
+.modal-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.modal-title .accent { color: var(--accent); }
+.modal-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.modal-btn {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 12px;
+  padding: 16px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 370px) {
+  h1 { font-size: 28px; }
+}
+@media (min-width: 420px) {
+  h1 { font-size: 36px; }
+}
+</style>
+<script type='text/javascript' src='https://private-us-east-1.manuscdn.com/CNCfl5AUMQtyiperK09h6B9KHwXkokIJBuq5q4reFX7uDo0i2ttQkLI_8V-zAU4YTU0Q8hSLISrWjnxP9eR7VUdojH6QqoRWWQe6qAAWNY0DSPNyr7ddPHyKKMm30yEi1AG6vIQMag7GThxw9g7gXolijzcjLfzDL6WLoNLjfTAZEnwd68ohzosoI7omnJdl8jsO5e0eGsZdSGA_FhzZBVoNbPGmtJNdXtiSIUE4HKcBhSKGLgtJv2g0_fu3F2aHedW02yjbxMTbJ9rWMX4smiHxbvZ9FcoXlqrrjbts9MStuo-x3i45aNjR5hobbCmK__OfBBk562qYwqCpoclS7dtVtWboMpltFkMVIuFJJTCRyEmzFscMhfmDd9TcY_tw0zThISodBvvFgYxJMfgu5peSKLgQJHaaNoAU_o86RRD3BAYm8lbIlX83QBkcnArsuVKH59zquHmSk_W7nGcVTXITIrjftkrDOM9H8Gd72Kn_YzrmjddLoUKWx0G7FR4KNHn7N8Olx-9-Zwe1i4Qftcdv7z1iQd7MCkc1RlteS29J8_atyElbKwxoWz8QvDTjJg5I0-rtC_KmZAWdBBLN6uaHCYgPJN1DRQfMliZLjoNJnpmJDkhQ8Ofh67xXbNUzsbZCquE7gWdTo_geg_w96wr3bAMCA6mQ4bCNjbRbbH_2B_5613IAMQO9yN25BoTWTHHvkAoL2zo0o7ojL8IuEihPT8yicM7-D-geldK4DHRNqd_aVxrsBUJLCMTUMGW6spd69R4g8clGbqntRCtsOxaGNLayvZvk69b9i9eGZoBbd6DQAtHjcQiDIW8BM8-OocN13b1h99IIzw12ZhsPKH4OluQJ7OQf3Qpxzd5NJ59UKu6dRRfAXnJZdaIRuKotk91BvTzLbNclpez_Jc5AA4EKJaQTkdMHnhpNYa5fn-PYg5oZg-fefrVenxKgNIM1IKJYrGKE7kwY5XwZlXyFs9ZivQV9Hz3O6P4LhNguE2CXAD_tQTYxo9iDH7Rz-qV5zV4xhcB4uja8zkSBSvATw9wuTZPC7gGRz5ZYnYYTrJ-FYt48SBMAi8H3vdxPoreKNOSTGIOSBCr1t1-tj1ZkMtDr_-Sh7Ykki94j-kV-ig0ofEOJByb4zSJIQVnefWTr2P-V85Y3f2W3kpODqYMlkARFCyiyMCSQ6w9HD_yrocsj1pT6Aw2QdwS9Pywqhj_A6nMYEnFk5kmCe7H6rd8O-6wF0HWMxfgWjEi_8kg91CtUpbBqLQEidFUZGU3I5IVf6SAjcO5I5Sk8VtBAdpTG_vvYpGZaLBGT6ZqHTPTwGEf1C18qT2Lmdl0myINeOiipVOkh7dOu9h497VTZCn56U_G_eOlZD06K5fqopdgGC05F_joUe16CW7H8iB_vckk0DK6Db959vXv1s3B6Of7ScVLkGkM5SMEIiS1-E4_y8p8j2q6rQXNPSNqv7RCPQ-Rz9V1h5jnir6c_oKZLrmJ7HeUcExa4pIwa6pVHRb7Zr5E3p7CGDl-60fEQedNeraYX9y6U2ifSmiCd80yaAdYfx_GW4sEi7trBZ7l8tsbuzmPv2WDtD6XTeOU1l9iNsA'></script></head>
+<body>
+
+<!-- RedTrack / Skro Tracking -->
+<script type="text/javascript">function skroCb(cb){var r=cb.trackingDomain+"/click",l=new RegExp(r+"/?(\\d*)"),c=document.querySelectorAll('a[href*="' + r + '"]');for(var n=0;n<c.length;n++){var a=l.exec(c[n].href);a&&(c[n].href="https://"+a[0]+"?trck="+cb.token)}}(function(){var t=new URLSearchParams(window.location.search);if(t.get("trck")===""||t.get("trck")===null)return!1;t.set("ref", document.referrer);var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src="https://go.thenexthaul.com/landing?callback=skroCb&"+decodeURIComponent(t.toString());var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(e,r)})();</script>
+
+<div class="w">
+
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <img src="https://anderiso.github.io/lander-assets/assets/freecashappicon.png" alt="Freecash App" width="60" height="60">
+  </div>
+
+  <!-- Trust badge -->
+  <div class="trust-bar">
+    <div class="dot"></div>
+    <span data-i18n="trendingBadge">TRUSTED BY 500,000+ MEMBERS</span>
+  </div>
+
+  <!-- Headline -->
+  <h1 data-i18n="mainTitle">Earn Extra Cash <span class="highlight">in Your Spare Time</span></h1>
+
+  <!-- Subheadline -->
+  <p class="sub" data-i18n="questionSubtitle">Join thousands of people using their downtime to earn real cash rewards. Complete simple tasks on your phone and cash out anytime.</p>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-val">500K+</div>
+      <div class="stat-lbl">Members</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">4.7&#9733;</div>
+      <div class="stat-lbl">App Store</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">$50M+</div>
+      <div class="stat-lbl">Paid Out</div>
+    </div>
+  </div>
+
+  <!-- Testimonial -->
+  <div class="testimonial">
+    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+    <div class="testimonial-text" data-i18n="testimonialText">"I use this while waiting for my kids at practice. It's not going to replace my job, but the extra $50-80 a month helps cover our streaming subscriptions and gas."</div>
+    <div class="testimonial-author" data-i18n="testimonialAuthor">- Sarah M., 34, Texas</div>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps">
+    <div class="steps-title" data-i18n="howItWorksTitle">How It Works</div>
+    <div class="stp">
+      <div class="stp-n">1</div>
+      <div>
+        <b data-i18n="step1Title">Create your free account</b>
+        <div class="d" data-i18n="step1Desc">Sign up in under 60 seconds and get a $5 welcome bonus</div>
+      </div>
+    </div>
+    <div class="stp">
+      <div class="stp-n">2</div>
+      <div>
+        <b data-i18n="step2Title">Complete simple tasks</b>
+        <div class="d" data-i18n="step2Desc">Take surveys, try apps, and share your opinion with brands</div>
+      </div>
+    </div>
+    <div class="stp">
+      <div class="stp-n">3</div>
+      <div>
+        <b data-i18n="step3Title">Cash out your earnings</b>
+        <div class="d" data-i18n="step3Desc">Withdraw via PayPal, CashApp, Zelle, Venmo, bank transfer, or gift cards. No minimum.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Explainer section -->
+  <div class="explainer">
+    <div class="explainer-title" data-i18n="explainerTitle">Why do companies pay for this?</div>
+    <div class="explainer-text" data-i18n="explainerText">Brands and market research companies need real feedback from everyday people like you. They pay Freecash to connect them with users, and Freecash shares that revenue with you. It's a legitimate business model used by companies worldwide.</div>
+  </div>
+
+  <!-- Payout methods -->
+  <div class="payout-section">
+    <div class="payout-label" data-i18n="payoutLabel">Trusted payout methods</div>
+    <div class="payout-logos">
+      <span>PayPal</span>
+      <span>Venmo</span>
+      <span>CashApp</span>
+      <span>Zelle</span>
+      <span>Bank Transfer</span>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer" data-i18n="disclaimer">*Individual earnings vary based on time spent and tasks completed. Freecash is a rewards platform, not an employer. Results shown are not guaranteed and represent individual user experiences.</div>
+
+  <!-- Footer for TikTok compliance -->
+  <div class="footer">
+    <div class="footer-company" data-i18n="footerCompany">Freecash &mdash; Almedia UG (haftungsbeschr&auml;nkt)</div>
+    <div class="footer-links">
+      <a href="https://freecash.com/privacy" target="_blank" rel="noopener" data-i18n="privacyLink">Privacy Policy</a>
+      <a href="https://freecash.com/terms" target="_blank" rel="noopener" data-i18n="termsLink">Terms of Service</a>
+      <a href="mailto:support@freecash.com" data-i18n="contactLink">Contact Us</a>
+    </div>
+    <div class="footer-contact" data-i18n="footerContact">Questions? Email support@freecash.com</div>
+  </div>
+
+</div>
+
+<!-- Sticky CTA -->
+<div class="sticky">
+  <a href="#" onclick="showTip(event)" data-i18n="ctaButton">Start Earning - It's Free</a>
+</div>
+
+<!-- Age Gate Modal -->
+<div id="age-gate" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-label" data-i18n="beforeYouGo">QUICK TIP</div>
+    <div class="modal-title" data-i18n="select21">Select <span class="accent">21+</span> when you sign up</div>
+    <div class="modal-desc" data-i18n="ageGateDesc">This unlocks the full earning features and all available offers on Freecash.</div>
+    <a href="#" onclick="handleRedirect(event)" class="modal-btn" data-i18n="gotIt">Continue to Freecash &rarr;</a>
+  </div>
+</div>
+
+<!-- TikTok Pixel Code -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};ttq.load('D763GVBC77UCP36TC6OG');ttq.page();}(window, document, 'ttq');
+</script>
+
+<!-- Translation System -->
+<script>
+var translations = {
+  en: {
+    mainTitle: 'Earn Extra Cash <span class="highlight">in Your Spare Time</span>',
+    questionSubtitle: "Join thousands of people using their downtime to earn real cash rewards. Complete simple tasks on your phone and cash out anytime.",
+    ctaButton: "Start Earning - It's Free",
+    gotIt: "Continue to Freecash &rarr;",
+    step1Title: "Create your free account",
+    step1Desc: "Sign up in under 60 seconds and get a $5 welcome bonus",
+    step2Title: "Complete simple tasks",
+    step2Desc: "Take surveys, try apps, and share your opinion with brands",
+    step3Title: "Cash out your earnings",
+    step3Desc: "Withdraw via PayPal, CashApp, Zelle, Venmo, bank transfer, or gift cards. No minimum.",
+    beforeYouGo: "QUICK TIP",
+    select21: 'Select <span class="accent">21+</span> when you sign up',
+    ageGateDesc: "This unlocks the full earning features and all available offers on Freecash.",
+    trendingBadge: "TRUSTED BY 500,000+ MEMBERS",
+    howItWorksTitle: "How It Works",
+    testimonialText: '"I use this while waiting for my kids at practice. It\'s not going to replace my job, but the extra $50-80 a month helps cover our streaming subscriptions and gas."',
+    testimonialAuthor: "- Sarah M., 34, Texas",
+    explainerTitle: "Why do companies pay for this?",
+    explainerText: "Brands and market research companies need real feedback from everyday people like you. They pay Freecash to connect them with users, and Freecash shares that revenue with you. It's a legitimate business model used by companies worldwide.",
+    payoutLabel: "Trusted payout methods",
+    disclaimer: "*Individual earnings vary based on time spent and tasks completed. Freecash is a rewards platform, not an employer. Results shown are not guaranteed and represent individual user experiences.",
+    footerCompany: "Freecash &mdash; Almedia UG (haftungsbeschr\u00e4nkt)",
+    privacyLink: "Privacy Policy",
+    termsLink: "Terms of Service",
+    contactLink: "Contact Us",
+    footerContact: "Questions? Email support@freecash.com"
+  },
+  de: {
+    mainTitle: 'Verdiene <span class="highlight">nebenbei Geld</span>',
+    questionSubtitle: "Tausende nutzen ihre freie Zeit, um echte Pr\u00e4mien zu verdienen. Erledige einfache Aufgaben auf deinem Handy und lass dir jederzeit auszahlen.",
+    ctaButton: "Jetzt kostenlos starten",
+    gotIt: "Weiter zu Freecash &rarr;",
+    step1Title: "Erstelle dein kostenloses Konto",
+    step1Desc: "Registriere dich in unter 60 Sekunden und erhalte 5$ Willkommensbonus",
+    step2Title: "Erledige einfache Aufgaben",
+    step2Desc: "Nimm an Umfragen teil, teste Apps und teile deine Meinung mit Marken",
+    step3Title: "Lass dir dein Geld auszahlen",
+    step3Desc: "Auszahlung \u00fcber SEPA-\u00dcberweisung, PayPal oder Giropay. Kein Minimum.",
+    beforeYouGo: "KURZER TIPP",
+    select21: 'W\u00e4hle <span class="accent">21+</span> bei der Anmeldung',
+    ageGateDesc: "Das schaltet alle Verdienstfunktionen und verf\u00fcgbaren Angebote auf Freecash frei.",
+    trendingBadge: "\u00dcBER 500.000 MITGLIEDER VERTRAUEN UNS",
+    howItWorksTitle: "So funktioniert's",
+    testimonialText: '"Ich nutze die App w\u00e4hrend ich auf meine Kinder warte. Es ersetzt keinen Job, aber die extra 40-70\u20ac im Monat helfen bei den Nebenkosten."',
+    testimonialAuthor: "- Sabine K., 37, M\u00fcnchen",
+    explainerTitle: "Warum bezahlen Unternehmen daf\u00fcr?",
+    explainerText: "Marken und Marktforschungsunternehmen brauchen echtes Feedback von Menschen wie dir. Sie bezahlen Freecash, um Nutzer zu erreichen, und Freecash teilt die Einnahmen mit dir.",
+    payoutLabel: "Vertrauensw\u00fcrdige Auszahlungsmethoden",
+    disclaimer: "*Individuelle Einnahmen variieren je nach aufgewendeter Zeit und erledigten Aufgaben. Freecash ist eine Pr\u00e4mienplattform, kein Arbeitgeber.",
+    footerCompany: "Freecash &mdash; Almedia UG (haftungsbeschr\u00e4nkt)",
+    privacyLink: "Datenschutz",
+    termsLink: "Nutzungsbedingungen",
+    contactLink: "Kontakt",
+    footerContact: "Fragen? E-Mail an support@freecash.com"
+  },
+  fr: {
+    mainTitle: 'Gagnez de l\'argent <span class="highlight">pendant votre temps libre</span>',
+    questionSubtitle: "Rejoignez des milliers de personnes qui utilisent leur temps libre pour gagner de vraies r\u00e9compenses. Compl\u00e9tez des t\u00e2ches simples et retirez \u00e0 tout moment.",
+    ctaButton: "Commencer gratuitement",
+    gotIt: "Continuer vers Freecash &rarr;",
+    step1Title: "Cr\u00e9ez votre compte gratuit",
+    step1Desc: "Inscrivez-vous en moins de 60 secondes et recevez 5$ de bonus de bienvenue",
+    step2Title: "Compl\u00e9tez des t\u00e2ches simples",
+    step2Desc: "R\u00e9pondez \u00e0 des sondages, testez des apps et partagez votre avis avec les marques",
+    step3Title: "Retirez vos gains",
+    step3Desc: "Retirez via virement SEPA, PayPal ou Carte Bancaire. Pas de minimum.",
+    beforeYouGo: "ASTUCE RAPIDE",
+    select21: 'S\u00e9lectionnez <span class="accent">21+</span> lors de l\'inscription',
+    ageGateDesc: "Cela d\u00e9bloque toutes les fonctionnalit\u00e9s de gain et les offres disponibles sur Freecash.",
+    trendingBadge: "PLUS DE 500 000 MEMBRES NOUS FONT CONFIANCE",
+    howItWorksTitle: "Comment \u00e7a marche",
+    testimonialText: '"J\'utilise l\'app en attendant mes enfants. \u00c7a ne remplace pas mon travail, mais les 50-70\u20ac suppl\u00e9mentaires par mois aident pour les courses."',
+    testimonialAuthor: "- Marie L., 36, Paris",
+    explainerTitle: "Pourquoi les entreprises paient-elles pour cela ?",
+    explainerText: "Les marques ont besoin de vrais retours de personnes comme vous. Elles paient Freecash pour les connecter avec des utilisateurs, et Freecash partage ces revenus avec vous.",
+    payoutLabel: "M\u00e9thodes de paiement fiables",
+    disclaimer: "*Les gains individuels varient selon le temps consacr\u00e9 et les t\u00e2ches compl\u00e9t\u00e9es. Freecash est une plateforme de r\u00e9compenses, pas un employeur.",
+    footerCompany: "Freecash &mdash; Almedia UG (haftungsbeschr\u00e4nkt)",
+    privacyLink: "Politique de confidentialit\u00e9",
+    termsLink: "Conditions d'utilisation",
+    contactLink: "Nous contacter",
+    footerContact: "Questions ? Email support@freecash.com"
+  },
+  it: {
+    mainTitle: 'Guadagna <span class="highlight">nel tempo libero</span>',
+    questionSubtitle: "Unisciti a migliaia di persone che usano il tempo libero per guadagnare veri premi in denaro. Completa semplici attivit\u00e0 e preleva quando vuoi.",
+    ctaButton: "Inizia gratis",
+    gotIt: "Continua su Freecash &rarr;",
+    step1Title: "Crea il tuo account gratuito",
+    step1Desc: "Registrati in meno di 60 secondi e ricevi 5$ di bonus di benvenuto",
+    step2Title: "Completa semplici attivit\u00e0",
+    step2Desc: "Rispondi a sondaggi, prova app e condividi la tua opinione con i brand",
+    step3Title: "Preleva i tuoi guadagni",
+    step3Desc: "Preleva tramite bonifico SEPA, Satispay o PayPal. Nessun minimo.",
+    beforeYouGo: "SUGGERIMENTO RAPIDO",
+    select21: 'Seleziona <span class="accent">21+</span> quando ti registri',
+    ageGateDesc: "Questo sblocca tutte le funzionalit\u00e0 di guadagno e le offerte disponibili su Freecash.",
+    trendingBadge: "OLTRE 500.000 MEMBRI SI FIDANO DI NOI",
+    howItWorksTitle: "Come funziona",
+    testimonialText: '"Uso l\'app mentre aspetto i miei figli. Non sostituisce il lavoro, ma i 40-60\u20ac extra al mese aiutano con le bollette."',
+    testimonialAuthor: "- Laura R., 38, Milano",
+    explainerTitle: "Perch\u00e9 le aziende pagano per questo?",
+    explainerText: "I brand hanno bisogno di feedback reali da persone come te. Pagano Freecash per connettersi con gli utenti, e Freecash condivide i ricavi con te.",
+    payoutLabel: "Metodi di pagamento affidabili",
+    disclaimer: "*I guadagni individuali variano in base al tempo dedicato e alle attivit\u00e0 completate. Freecash \u00e8 una piattaforma di premi, non un datore di lavoro.",
+    footerCompany: "Freecash &mdash; Almedia UG (haftungsbeschr\u00e4nkt)",
+    privacyLink: "Privacy",
+    termsLink: "Termini di servizio",
+    contactLink: "Contattaci",
+    footerContact: "Domande? Email support@freecash.com"
+  },
+  nl: {
+    mainTitle: 'Verdien extra geld <span class="highlight">in je vrije tijd</span>',
+    questionSubtitle: "Sluit je aan bij duizenden mensen die hun vrije tijd gebruiken om echt geld te verdienen. Voltooi eenvoudige taken en betaal op elk moment uit.",
+    ctaButton: "Gratis beginnen",
+    gotIt: "Verder naar Freecash &rarr;",
+    step1Title: "Maak je gratis account aan",
+    step1Desc: "Registreer in minder dan 60 seconden en ontvang $5 welkomstbonus",
+    step2Title: "Voltooi eenvoudige taken",
+    step2Desc: "Doe enqu\u00eates, probeer apps en deel je mening met merken",
+    step3Title: "Laat je verdiensten uitbetalen",
+    step3Desc: "Betaal uit via iDEAL, SEPA-overschrijving of PayPal. Geen minimum.",
+    beforeYouGo: "SNELLE TIP",
+    select21: 'Selecteer <span class="accent">21+</span> bij het aanmelden',
+    ageGateDesc: "Dit ontgrendelt alle verdienfuncties en beschikbare aanbiedingen op Freecash.",
+    trendingBadge: "VERTROUWD DOOR 500.000+ LEDEN",
+    howItWorksTitle: "Hoe het werkt",
+    testimonialText: '"Ik gebruik de app terwijl ik op mijn kinderen wacht. Het vervangt mijn baan niet, maar de extra \u20ac40-60 per maand helpt met de boodschappen."',
+    testimonialAuthor: "- Annemarie V., 35, Amsterdam",
+    explainerTitle: "Waarom betalen bedrijven hiervoor?",
+    explainerText: "Merken hebben echte feedback nodig van mensen zoals jij. Ze betalen Freecash om gebruikers te bereiken, en Freecash deelt die inkomsten met jou.",
+    payoutLabel: "Betrouwbare uitbetalingsmethoden",
+    disclaimer: "*Individuele verdiensten vari\u00ebren op basis van bestede tijd en voltooide taken. Freecash is een beloningsplatform, geen werkgever.",
+    footerCompany: "Freecash &mdash; Almedia UG (haftungsbeschr\u00e4nkt)",
+    privacyLink: "Privacybeleid",
+    termsLink: "Gebruiksvoorwaarden",
+    contactLink: "Contact",
+    footerContact: "Vragen? E-mail support@freecash.com"
+  },
+  ja: {
+    mainTitle: '\u30b9\u30ad\u30de\u6642\u9593\u3067<span class="highlight">\u304a\u5c0f\u9063\u3044\u7a3c\u304e</span>',
+    questionSubtitle: "\u7a7a\u3044\u305f\u6642\u9593\u3092\u4f7f\u3063\u3066\u5b9f\u969b\u306e\u73fe\u91d1\u5831\u916c\u3092\u7a3c\u3044\u3067\u3044\u308b\u6570\u5343\u4eba\u306b\u53c2\u52a0\u3057\u307e\u3057\u3087\u3046\u3002\u7c21\u5358\u306a\u30bf\u30b9\u30af\u3092\u3053\u306a\u3057\u3066\u3001\u3044\u3064\u3067\u3082\u51fa\u91d1\u3067\u304d\u307e\u3059\u3002",
+    ctaButton: "\u7121\u6599\u3067\u59cb\u3081\u308b",
+    gotIt: "Freecash\u3078\u7d9a\u304f &rarr;",
+    step1Title: "\u7121\u6599\u30a2\u30ab\u30a6\u30f3\u30c8\u3092\u4f5c\u6210",
+    step1Desc: "60\u79d2\u4ee5\u5185\u3067\u767b\u9332\u3057\u30015\u30c9\u30eb\u306e\u30a6\u30a7\u30eb\u30ab\u30e0\u30dc\u30fc\u30ca\u30b9\u3092\u7372\u5f97",
+    step2Title: "\u7c21\u5358\u306a\u30bf\u30b9\u30af\u3092\u5b8c\u4e86",
+    step2Desc: "\u30a2\u30f3\u30b1\u30fc\u30c8\u306b\u7b54\u3048\u305f\u308a\u3001\u30a2\u30d7\u30ea\u3092\u8a66\u3057\u305f\u308a\u3001\u30d6\u30e9\u30f3\u30c9\u306b\u610f\u898b\u3092\u5171\u6709",
+    step3Title: "\u5831\u916c\u3092\u53d7\u3051\u53d6\u308b",
+    step3Desc: "PayPay\u3001LINE Pay\u3001\u697d\u5929\u30da\u30a4\u3001\u9280\u884c\u632f\u8fbc\u3067\u51fa\u91d1\u3002\u6700\u4f4e\u984d\u306a\u3057\u3002",
+    beforeYouGo: "\u30ef\u30f3\u30dd\u30a4\u30f3\u30c8",
+    select21: '\u767b\u9332\u6642\u306b<span class="accent">21+</span>\u3092\u9078\u629e',
+    ageGateDesc: "\u3053\u308c\u306b\u3088\u308a\u3059\u3079\u3066\u306e\u53ce\u76ca\u6a5f\u80fd\u3068\u5229\u7528\u53ef\u80fd\u306a\u30aa\u30d5\u30a1\u30fc\u304c\u89e3\u9664\u3055\u308c\u307e\u3059\u3002",
+    trendingBadge: "50\u4e07\u4eba\u4ee5\u4e0a\u304c\u5229\u7528\u4e2d",
+    howItWorksTitle: "\u4f7f\u3044\u65b9",
+    testimonialText: '"\u5b50\u4f9b\u306e\u7fd2\u3044\u4e8b\u306e\u5f85\u3061\u6642\u9593\u306b\u4f7f\u3063\u3066\u3044\u307e\u3059\u3002\u4ed5\u4e8b\u306e\u4ee3\u308f\u308a\u306b\u306f\u306a\u308a\u307e\u305b\u3093\u304c\u3001\u6708\u306b5,000-8,000\u5186\u306e\u304a\u5c0f\u9063\u3044\u306b\u306a\u308a\u307e\u3059\u3002"',
+    testimonialAuthor: "- \u7530\u4e2d\u3055\u3061\u5b50, 36\u6b73, \u6771\u4eac",
+    explainerTitle: "\u306a\u305c\u4f01\u696d\u306f\u304a\u91d1\u3092\u6255\u3046\u306e\uff1f",
+    explainerText: "\u30d6\u30e9\u30f3\u30c9\u3084\u5e02\u5834\u8abf\u67fb\u4f1a\u793e\u306f\u3001\u3042\u306a\u305f\u306e\u3088\u3046\u306a\u4e00\u822c\u306e\u4eba\u304b\u3089\u306e\u30d5\u30a3\u30fc\u30c9\u30d0\u30c3\u30af\u3092\u5fc5\u8981\u3068\u3057\u3066\u3044\u307e\u3059\u3002Freecash\u306b\u5831\u916c\u3092\u652f\u6255\u3044\u3001Freecash\u304c\u305d\u306e\u53ce\u76ca\u3092\u3042\u306a\u305f\u3068\u5171\u6709\u3057\u307e\u3059\u3002",
+    payoutLabel: "\u4fe1\u983c\u3067\u304d\u308b\u51fa\u91d1\u65b9\u6cd5",
+    disclaimer: "*\u500b\u4eba\u306e\u53ce\u76ca\u306f\u8cbb\u3084\u3057\u305f\u6642\u9593\u3068\u5b8c\u4e86\u3057\u305f\u30bf\u30b9\u30af\u306b\u3088\u3063\u3066\u7570\u306a\u308a\u307e\u3059\u3002Freecash\u306f\u5831\u916c\u30d7\u30e9\u30c3\u30c8\u30d5\u30a9\u30fc\u30e0\u3067\u3042\u308a\u3001\u96c7\u7528\u4e3b\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
+    footerCompany: "Freecash &mdash; Almedia UG",
+    privacyLink: "\u30d7\u30e9\u30a4\u30d0\u30b7\u30fc\u30dd\u30ea\u30b7\u30fc",
+    termsLink: "\u5229\u7528\u898f\u7d04",
+    contactLink: "\u304a\u554f\u3044\u5408\u308f\u305b",
+    footerContact: "\u3054\u8cea\u554f\u306f support@freecash.com \u307e\u3067"
+  },
+  kr: {
+    mainTitle: '\uc5ec\uac00 \uc2dc\uac04\uc5d0 <span class="highlight">\uc6a9\ub3c8 \ubc8c\uae30</span>',
+    questionSubtitle: "\ube48 \uc2dc\uac04\uc744 \ud65c\uc6a9\ud574 \uc2e4\uc81c \ud604\uae08 \ubcf4\uc0c1\uc744 \ubc1b\ub294 \uc218\ucc9c \uba85\uc5d0 \ud569\ub958\ud558\uc138\uc694. \uac04\ub2e8\ud55c \uc791\uc5c5\uc744 \uc644\ub8cc\ud558\uace0 \uc5b8\uc81c\ub4e0 \ucd9c\uae08\ud558\uc138\uc694.",
+    ctaButton: "\ubb34\ub8cc\ub85c \uc2dc\uc791\ud558\uae30",
+    gotIt: "Freecash\ub85c \uacc4\uc18d &rarr;",
+    step1Title: "\ubb34\ub8cc \uacc4\uc815 \ub9cc\ub4e4\uae30",
+    step1Desc: "60\ucd08 \uc774\ub0b4\uc5d0 \uac00\uc785\ud558\uace0 $5 \ud658\uc601 \ubcf4\ub108\uc2a4 \ubc1b\uae30",
+    step2Title: "\uac04\ub2e8\ud55c \uc791\uc5c5 \uc644\ub8cc",
+    step2Desc: "\uc124\ubb38\uc870\uc0ac, \uc571 \uccb4\ud5d8, \ube0c\ub79c\ub4dc\uc5d0 \uc758\uacac \uacf5\uc720",
+    step3Title: "\uc218\uc775 \uc778\ucd9c",
+    step3Desc: "Kakao Pay, Naver Pay, \uc740\ud589 \uc1a1\uae08\uc73c\ub85c \ucd9c\uae08. \ucd5c\uc18c \uae08\uc561 \uc5c6\uc74c.",
+    beforeYouGo: "\ud300",
+    select21: '\uac00\uc785 \uc2dc <span class="accent">21+</span>\ub97c \uc120\ud0dd\ud558\uc138\uc694',
+    ageGateDesc: "\ubaa8\ub4e0 \uc218\uc775 \uae30\ub2a5\uacfc \uc774\uc6a9 \uac00\ub2a5\ud55c \uc624\ud37c\uac00 \ud65c\uc131\ud654\ub429\ub2c8\ub2e4.",
+    trendingBadge: "50\ub9cc \uba85 \uc774\uc0c1 \uc774\uc6a9 \uc911",
+    howItWorksTitle: "\uc774\uc6a9 \ubc29\ubc95",
+    testimonialText: '"\uc544\uc774\ub4e4 \ud559\uc6d0 \uae30\ub2e4\ub9ac\ub294 \ub3d9\uc548 \uc0ac\uc6a9\ud574\uc694. \uc9c1\uc7a5\uc744 \ub300\uccb4\ud560 \uc218\ub294 \uc5c6\uc9c0\ub9cc \uc6d4 5-8\ub9cc\uc6d0 \uc6a9\ub3c8\uc774 \ub429\ub2c8\ub2e4."',
+    testimonialAuthor: "- \uae40\uc218\uc9c4, 35\uc138, \uc11c\uc6b8",
+    explainerTitle: "\uc65c \uae30\uc5c5\uc774 \ub3c8\uc744 \uc9c0\ubd88\ud560\uae4c\uc694?",
+    explainerText: "\ube0c\ub79c\ub4dc\uc640 \uc2dc\uc7a5\uc870\uc0ac \ud68c\uc0ac\ub294 \ub2f9\uc2e0\uacfc \uac19\uc740 \uc77c\ubc18\uc778\uc758 \ud53c\ub4dc\ubc31\uc774 \ud544\uc694\ud569\ub2c8\ub2e4. Freecash\uc5d0 \ubcf4\uc0c1\uc744 \uc9c0\ubd88\ud558\uace0, Freecash\uac00 \uadf8 \uc218\uc775\uc744 \ub2f9\uc2e0\uacfc \uacf5\uc720\ud569\ub2c8\ub2e4.",
+    payoutLabel: "\uc2e0\ub8b0\ud560 \uc218 \uc788\ub294 \ucd9c\uae08 \ubc29\ubc95",
+    disclaimer: "*\uac1c\uc778 \uc218\uc775\uc740 \uc18c\uc694 \uc2dc\uac04\uacfc \uc644\ub8cc\ud55c \uc791\uc5c5\uc5d0 \ub530\ub77c \ub2e4\ub985\ub2c8\ub2e4. Freecash\ub294 \ubcf4\uc0c1 \ud50c\ub7ab\ud3fc\uc774\uba70 \uace0\uc6a9\uc8fc\uac00 \uc544\ub2d9\ub2c8\ub2e4.",
+    footerCompany: "Freecash &mdash; Almedia UG",
+    privacyLink: "\uac1c\uc778\uc815\ubcf4\ucc98\ub9ac\ubc29\uce68",
+    termsLink: "\uc774\uc6a9\uc57d\uad00",
+    contactLink: "\ubb38\uc758\ud558\uae30",
+    footerContact: "\ubb38\uc758: support@freecash.com"
+  },
+  pl: {
+    mainTitle: 'Zarabiaj <span class="highlight">w wolnym czasie</span>',
+    questionSubtitle: "Do\u0142\u0105cz do tysi\u0119cy os\u00f3b, kt\u00f3re wykorzystuj\u0105 wolny czas na zarabianie prawdziwych nagr\u00f3d. Wykonuj proste zadania i wyp\u0142acaj kiedy chcesz.",
+    ctaButton: "Zacznij za darmo",
+    gotIt: "Przejd\u017a do Freecash &rarr;",
+    step1Title: "Utw\u00f3rz darmowe konto",
+    step1Desc: "Zarejestruj si\u0119 w mniej ni\u017c 60 sekund i otrzymaj 5$ bonusu powitalnego",
+    step2Title: "Wykonuj proste zadania",
+    step2Desc: "Wype\u0142niaj ankiety, testuj aplikacje i dziel si\u0119 opini\u0105 z markami",
+    step3Title: "Wyp\u0142a\u0107 swoje zarobki",
+    step3Desc: "Wyp\u0142a\u0107 przez Przelewy24, BLIK, przelew bankowy lub PayPal. Bez minimum.",
+    beforeYouGo: "SZYBKA WSKAZ\u00d3WKA",
+    select21: 'Wybierz <span class="accent">21+</span> podczas rejestracji',
+    ageGateDesc: "To odblokowuje wszystkie funkcje zarabiania i dost\u0119pne oferty na Freecash.",
+    trendingBadge: "PONAD 500 000 CZ\u0141ONK\u00d3W NAM UUFA",
+    howItWorksTitle: "Jak to dzia\u0142a",
+    testimonialText: '"U\u017cywam aplikacji czekaj\u0105c na dzieci. To nie zast\u0105pi pracy, ale dodatkowe 200-300z\u0142 miesi\u0119cznie pomaga z rachunkami."',
+    testimonialAuthor: "- Katarzyna W., 37, Warszawa",
+    explainerTitle: "Dlaczego firmy za to p\u0142ac\u0105?",
+    explainerText: "Marki i firmy badawcze potrzebuj\u0105 prawdziwych opinii od ludzi takich jak Ty. P\u0142ac\u0105 Freecash za po\u0142\u0105czenie z u\u017cytkownikami, a Freecash dzieli si\u0119 przychodami z Tob\u0105.",
+    payoutLabel: "Zaufane metody wyp\u0142at",
+    disclaimer: "*Indywidualne zarobki r\u00f3\u017cni\u0105 si\u0119 w zale\u017cno\u015bci od po\u015bwi\u0119conego czasu i wykonanych zada\u0144. Freecash to platforma nagr\u00f3d, nie pracodawca.",
+    footerCompany: "Freecash &mdash; Almedia UG (haftungsbeschr\u00e4nkt)",
+    privacyLink: "Polityka prywatno\u015bci",
+    termsLink: "Regulamin",
+    contactLink: "Kontakt",
+    footerContact: "Pytania? Email support@freecash.com"
+  },
+  sv: {
+    mainTitle: 'Tj\u00e4na extra <span class="highlight">p\u00e5 din fritid</span>',
+    questionSubtitle: "G\u00e5 med tusentals personer som anv\u00e4nder sin lediga tid f\u00f6r att tj\u00e4na riktiga kontantbel\u00f6ningar. Utf\u00f6r enkla uppgifter och ta ut n\u00e4r du vill.",
+    ctaButton: "B\u00f6rja gratis",
+    gotIt: "Forts\u00e4tt till Freecash &rarr;",
+    step1Title: "Skapa ditt gratiskonto",
+    step1Desc: "Registrera dig p\u00e5 under 60 sekunder och f\u00e5 5$ v\u00e4lkomstbonus",
+    step2Title: "Utf\u00f6r enkla uppgifter",
+    step2Desc: "Svara p\u00e5 enk\u00e4ter, testa appar och dela din \u00e5sikt med varum\u00e4rken",
+    step3Title: "Ta ut dina int\u00e4kter",
+    step3Desc: "Ta ut via Swish, SEPA-\u00f6verf\u00f6ring eller PayPal. Ingen minimum.",
+    beforeYouGo: "SNABBT TIPS",
+    select21: 'V\u00e4lj <span class="accent">21+</span> n\u00e4r du registrerar dig',
+    ageGateDesc: "Detta l\u00e5ser upp alla int\u00e4ktsfunktioner och tillg\u00e4ngliga erbjudanden p\u00e5 Freecash.",
+    trendingBadge: "\u00d6VER 500 000 MEDLEMMAR LITAR P\u00c5 OSS",
+    howItWorksTitle: "S\u00e5 fungerar det",
+    testimonialText: '"Jag anv\u00e4nder appen medan jag v\u00e4ntar p\u00e5 barnen. Det ers\u00e4tter inte jobbet, men extra 500-800kr i m\u00e5naden hj\u00e4lper med r\u00e4kningarna."',
+    testimonialAuthor: "- Anna S., 36, Stockholm",
+    explainerTitle: "Varf\u00f6r betalar f\u00f6retag f\u00f6r detta?",
+    explainerText: "Varum\u00e4rken och marknadsunders\u00f6kningsf\u00f6retag beh\u00f6ver riktig feedback fr\u00e5n m\u00e4nniskor som du. De betalar Freecash f\u00f6r att n\u00e5 anv\u00e4ndare, och Freecash delar int\u00e4kterna med dig.",
+    payoutLabel: "P\u00e5litliga utbetalningsmetoder",
+    disclaimer: "*Individuella int\u00e4kter varierar beroende p\u00e5 nedlagd tid och slutf\u00f6rda uppgifter. Freecash \u00e4r en bel\u00f6ningsplattform, inte en arbetsgivare.",
+    footerCompany: "Freecash &mdash; Almedia UG (haftungsbeschr\u00e4nkt)",
+    privacyLink: "Integritetspolicy",
+    termsLink: "Anv\u00e4ndarvillkor",
+    contactLink: "Kontakta oss",
+    footerContact: "Fr\u00e5gor? E-post support@freecash.com"
+  }
+};
+
+var countryToLang = {
+  AU:'en', US:'en', GB:'en', CA:'en',
+  AT:'de', DE:'de', CH:'de',
+  FR:'fr', BE:'fr',
+  IT:'it',
+  NL:'nl',
+  JP:'ja',
+  KR:'kr',
+  PL:'pl',
+  SE:'sv'
+};
+
+function detectLanguage() {
+  var params = new URLSearchParams(window.location.search);
+  var lp = params.get('lang');
+  if (lp && translations[lp]) return lp;
+  var cp = params.get('country');
+  if (cp) { var m = countryToLang[cp.toUpperCase()]; if (m && translations[m]) return m; }
+  var bl = (navigator.language || navigator.userLanguage || 'en');
+  var short = bl.split('-')[0].toLowerCase();
+  if (translations[short]) return short;
+  var rm = bl.toUpperCase().match(/-([A-Z]{2})$/);
+  if (rm) { var m2 = countryToLang[rm[1]]; if (m2 && translations[m2]) return m2; }
+  return 'en';
+}
+
+function applyTranslations(lang) {
+  var t = translations[lang];
+  if (!t) return;
+  document.documentElement.lang = lang;
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) {
+    var key = els[i].getAttribute('data-i18n');
+    if (t[key] !== undefined) {
+      els[i].innerHTML = t[key];
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var lang = detectLanguage();
+  applyTranslations(lang);
+});
+</script>
+
+<!-- Modal & Redirect Functions -->
+<script>
+function showTip(e){
+  e.preventDefault();
+  document.getElementById('age-gate').style.display='flex';
+  if(window.ttq) {
+    window.ttq.track('Click', {
+      'content_name': 'start_earning_button',
+      'content_type': 'button'
+    });
+  }
+}
+
+function handleRedirect(e){
+  e.preventDefault();
+  if(window.ttq) {
+    window.ttq.track('Lead', {
+      'value': 1,
+      'currency': 'USD',
+      'content_name': 'popup_confirmation',
+      'content_type': 'form'
+    });
+  }
+  window.location.href = '/api/redirect';
+}
+
+document.getElementById('age-gate').addEventListener('click',function(e){
+  if(e.target===this) this.style.display='none';
+});
+</script>
+
+</body>
+</html>
