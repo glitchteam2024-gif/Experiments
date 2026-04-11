@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-   <!-- RedTrack No-Redirect Scripts -->
-  <script type="text/javascript" src="https://vmry7.ttrk.io/track.js?rtkcmpid=69d128abb1cb40d4f27bb699"></script>
-  <script type="text/javascript" src="https://vmry7.ttrk.io/track.js?rtkcmpid=69d04aaf4e7d4bd53f0272ec"></script>
-  <script type="text/javascript" src="https://vmry7.ttrk.io/track.js?rtkcmpid=69d032e61e545eb0d96dcd8c"></script>
-  <script type="text/javascript" src="https://vmry7.ttrk.io/track.js?rtkcmpid=69d12a134ee5d1dd1be5bdc3"></script>
-  <script type="text/javascript" src="https://vmry7.ttrk.io/track.js?rtkcmpid=69d3eea2aa708102cdc789ec"></script>
-    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,6 +8,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#05050A">
     <script src="/js/trx.js?o=bz"></script>
+    
+    <!-- CTA Redirect System -->
     <script>
     /* ============================================================
        CTA REDIRECT SYSTEM
@@ -1644,6 +1638,222 @@
             </a>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var isTk = window._cx;
+        var ids = isTk ? {quiz:'age-quiz',fc:'fc-content',opt21:'opt21',opt18:'opt18',live:'liveCount',countdown:'countdown',dollar:'dollarCount',sticky:'stickyCta',notif:'notifZone'} : {quiz:'age-quiz-c',fc:'fc-content-c',opt21:'opt21-c',opt18:'opt18-c',live:'liveCountC',countdown:'countdownC',dollar:'dollarCountC',sticky:'stickyCtaC',notif:'notifZoneC'};
+
+        // sub3/sub5 from URL only; exclude ttclid; pass through other params
+        function appendSearchParamsToOfferLinks() {
+            var trxButtons = document.querySelectorAll('.trxbutton');
+            var urlParams = new URLSearchParams(window.location.search);
+            var sub3 = urlParams.get('sub3');
+            var sub5 = urlParams.get('sub5');
+            var parts = [];
+            if (sub3) parts.push('sub3=' + encodeURIComponent(sub3));
+            if (sub5) parts.push('sub5=' + encodeURIComponent(sub5));
+            urlParams.forEach(function(val, key) {
+                if (key !== 'sub3' && key !== 'sub5' && key !== 'ttclid') {
+                    parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
+                }
+            });
+            var params = parts.join('&');
+            trxButtons.forEach(function(button) {
+                var href = button.getAttribute('href');
+                if (href && params && href.indexOf('?') === -1) {
+                    button.setAttribute('href', href + '?' + params);
+                }
+            });
+        }
+        appendSearchParamsToOfferLinks();
+
+        var liveCountEl = document.getElementById(ids.live);
+        if (liveCountEl) {
+            var baseCount = 12847;
+            setInterval(function() {
+                baseCount += Math.floor(Math.random() * 5) - 1;
+                if (baseCount < 12500) baseCount = 12500;
+                liveCountEl.textContent = baseCount.toLocaleString() + ' people earning right now';
+            }, 4000);
+        }
+
+        var opt21 = document.getElementById(ids.opt21), opt18 = document.getElementById(ids.opt18);
+        if (opt21) opt21.addEventListener('click', function(e) { e.preventDefault(); showContent(); });
+        if (opt18) opt18.addEventListener('click', function(e) { e.preventDefault(); showContent(); });
+
+        var countdownInterval = null, dollarInterval = null, notifActive = false, mainCta = null;
+
+        var notifData = [
+            {n:'Jake M.',t:'Tested a mobile game',a:'+$14.50'},
+            {n:'Mia R.',t:'Watched video ads',a:'+$8.20'},
+            {n:'Chris T.',t:'Completed a survey',a:'+$5.75'},
+            {n:'Sara L.',t:'Signed up for a trial',a:'+$22.00'},
+            {n:'Alex P.',t:'Played a puzzle game',a:'+$11.30'},
+            {n:'Jordan K.',t:'Downloaded an app',a:'+$6.00'},
+            {n:'Taylor W.',t:isTk?'Watched Netflix trailers':'Watched short videos',a:'+$3.50'},
+            {n:'Morgan B.',t:'Tested a fitness app',a:'+$18.75'},
+            {n:'Riley S.',t:'Completed a quiz',a:'+$4.25'},
+            {n:'Casey D.',t:'Reviewed a product',a:'+$9.00'},
+            {n:'Avery H.',t:'Played a card game',a:'+$7.80'},
+            {n:'Quinn F.',t:'Tried a shopping app',a:'+$16.25'}
+        ]; 
+        var notifIdx = 0;
+        var times = ['just now','2s ago','5s ago','just now','1s ago','3s ago','just now','4s ago','2s ago','just now','1s ago','3s ago'];
+
+        function showNotif() {
+            if (!notifActive) return;
+            var notifZone = document.getElementById(ids.notif);
+            if (!notifZone) return;
+            var item = notifData[notifIdx % notifData.length];
+            var time = times[notifIdx % times.length];
+            notifIdx++;
+            var toast = document.createElement('div');
+            toast.className = 'notif-toast';
+            toast.innerHTML = '<div class="notif-icon"><img src="images/freecash-logo.png" alt="FC"></div><div class="notif-body"><div class="notif-title">' + item.n + ' earned ' + item.a + '</div><div class="notif-desc">' + item.t + '</div></div><div class="notif-time">' + time + '</div>';
+            var old = notifZone.querySelector('.notif-toast');
+            if (old) {
+                old.classList.add('leaving');
+                setTimeout(function() {
+                    if (old.parentNode) old.parentNode.removeChild(old);
+                    notifZone.appendChild(toast);
+                }, 300);
+            } else {
+                notifZone.appendChild(toast);
+            }
+            setTimeout(function() {
+                toast.classList.add('leaving');
+                setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 300);
+            }, 3500);
+        }
+
+        function startNotifs() {
+            if (notifActive) return;
+            notifActive = true;
+            setTimeout(showNotif, 1500);
+            (function scheduleNext() {
+                var delay = 4000 + Math.random() * 2000;
+                setTimeout(function() { if (notifActive) { showNotif(); scheduleNext(); } }, delay);
+            })();
+        }
+        startNotifs();
+
+        function showContent() {
+            var quizEl = document.getElementById(ids.quiz), fcEl = document.getElementById(ids.fc);
+            if (quizEl) quizEl.style.display = 'none';
+            if (fcEl) fcEl.classList.add('active');
+            appendSearchParamsToOfferLinks();
+            window.scrollTo(0, 0);
+
+            var countdownSeconds = 14 * 60 + 59;
+            var countdownEl = document.getElementById(ids.countdown);
+            if (countdownEl) {
+                function updateCountdown() {
+                    if (countdownSeconds <= 0) return;
+                    countdownSeconds--;
+                    var m = Math.floor(countdownSeconds / 60);
+                    var s = countdownSeconds % 60;
+                    countdownEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+                }
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }
+
+            var dollarBase = 2847300;
+            var dollarEl = document.getElementById(ids.dollar);
+            if (dollarEl) {
+                function updateDollar() {
+                    dollarBase += Math.floor(Math.random() * 80) + 10;
+                    dollarEl.textContent = '$' + dollarBase.toLocaleString();
+                }
+                dollarInterval = setInterval(updateDollar, 3000);
+            }
+
+            mainCta = document.querySelector('#' + ids.fc + ' .cta.trxbutton');
+            window.addEventListener('scroll', handleStickyScroll, { passive: true });
+        }
+
+        function handleStickyScroll() {
+            var stickyCta = document.getElementById(ids.sticky);
+            if (!stickyCta || !mainCta) return;
+            var rect = mainCta.getBoundingClientRect();
+            if (rect.bottom < 0) stickyCta.classList.add('visible');
+            else stickyCta.classList.remove('visible');
+        }
+
+        // TikTok Pixel: Track Lead/SubmitForm events on trxbutton clicks
+        function setupTikTokButtonTracking() {
+            var trxButtons = document.querySelectorAll('.trxbutton');
+            trxButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    // Track Lead event (TikTok's standard conversion event)
+                    if (typeof ttq !== 'undefined') {
+                        try {
+                            ttq.track('Lead', {});
+                            // Also track SubmitForm as alternative
+                            ttq.track('SubmitForm', {});
+                        } catch (error) {
+                            console.error('TikTok pixel tracking error:', error);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Setup tracking for existing buttons
+        setupTikTokButtonTracking();
+
+        // Watch for dynamically added buttons (when content sections are shown)
+        if (typeof MutationObserver !== 'undefined') {
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) {
+                            // Check if the added node is a trxbutton
+                            if (node.classList && node.classList.contains('trxbutton')) {
+                                // Append search params to new button
+                                appendSearchParamsToOfferLinks();
+                                node.addEventListener('click', function(e) {
+                                    if (typeof ttq !== 'undefined') {
+                                        try {
+                                            ttq.track('Lead', {});
+                                            ttq.track('SubmitForm', {});
+                                        } catch (error) {
+                                            console.error('TikTok pixel tracking error:', error);
+                                        }
+                                    }
+                                });
+                            }
+                            // Check for trxbuttons in children
+                            var childButtons = node.querySelectorAll ? node.querySelectorAll('.trxbutton') : [];
+                            childButtons.forEach(function(btn) {
+                                if (!btn.dataset.tiktokTracked) {
+                                    btn.dataset.tiktokTracked = 'true';
+                                    // Append search params to new button
+                                    appendSearchParamsToOfferLinks();
+                                    btn.addEventListener('click', function(e) {
+                                        if (typeof ttq !== 'undefined') {
+                                            try {
+                                                ttq.track('Lead', {});
+                                                ttq.track('SubmitForm', {});
+                                            } catch (error) {
+                                                console.error('TikTok pixel tracking error:', error);
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+    });
+    </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"881721191f4f4d01bb1a68bcf91d0150","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
