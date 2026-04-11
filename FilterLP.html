@@ -1820,26 +1820,7 @@
             }
             redirectWithDelay(appendQueryStringToUrl(under21RedirectUrl, getPassthroughQueryString()), 180);
         });
-
-        var countdownInterval = null, dollarInterval = null, notifActive = false, mainCta = null;
-
-        var notifData = [
-            {n:'Jake M.',t:'Tested a mobile game',a:'+$14.50'},
-            {n:'Mia R.',t:'Watched video ads',a:'+$8.20'},
-            {n:'Chris T.',t:'Completed a survey',a:'+$5.75'},
-            {n:'Sara L.',t:'Signed up for a trial',a:'+$22.00'},
-            {n:'Alex P.',t:'Played a puzzle game',a:'+$11.30'},
-            {n:'Jordan K.',t:'Downloaded an app',a:'+$6.00'},
-            {n:'Taylor W.',t:isTk?'Watched Netflix trailers':'Watched short videos',a:'+$3.50'},
-            {n:'Morgan B.',t:'Tested a fitness app',a:'+$18.75'},
-            {n:'Riley S.',t:'Completed a quiz',a:'+$4.25'},
-            {n:'Casey D.',t:'Reviewed a product',a:'+$9.00'},
-            {n:'Avery H.',t:'Played a card game',a:'+$7.80'},
-            {n:'Quinn F.',t:'Tried a shopping app',a:'+$16.25'}
-        ];
-        var notifIdx = 0;
-        var times = ['just now','2s ago','5s ago','just now','1s ago','3s ago','just now','4s ago','2s ago','just now','1s ago','3s ago'];
-
+     
         function showNotif() {
             if (!notifActive) return;
             var notifZone = document.getElementById(ids.notif);
