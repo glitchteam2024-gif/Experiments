@@ -16,7 +16,33 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#05050A">
     <script src="/js/trx.js?o=bz"></script>
-    
+
+    <!-- Meta Pixel + Age Gate Config -->
+    <script>
+    window.metaAgeGateConfig = {
+      pixelId: '1360190975512539',
+      under21RedirectUrl: 'PASTE_UNDER_21_REDIRECT_URL_HERE',
+      qualifiedStandardEvent: 'Lead',
+      qualifiedCustomEvent: 'Qualified21Plus',
+      disqualifiedCustomEvent: 'Under21Redirect',
+      outboundStandardEvent: 'InitiateCheckout',
+      outboundCustomEvent: 'QualifiedOfferClick'
+    };
+
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', window.metaAgeGateConfig.pixelId);
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1360190975512539&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
     <!-- CTA Redirect System -->
     <script>
     /* ============================================================
@@ -24,11 +50,12 @@
        - Buttons/links with id="CTA-Button" or id="CTA-Button-1", "CTA-Button-2" etc.
          are mapped to offer URLs defined in offerMap below.
        - Change the URL in offerMap[1] to update where CTA-Button-1 redirects.
-       - All .trxbutton elements are also intercepted and redirected to /api/redirect
+       - All .trxbutton elements are also intercepted and redirected to /api/redirect.
+       - If window.handleTrackedRedirect exists, it is used before navigation so pixels can fire.
     ============================================================ */
     (function() {
       const offerMap = {
-        1: '/api/redirect'   // <-- Main redirect endpoint
+        1: '/api/redirect'   // <-- Main redirect endpoint for 21+ qualified users
       };
       const fallbackUrl = '/api/redirect';
 
@@ -36,7 +63,6 @@
         if (!baseUrl) return null;
         try {
           const url = new URL(baseUrl, window.location.href);
-          // Forward any existing URL params (e.g. tracking params)
           new URLSearchParams(window.location.search).forEach(function(v, k) {
             url.searchParams.set(k, v);
           });
@@ -50,8 +76,19 @@
         return 1;
       }
 
+      function routeWithTracking(finalUrl, e, meta) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        if (typeof window.handleTrackedRedirect === 'function') {
+          window.handleTrackedRedirect(finalUrl, meta || {});
+          return;
+        }
+        window.location.href = finalUrl;
+      }
+
       function setupCTAButtons() {
-        // Setup CTA-Button elements
         const ctaEls = document.querySelectorAll('[id="CTA-Button"], [id^="CTA-Button-"]');
         if (ctaEls.length) {
           ctaEls.forEach(function(el) {
@@ -62,13 +99,15 @@
             const clone = el.cloneNode(true);
             el.parentNode.replaceChild(clone, el);
             clone.addEventListener('click', function(e) {
-              e.preventDefault();
-              window.location.href = finalUrl;
+              routeWithTracking(finalUrl, e, {
+                source: 'cta_button',
+                buttonId: clone.id || '',
+                buttonText: (clone.textContent || '').trim()
+              });
             });
           });
         }
-        
-        // Setup .trxbutton elements to redirect to /api/redirect
+
         const trxButtons = document.querySelectorAll('.trxbutton');
         if (trxButtons.length) {
           trxButtons.forEach(function(btn) {
@@ -76,9 +115,10 @@
             const clone = btn.cloneNode(true);
             btn.parentNode.replaceChild(clone, btn);
             clone.addEventListener('click', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              window.location.href = fallbackUrl;
+              routeWithTracking(fallbackUrl, e, {
+                source: 'trxbutton',
+                buttonText: (clone.textContent || '').trim()
+              });
             });
           });
         }
@@ -1651,14 +1691,15 @@
     document.addEventListener('DOMContentLoaded', function() {
         var isTk = window._cx;
         var ids = isTk ? {quiz:'age-quiz',fc:'fc-content',opt21:'opt21',opt18:'opt18',live:'liveCount',countdown:'countdown',dollar:'dollarCount',sticky:'stickyCta',notif:'notifZone'} : {quiz:'age-quiz-c',fc:'fc-content-c',opt21:'opt21-c',opt18:'opt18-c',live:'liveCountC',countdown:'countdownC',dollar:'dollarCountC',sticky:'stickyCtaC',notif:'notifZoneC'};
+        var metaConfig = window.metaAgeGateConfig || {};
+        var qualifiedUserAgeBucket = null;
+        var under21RedirectUrl = metaConfig.under21RedirectUrl || 'PASTE_UNDER_21_REDIRECT_URL_HERE';
 
-        // sub3/sub5 from URL only; exclude ttclid; pass through other params
-        function appendSearchParamsToOfferLinks() {
-            var trxButtons = document.querySelectorAll('.trxbutton');
+        function getPassthroughQueryString() {
             var urlParams = new URLSearchParams(window.location.search);
+            var parts = [];
             var sub3 = urlParams.get('sub3');
             var sub5 = urlParams.get('sub5');
-            var parts = [];
             if (sub3) parts.push('sub3=' + encodeURIComponent(sub3));
             if (sub5) parts.push('sub5=' + encodeURIComponent(sub5));
             urlParams.forEach(function(val, key) {
@@ -1666,7 +1707,37 @@
                     parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
                 }
             });
-            var params = parts.join('&');
+            return parts.join('&');
+        }
+
+        function appendQueryStringToUrl(baseUrl, queryString) {
+            if (!baseUrl) return '';
+            if (!queryString) return baseUrl;
+            return baseUrl + (baseUrl.indexOf('?') === -1 ? '?' : '&') + queryString;
+        }
+
+        function safeMetaTrack(method, eventName, params) {
+            if (!eventName || typeof fbq === 'undefined') return;
+            try {
+                if (method === 'trackCustom') fbq('trackCustom', eventName, params || {});
+                else fbq('track', eventName, params || {});
+            } catch (error) {
+                console.error('Meta pixel tracking error:', error);
+            }
+        }
+
+        function safeTikTokTrack(eventName, params) {
+            if (typeof ttq === 'undefined' || !eventName) return;
+            try {
+                ttq.track(eventName, params || {});
+            } catch (error) {
+                console.error('TikTok pixel tracking error:', error);
+            }
+        }
+
+        function appendSearchParamsToOfferLinks() {
+            var trxButtons = document.querySelectorAll('.trxbutton');
+            var params = getPassthroughQueryString();
             trxButtons.forEach(function(button) {
                 var href = button.getAttribute('href');
                 if (href && params && href.indexOf('?') === -1) {
@@ -1674,6 +1745,52 @@
                 }
             });
         }
+
+        function sendQualifiedLeadSignals() {
+            safeMetaTrack('track', metaConfig.qualifiedStandardEvent || 'Lead', {
+                content_name: '21+ Qualified Lead',
+                status: 'qualified',
+                age_bucket: '21_plus'
+            });
+            safeMetaTrack('trackCustom', metaConfig.qualifiedCustomEvent || 'Qualified21Plus', {
+                status: 'qualified',
+                age_bucket: '21_plus'
+            });
+        }
+
+        function sendDisqualifiedSignals() {
+            safeMetaTrack('trackCustom', metaConfig.disqualifiedCustomEvent || 'Under21Redirect', {
+                status: 'disqualified',
+                age_bucket: 'under_21'
+            });
+        }
+
+        function redirectWithDelay(url, delayMs) {
+            setTimeout(function() {
+                window.location.href = url;
+            }, delayMs || 180);
+        }
+
+        window.handleTrackedRedirect = function(finalUrl, meta) {
+            if (qualifiedUserAgeBucket === '21_plus') {
+                safeMetaTrack('track', metaConfig.outboundStandardEvent || 'InitiateCheckout', {
+                    content_name: 'Qualified Offer Click',
+                    status: 'qualified',
+                    age_bucket: '21_plus',
+                    destination: 'freecash'
+                });
+                safeMetaTrack('trackCustom', metaConfig.outboundCustomEvent || 'QualifiedOfferClick', {
+                    status: 'qualified',
+                    age_bucket: '21_plus',
+                    destination: 'freecash',
+                    source: meta && meta.source ? meta.source : 'unknown'
+                });
+            }
+            safeTikTokTrack('Lead', {});
+            safeTikTokTrack('SubmitForm', {});
+            redirectWithDelay(finalUrl, 180);
+        };
+
         appendSearchParamsToOfferLinks();
 
         var liveCountEl = document.getElementById(ids.live);
@@ -1687,8 +1804,22 @@
         }
 
         var opt21 = document.getElementById(ids.opt21), opt18 = document.getElementById(ids.opt18);
-        if (opt21) opt21.addEventListener('click', function(e) { e.preventDefault(); showContent(); });
-        if (opt18) opt18.addEventListener('click', function(e) { e.preventDefault(); showContent(); });
+        if (opt21) opt21.addEventListener('click', function(e) {
+            e.preventDefault();
+            qualifiedUserAgeBucket = '21_plus';
+            sendQualifiedLeadSignals();
+            showContent();
+        });
+        if (opt18) opt18.addEventListener('click', function(e) {
+            e.preventDefault();
+            qualifiedUserAgeBucket = 'under_21';
+            sendDisqualifiedSignals();
+            if (!under21RedirectUrl || under21RedirectUrl === 'PASTE_UNDER_21_REDIRECT_URL_HERE') {
+                console.warn('Set window.metaAgeGateConfig.under21RedirectUrl before sending traffic to the under-21 branch.');
+                return;
+            }
+            redirectWithDelay(appendQueryStringToUrl(under21RedirectUrl, getPassthroughQueryString()), 180);
+        });
 
         var countdownInterval = null, dollarInterval = null, notifActive = false, mainCta = null;
 
@@ -1705,7 +1836,7 @@
             {n:'Casey D.',t:'Reviewed a product',a:'+$9.00'},
             {n:'Avery H.',t:'Played a card game',a:'+$7.80'},
             {n:'Quinn F.',t:'Tried a shopping app',a:'+$16.25'}
-        ]; 
+        ];
         var notifIdx = 0;
         var times = ['just now','2s ago','5s ago','just now','1s ago','3s ago','just now','4s ago','2s ago','just now','1s ago','3s ago'];
 
@@ -1753,6 +1884,9 @@
             appendSearchParamsToOfferLinks();
             window.scrollTo(0, 0);
 
+            if (countdownInterval) clearInterval(countdownInterval);
+            if (dollarInterval) clearInterval(dollarInterval);
+
             var countdownSeconds = 14 * 60 + 59;
             var countdownEl = document.getElementById(ids.countdown);
             if (countdownEl) {
@@ -1763,6 +1897,7 @@
                     var s = countdownSeconds % 60;
                     countdownEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
                 }
+                updateCountdown();
                 countdownInterval = setInterval(updateCountdown, 1000);
             }
 
@@ -1773,6 +1908,7 @@
                     dollarBase += Math.floor(Math.random() * 80) + 10;
                     dollarEl.textContent = '$' + dollarBase.toLocaleString();
                 }
+                updateDollar();
                 dollarInterval = setInterval(updateDollar, 3000);
             }
 
@@ -1786,79 +1922,6 @@
             var rect = mainCta.getBoundingClientRect();
             if (rect.bottom < 0) stickyCta.classList.add('visible');
             else stickyCta.classList.remove('visible');
-        }
-
-        // TikTok Pixel: Track Lead/SubmitForm events on trxbutton clicks
-        function setupTikTokButtonTracking() {
-            var trxButtons = document.querySelectorAll('.trxbutton');
-            trxButtons.forEach(function(button) {
-                button.addEventListener('click', function(e) {
-                    // Track Lead event (TikTok's standard conversion event)
-                    if (typeof ttq !== 'undefined') {
-                        try {
-                            ttq.track('Lead', {});
-                            // Also track SubmitForm as alternative
-                            ttq.track('SubmitForm', {});
-                        } catch (error) {
-                            console.error('TikTok pixel tracking error:', error);
-                        }
-                    }
-                });
-            });
-        }
-
-        // Setup tracking for existing buttons
-        setupTikTokButtonTracking();
-
-        // Watch for dynamically added buttons (when content sections are shown)
-        if (typeof MutationObserver !== 'undefined') {
-            var observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1) {
-                            // Check if the added node is a trxbutton
-                            if (node.classList && node.classList.contains('trxbutton')) {
-                                // Append search params to new button
-                                appendSearchParamsToOfferLinks();
-                                node.addEventListener('click', function(e) {
-                                    if (typeof ttq !== 'undefined') {
-                                        try {
-                                            ttq.track('Lead', {});
-                                            ttq.track('SubmitForm', {});
-                                        } catch (error) {
-                                            console.error('TikTok pixel tracking error:', error);
-                                        }
-                                    }
-                                });
-                            }
-                            // Check for trxbuttons in children
-                            var childButtons = node.querySelectorAll ? node.querySelectorAll('.trxbutton') : [];
-                            childButtons.forEach(function(btn) {
-                                if (!btn.dataset.tiktokTracked) {
-                                    btn.dataset.tiktokTracked = 'true';
-                                    // Append search params to new button
-                                    appendSearchParamsToOfferLinks();
-                                    btn.addEventListener('click', function(e) {
-                                        if (typeof ttq !== 'undefined') {
-                                            try {
-                                                ttq.track('Lead', {});
-                                                ttq.track('SubmitForm', {});
-                                            } catch (error) {
-                                                console.error('TikTok pixel tracking error:', error);
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
         }
     });
     </script>
