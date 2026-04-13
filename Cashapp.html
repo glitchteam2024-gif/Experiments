@@ -2,23 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Cash App UI</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
+    html {
+      height: 100%;
+    }
+
     body {
       background: #1a1a1a;
       min-height: 100vh;
+      min-height: 100svh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
     }
 
     .phone {
-      width: 390px;
-      height: 844px;
+      width: min(390px, 100vw);
+      height: min(844px, 100vh);
+      height: min(844px, 100svh);
+      height: min(844px, 100dvh);
+      max-width: 100vw;
+      max-height: 100vh;
+      max-height: 100svh;
+      max-height: 100dvh;
       border-radius: 40px;
       overflow: hidden;
       box-shadow: 0 30px 80px rgba(0,0,0,0.85);
@@ -30,6 +43,7 @@
       inset: 0;
       display: none;
       flex-direction: column;
+      min-height: 0;
     }
     .screen.active { display: flex; }
 
@@ -111,7 +125,7 @@
       justify-content: center;
     }
     .amount-display span {
-      font-size: 88px;
+      font-size: clamp(64px, 18vw, 88px);
       font-weight: 900;
       color: #000;
       letter-spacing: -2px;
@@ -511,6 +525,95 @@
       transition: opacity 0.15s;
     }
     .repay-btn:active { opacity: 0.7; }
+    @media (max-width: 480px), (max-height: 820px) {
+      body {
+        align-items: stretch;
+        justify-content: stretch;
+        background: #000;
+      }
+
+      .phone {
+        width: 100vw;
+        height: 100vh;
+        height: 100svh;
+        height: 100dvh;
+        max-width: 100vw;
+        max-height: 100vh;
+        max-height: 100svh;
+        max-height: 100dvh;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .pay-topbar,
+      .dark-topbar {
+        padding-top: calc(env(safe-area-inset-top) + 14px);
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .pay-topbar { padding-bottom: 4px; }
+      .dark-topbar { padding-bottom: 12px; }
+
+      .amount-display span {
+        font-size: clamp(58px, 20vw, 82px);
+      }
+
+      .numpad {
+        padding: 0 16px 6px;
+      }
+
+      .numpad-row {
+        margin-bottom: 2px;
+      }
+
+      .num-btn {
+        height: min(64px, 8.5vh);
+        font-size: clamp(26px, 9vw, 32px);
+      }
+
+      .pay-actions {
+        padding: 0 16px 8px;
+        gap: 10px;
+      }
+
+      .action-btn,
+      .pay-btn {
+        min-height: 52px;
+      }
+
+      .pay-btn-wrap {
+        padding: 0 16px 8px;
+      }
+
+      .bottom-nav {
+        padding: 10px 20px calc(env(safe-area-inset-bottom) + 10px);
+      }
+
+      .money-scroll,
+      .activity-scroll {
+        padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
+      }
+
+      .contacts-row {
+        padding-bottom: 12px;
+      }
+    }
+
+    @media (max-height: 740px) {
+      .pay-topbar,
+      .dark-topbar {
+        padding-top: calc(env(safe-area-inset-top) + 10px);
+      }
+
+      .amount-display span {
+        font-size: clamp(52px, 18vw, 72px);
+      }
+
+      .num-btn {
+        height: 56px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -539,7 +642,7 @@
         </button>
         <div class="av-wrap" onclick="editAvatar(this)">
           <div class="avatar">
-            <img data-img="profile" src="images/profilepng.png" alt="profile" />
+            <img data-img="pay_topbar_avatar" src="images/profilepng.png" alt="profile" />
           </div>
           <div class="av-cam"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
@@ -624,7 +727,7 @@
         </button>
         <div class="av-wrap" onclick="editAvatar(this)">
           <div class="avatar-dark-wrap">
-            <img data-img="profile" src="images/profilepng.png.png" alt="profile" />
+            <img data-img="money_topbar_avatar" src="images/profilepng.png.png" alt="profile" />
           </div>
           <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
@@ -697,7 +800,7 @@
         <div class="family-row">
           <div class="av-wrap" onclick="editAvatar(this)">
             <div class="family-avatar">
-              <img data-img="family" src="images/Lady.png" alt="family" />
+              <img data-img="family_avatar" src="images/Lady.png" alt="family" />
             </div>
             <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
           </div>
@@ -752,7 +855,7 @@
         </button>
         <div class="av-wrap" onclick="editAvatar(this)">
           <div class="avatar-dark-wrap">
-            <img data-img="profile" src="images/Lady.png" alt="profile" />
+            <img data-img="activity_topbar_avatar" src="images/Lady.png" alt="profile" />
           </div>
           <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
@@ -794,110 +897,164 @@
 
 <script>
   /* ─── EASY EDIT SECTION ───────────────────────────────────
-     Change the photo or name ONCE here and it updates everywhere.
-     To add a new person, add them to PEOPLE, then add their key to
-     CONTACT_ORDER and/or TRANSACTIONS.
+     Every avatar here has its OWN key.
+     Editing one will NOT change any other avatar.
+
+     Static avatars:
+       pay_topbar_avatar
+       money_topbar_avatar
+       activity_topbar_avatar
+       family_avatar
+
+     Contact avatars:
+       contact_damitri
+       contact_marco
+       contact_tiffany
+       contact_mariana
+       contact_e
+
+     Activity avatars:
+       tx_damitri_1
+       tx_device_login
+       tx_marco_1
+       tx_tiffany_1
+       tx_mariana_1
+       tx_marco_2
+       tx_e_1
   */
-  const PEOPLE = {
-    profile: {
-      photo: 'images/Freecash.png',
+  const STATIC_AVATARS = {
+    pay_topbar_avatar: {
+      photo: 'images/profilepng.png',
+      photoPosition: 'center'
+    },
+    money_topbar_avatar: {
+      photo: 'images/profilepng.png.png',
+      photoPosition: 'center'
+    },
+    activity_topbar_avatar: {
+      photo: 'images/Lady.png',
       photoPosition: '94% 24%'
     },
-    family: {
+    family_avatar: {
       photo: 'images/Lady.png',
-      photoPosition: '7% 67%',
-      label: 'Last active Aug 2024'
-    },
-    damitri: {
-      contactName: 'Damitri',
-      fullName: 'Damitri Perdue',
+      photoPosition: '7% 67%'
+    }
+  };
+
+  const FAMILY_SECTION = {
+    label: 'Last active Aug 2024'
+  };
+
+  const CONTACTS = [
+    {
+      key: 'contact_damitri',
+      name: 'Damitri',
       photo: 'images/Lady.png',
       bg: '#E8622A',
       photoPosition: 'center'
     },
-    marco: {
-      contactName: 'Marco',
-      fullName: 'Marco Amaya',
+    {
+      key: 'contact_marco',
+      name: 'Marco',
       photo: 'images/Lady.png',
       bg: '#00B89C',
       photoPosition: 'center'
     },
-    tiffany: {
-      contactName: 'Tiffany',
-      fullName: 'Tiffany vargas',
+    {
+      key: 'contact_tiffany',
+      name: 'Tiffany',
       photo: 'images/Lady.png',
       bg: '#555',
       photoPosition: '65% 68%'
     },
-    mariana: {
-      contactName: 'Mariana',
-      fullName: 'Mariana Govea',
+    {
+      key: 'contact_mariana',
+      name: 'Mariana',
       photo: 'images/Lady.png',
       bg: '#E8622A',
       photoPosition: 'center'
     },
-    e: {
-      contactName: 'E',
-      fullName: 'E...',
+    {
+      key: 'contact_e',
+      name: 'E',
       photo: 'images/Lady.png',
       bg: '#8B7A2A',
       photoPosition: 'center'
     }
-  };
+  ];
 
-  const CONTACT_ORDER = ['damitri', 'marco', 'tiffany', 'mariana', 'e'];
-
-  const TRANSACTIONS = [
+  const ACTIVITY_ROWS = [
     {
-      person: 'damitri',
+      key: 'tx_damitri_1',
+      name: 'Damitri Perdue',
+      photo: 'images/Lady.png',
+      bg: '#E8622A',
+      photoPosition: 'center',
       note: '...',
       date: 'Apr 5',
       amount: '+$300',
       amountClass: 'positive'
     },
     {
-      person: 'profile',
-      fullName: 'New device login',
+      key: 'tx_device_login',
+      name: 'New device login',
+      photo: 'images/Lady.png',
+      bg: '#E84040',
+      photoPosition: 'center',
       alt: 'device',
       note: 'Verification needed',
       date: 'Mar 29 at 12:26 PM',
-      amount: '$20',
-      bg: '#E84040',
-      amountClass: ''
+      amount: '$20'
     },
     {
-      person: 'marco',
+      key: 'tx_marco_1',
+      name: 'Marco Amaya',
+      photo: 'images/Lady.png',
+      bg: '#00B89C',
+      photoPosition: 'center',
       note: 'you bettern not be lying nigga 🙂',
       date: 'Mar 29 · Replied ❤️',
-      amount: '$20',
-      amountClass: ''
+      amount: '$20'
     },
     {
-      person: 'tiffany',
+      key: 'tx_tiffany_1',
+      name: 'Tiffany vargas',
+      photo: 'images/Lady.png',
+      bg: '#555',
+      photoPosition: '65% 68%',
       note: 'Pay over time available',
       date: 'Mar 18 · Amen.',
       repay: '$20'
     },
     {
-      person: 'mariana',
+      key: 'tx_mariana_1',
+      name: 'Mariana Govea',
+      photo: 'images/Lady.png',
+      bg: '#E8622A',
+      photoPosition: 'center',
       note: 'tip',
       date: 'Mar 8',
-      amount: '$20',
-      amountClass: ''
+      amount: '$20'
     },
     {
-      person: 'marco',
+      key: 'tx_marco_2',
+      name: 'Marco Amaya',
+      photo: 'images/Lady.png',
+      bg: '#00B89C',
+      photoPosition: 'center',
       note: 'AFFILIATE COMMISSIONS',
       date: 'Mar 3',
-      amount: '$250',
-      amountClass: ''
+      amount: '$250'
     },
     {
-      person: 'e',
+      key: 'tx_e_1',
+      name: 'E...',
+      photo: 'images/Lady.png',
+      bg: '#8B7A2A',
+      photoPosition: 'center',
       note: 'P...',
       date: 'Mar...',
       amount: '$45.16',
-      amountClass: '',
       rowStyle: 'opacity:0.5;'
     }
   ];
@@ -925,17 +1082,19 @@
       .replace(/'/g, '&#39;');
   }
 
-  function personData(key) {
-    return PEOPLE[key] || {};
+  function avatarEntry(key) {
+    return STATIC_AVATARS[key]
+      || CONTACTS.find((item) => item.key === key)
+      || ACTIVITY_ROWS.find((item) => item.key === key)
+      || null;
   }
 
-  function imageMarkup(key, className, iconMarkup, altOverride = '') {
-    const person = personData(key);
-    const altText = altOverride || person.contactName || person.fullName || key;
+  function imageMarkup(item, className, iconMarkup, altOverride = '') {
+    const altText = altOverride || item.alt || item.name || item.key;
     return `
-      <div class="av-wrap" data-person="${escapeHtml(key)}" onclick="editAvatar(this)">
-        <div class="${className}" style="background:${escapeHtml(person.bg || '#2a2a2a')};overflow:hidden;">
-          <img data-img="${escapeHtml(key)}" src="${escapeHtml(person.photo || '')}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;object-position:${escapeHtml(person.photoPosition || 'center')};display:block;" />
+      <div class="av-wrap" data-person="${escapeHtml(item.key)}" onclick="editAvatar(this)">
+        <div class="${className}" style="background:${escapeHtml(item.bg || '#2a2a2a')};overflow:hidden;">
+          <img data-img="${escapeHtml(item.key)}" src="${escapeHtml(item.photo || '')}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;object-position:${escapeHtml(item.photoPosition || 'center')};display:block;" />
         </div>
         <div class="av-cam">${iconMarkup}</div>
       </div>
@@ -958,12 +1117,11 @@
       </div>
     `;
 
-    const contactTiles = CONTACT_ORDER.map((key) => {
-      const person = personData(key);
+    const contactTiles = CONTACTS.map((item) => {
       return `
         <div class="contact-item">
-          ${imageMarkup(key, 'contact-bubble', CAMERA_ICON_16)}
-          <span class="contact-name">${escapeHtml(person.contactName || key)}</span>
+          ${imageMarkup(item, 'contact-bubble', CAMERA_ICON_16)}
+          <span class="contact-name">${escapeHtml(item.name || item.key)}</span>
         </div>
       `;
     }).join('');
@@ -994,14 +1152,12 @@
     const list = document.getElementById('activity-list');
     if (!list) return;
 
-    list.innerHTML = TRANSACTIONS.map((item) => {
-      const person = personData(item.person);
-      const displayName = item.fullName || person.fullName || person.contactName || item.person;
+    list.innerHTML = ACTIVITY_ROWS.map((item) => {
       return `
         <div class="tx-row" style="${escapeHtml(item.rowStyle || '')}">
-          ${imageMarkup(item.person, 'tx-avatar', CAMERA_ICON_14, item.alt)}
+          ${imageMarkup(item, 'tx-avatar', CAMERA_ICON_14, item.alt)}
           <div class="tx-info">
-            <div class="tx-name">${escapeHtml(displayName)}</div>
+            <div class="tx-name">${escapeHtml(item.name || item.key)}</div>
             <div class="tx-note">${escapeHtml(item.note || '')}</div>
             <div class="tx-date">${escapeHtml(item.date || '')}</div>
           </div>
@@ -1014,19 +1170,19 @@
   function applyImages() {
     document.querySelectorAll('[data-img]').forEach((el) => {
       const key = el.getAttribute('data-img');
-      const person = personData(key);
-      if (!person.photo) return;
-      el.src = person.photo;
-      el.style.objectPosition = person.photoPosition || 'center';
+      const item = avatarEntry(key);
+      if (!item?.photo) return;
+      el.src = item.photo;
+      el.style.objectPosition = item.photoPosition || 'center';
     });
 
     const familyLabel = document.querySelector('.family-name');
-    if (familyLabel && PEOPLE.family?.label) {
-      familyLabel.textContent = PEOPLE.family.label;
+    if (familyLabel && FAMILY_SECTION.label) {
+      familyLabel.textContent = FAMILY_SECTION.label;
     }
   }
 
-  function renderEditablePeople() {
+  function renderEditableAvatars() {
     renderContacts();
     renderTransactions();
     applyImages();
@@ -1095,18 +1251,19 @@
     const file = this.files[0];
     if (!file || !activeImageKey) return;
 
+    const entry = avatarEntry(activeImageKey);
+    if (!entry) return;
+
     const reader = new FileReader();
     reader.onload = function (e) {
-      const url = e.target.result;
-      if (!PEOPLE[activeImageKey]) PEOPLE[activeImageKey] = {};
-      PEOPLE[activeImageKey].photo = url;
-      PEOPLE[activeImageKey].photoPosition = 'center';
-      renderEditablePeople();
+      entry.photo = e.target.result;
+      entry.photoPosition = 'center';
+      renderEditableAvatars();
     };
     reader.readAsDataURL(file);
   });
 
-  document.addEventListener('DOMContentLoaded', renderEditablePeople);
+  document.addEventListener('DOMContentLoaded', renderEditableAvatars);
 </script>
 
 </body>
