@@ -270,41 +270,6 @@
       transform-origin: center;
     }
 
-    #activity-screen {
-      background: #000;
-      position: relative;
-    }
-    #activity-screen .dark-topbar {
-      padding: 28px 16px 10px;
-    }
-    #activity-screen .screen-title {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.05em;
-    }
-    #activity-screen .dark-topbar-right {
-      gap: 10px;
-    }
-    #activity-screen .search-circle {
-      width: 48px;
-      height: 48px;
-      background: #151515;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
-    }
-    #activity-screen .search-circle svg {
-      width: 23px;
-      height: 23px;
-      stroke-width: 2.35;
-    }
-    #activity-screen .avatar-dark-wrap {
-      width: 48px;
-      height: 48px;
-    }
-    #activity-screen .avatar-dark-wrap img {
-      object-position: 62% 22%;
-      transform: scale(1.14);
-    }
-
     /* ─── MONEY SCREEN ───────────────────────────────────── */
     .money-scroll {
       flex: 1;
@@ -436,9 +401,9 @@
     /* ─── ACTIVITY SCREEN ────────────────────────────────── */
     .contacts-row {
       display: flex;
-      gap: 16px;
+      gap: 20px;
       overflow-x: auto;
-      padding: 8px 16px 14px;
+      padding: 0 20px 16px;
       scrollbar-width: none;
     }
     .contacts-row::-webkit-scrollbar { display: none; }
@@ -452,27 +417,21 @@
     }
 
     .contact-bubble {
-      width: 58px;
-      height: 58px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 23px;
-      font-weight: 500;
+      font-size: 20px;
+      font-weight: 700;
       color: #000;
       overflow: hidden;
-      position: relative;
-      letter-spacing: -0.04em;
-    }
-    .contact-bubble.initial {
-      font-size: 23px;
     }
     .contact-bubble.add-bubble {
       background: transparent;
-      border: 2px solid #171717;
+      border: 2px solid #3a3a3a;
       color: #fff;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
     }
     .contact-bubble img {
       width: 100%;
@@ -481,202 +440,72 @@
       transform: scale(1.18);
       transform-origin: center;
     }
-    .contact-name {
-      font-size: 11px;
-      line-height: 1.2;
-      color: #fff;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-    }
+    .contact-name { font-size: 12px; color: #888; }
 
     .activity-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 0 16px 150px;
+      padding: 0 20px;
       scrollbar-width: none;
     }
     .activity-scroll::-webkit-scrollbar { display: none; }
 
     .section-title {
-      font-size: 23px;
+      font-size: 20px;
       font-weight: 700;
       color: #fff;
-      margin: 24px 0 14px;
-      letter-spacing: -0.05em;
-      line-height: 1.04;
-    }
-    .section-title:first-child {
-      margin-top: 10px;
+      margin-bottom: 4px;
+      margin-top: 8px;
     }
 
     .tx-row {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 0 18px;
-    }
-    .tx-row.dimmed {
-      opacity: 0.52;
+      padding: 14px 0;
     }
 
     .tx-avatar {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 700;
       color: #000;
       overflow: hidden;
-      letter-spacing: -0.04em;
-    }
-    .tx-avatar.initial {
-      font-size: 20px;
-    }
-    .tx-avatar.alert-initial {
-      font-size: 26px;
     }
     .tx-avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.16);
+      transform: scale(1.18);
       transform-origin: center;
     }
-    .avatar-initial {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-      font-size: 1em;
-      line-height: 1;
-      color: #000;
-      font-weight: 500;
-    }
-    .avatar-initial.alert {
-      font-size: 1.18em;
-    }
 
-    .tx-info {
-      flex: 1;
-      min-width: 0;
-      padding-right: 8px;
-    }
-    .tx-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.18;
-      letter-spacing: -0.03em;
-    }
-    .tx-note {
-      font-size: 13px;
-      color: #ddd;
-      line-height: 1.24;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 4px;
-      letter-spacing: -0.015em;
-    }
-    .tx-date {
-      font-size: 11px;
-      color: #c7c7c7;
-      margin-top: 2px;
-      line-height: 1.26;
-      letter-spacing: -0.015em;
-    }
-    .tx-amount {
-      font-size: 15px;
-      font-weight: 600;
-      color: #fff;
-      flex-shrink: 0;
-      letter-spacing: -0.03em;
-    }
-    .tx-amount.positive { color: #fff; }
+    .tx-info { flex: 1; min-width: 0; }
+    .tx-name { font-size: 15px; font-weight: 600; color: #fff; line-height: 1.3; }
+    .tx-note { font-size: 13px; color: #555; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tx-date { font-size: 11px; color: #444; margin-top: 2px; }
+    .tx-amount { font-size: 15px; font-weight: 600; color: #fff; flex-shrink: 0; }
+    .tx-amount.positive { color: #00C72C; }
 
-    .review-btn,
-    .repay-btn {
+    .review-btn {
+      padding: 8px 16px;
       border-radius: 9999px;
-      background: #232323;
+      background: #2a2a2a;
       border: none;
       cursor: pointer;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: #fff;
       flex-shrink: 0;
       transition: opacity 0.15s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
     }
-    .review-btn {
-      padding: 9px 18px;
-      min-width: 98px;
-      font-size: 14px;
-      letter-spacing: -0.02em;
-    }
-    .repay-btn {
-      gap: 8px;
-      padding: 9px 14px;
-      min-width: 104px;
-      font-size: 14px;
-      letter-spacing: -0.03em;
-    }
-    .review-btn:active,
-    .repay-btn:active { opacity: 0.7; }
-
-    #activity-screen .bottom-nav {
-      position: absolute;
-      left: 50%;
-      bottom: calc(env(safe-area-inset-bottom) + 12px);
-      transform: translateX(-50%);
-      width: calc(100% - 32px);
-      max-width: 352px;
-      min-width: 270px;
-      background: rgba(16,16,16,0.96);
-      border-radius: 9999px;
-      padding: 6px;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.08);
-      backdrop-filter: blur(10px);
-      z-index: 5;
-    }
-    #activity-screen .bottom-nav .nav-btn {
-      flex: 1;
-      min-width: 0;
-    }
-    #activity-screen .nav-balance-text {
-      color: #9a9a9a !important;
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-    }
-    #activity-screen .nav-dollar-circle,
-    #activity-screen .nav-clock-circle {
-      width: 54px;
-      height: 54px;
-      border-radius: 9999px;
-      background: transparent !important;
-    }
-    #activity-screen .nav-dollar-circle svg {
-      width: 22px;
-      height: 22px;
-      stroke: #5d5d5d !important;
-    }
-    #activity-screen .nav-clock-circle {
-      background: #2c2c2c !important;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
-    }
-    #activity-screen .nav-clock-circle svg {
-      width: 22px;
-      height: 22px;
-      stroke-width: 2.2;
-    }
+    .review-btn:active { opacity: 0.7; }
 
     @media (max-width: 480px), (max-height: 820px) {
       body {
@@ -746,21 +575,6 @@
       .money-scroll,
       .activity-scroll {
         padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
-      }
-
-      #activity-screen .dark-topbar {
-        padding-top: calc(env(safe-area-inset-top) + 14px);
-        padding-left: 16px;
-        padding-right: 16px;
-        padding-bottom: 10px;
-      }
-
-      #activity-screen .contacts-row {
-        padding: 8px 16px 14px;
-      }
-
-      #activity-screen .activity-scroll {
-        padding: 0 16px calc(env(safe-area-inset-bottom) + 134px);
       }
 
       .contacts-row {
@@ -1029,12 +843,15 @@
     <div class="contacts-row" id="contacts-row"></div>
 
     <div class="activity-scroll">
+
+      <div class="section-title">This month</div>
       <div id="activity-list"></div>
+
     </div>
 
     <div class="bottom-nav">
       <button class="nav-btn" onclick="switchTab('money')">
-        <span class="nav-balance-text" style="color:#555;">$315</span>
+        <span class="nav-balance-text" style="color:#555;">$5,431.29</span>
       </button>
       <button class="nav-btn" onclick="switchTab('pay')">
         <div class="nav-dollar-circle" style="background:#222;">
@@ -1109,15 +926,18 @@
   const CONTACTS = [
     {
       key: 'contact_damitri',
-      name: 'Damitri',
-      initial: 'D',
-      bg: '#FF7A3A'
+      name: 'Freecash',
+      photo: 'images/Freecash.png',
+      bg: '#E8622A',
+      photoPosition: 'center'
     },
     {
       key: 'contact_marco',
       name: 'Marco',
-      initial: 'M',
-      bg: '#57F5D1'
+      photo: 'images/thethird.png',
+      bg: '#2a2a2a',
+      photoPosition: 'center',
+      photoZoom: '1.12'
     },
     {
       key: 'contact_tiffany',
@@ -1125,101 +945,109 @@
       photo: 'images/thesecond.png',
       bg: '#2a2a2a',
       photoPosition: '52% 30%',
-      photoZoom: '1.26'
+      photoZoom: '1.28'
     },
     {
       key: 'contact_mariana',
       name: 'Mariana',
-      initial: 'M',
-      bg: '#FF8A3F'
+      photo: 'images/thefourth.png',
+      bg: '#2a2a2a',
+      photoPosition: 'center',
+      photoZoom: '1.18'
     },
     {
       key: 'contact_e',
       name: 'E',
-      initial: 'E',
-      bg: '#F3D54C'
+      photo: 'images/thefirst.png',
+      bg: '#2a2a2a',
+      photoPosition: '50% 24%',
+      photoZoom: '1.28'
     }
   ];
 
   const ACTIVITY_ROWS = [
     {
-      type: 'section',
-      title: 'This month'
-    },
-    {
       key: 'tx_damitri_1',
-      name: 'Damitri Perdue',
-      initial: 'D',
-      bg: '#FF7A3A',
-      note: '...',
-      date: 'Apr 5',
-      amount: '+$300'
-    },
-    {
-      type: 'section',
-      title: 'March 2026'
+      name: 'Freecash',
+      photo: 'images/Freecash.png',
+      bg: '#2a2a2a',
+      photoPosition: 'center',
+      photoZoom: '1.26',
+      note: 'Instant Transfer',
+      date: 'Apr 11',
+      amount: '+$2,589.10',
+      amountClass: 'positive'
     },
     {
       key: 'tx_device_login',
-      name: 'New device login',
-      initial: '!',
-      initialClass: 'alert',
-      bg: '#FF4B63',
-      note: 'Verification needed',
-      date: 'Mar 29 at 12:26 PM',
-      actionType: 'review',
-      actionText: 'Review'
+      name: 'Freecash',
+      photo: 'images/Freecash.png',
+      bg: '#2a2a2a',
+      photoPosition: 'center',
+      photoZoom: '1.26',
+      alt: 'device',
+      note: 'ACH Transfer',
+      date: 'Apr 7',
+      amount: '+$1,210.80',
+      amountClass: 'positive'
     },
     {
       key: 'tx_marco_1',
-      name: 'Marco Amaya',
-      initial: 'M',
-      bg: '#57F5D1',
-      note: 'you bettern not be lying nigga 🙂',
-      date: 'Mar 29 · Replied ❤️',
-      amount: '$20'
+      name: 'Marco',
+      photo: 'images/thethird.png',
+      bg: '#2a2a2a',
+      photoPosition: 'center',
+      photoZoom: '1.12',
+      note: 'ACH Transfer',
+      date: 'Apr 5',
+      amount: '$258.10'
     },
     {
       key: 'tx_tiffany_1',
-      name: 'Tiffany vargas',
-      photo: 'images/thesecond.png',
+      name: 'Freecash',
+      photo: 'images/Freecash.png',
       bg: '#2a2a2a',
       photoPosition: '52% 30%',
       photoZoom: '1.28',
-      note: 'Pay over time available',
-      date: 'Mar 18 · Amen.',
-      actionType: 'repay',
-      actionText: '$40'
+      note: 'ACH Transfer',
+      date: 'Apr 2',
+      amount: '+$1,034.42',
+      amountClass: 'positive'
     },
     {
       key: 'tx_mariana_1',
-      name: 'Mariana Govea',
+      name: 'Mariana',
       photo: 'images/thefourth.png',
       bg: '#2a2a2a',
       photoPosition: 'center',
       photoZoom: '1.18',
-      note: 'tip',
-      date: 'Mar 8',
-      amount: '$20'
+      note: 'ACH Transfer',
+      date: 'Apr 1',
+      amount: '$143.27'
     },
     {
       key: 'tx_marco_2',
-      name: 'Marco Amaya',
-      initial: 'M',
-      bg: '#57F5D1',
-      note: 'AFFILIATE COMMISSIONS',
-      date: 'Mar 3',
-      amount: '$250'
+      name: 'Freecash',
+      photo: 'images/Freecash.png',
+      bg: '#2a2a2a',
+      photoPosition: 'center',
+      photoZoom: '1.12',
+      note: 'ACH Transfer',
+      date: 'Mar 25',
+      amount: '+$287.14',
+      amountClass: 'positive'
     },
     {
       key: 'tx_e_1',
-      name: 'E...',
-      initial: 'E',
-      bg: '#D6BF40',
-      note: 'P...',
-      date: 'Mar...',
-      amount: '$45.16',
-      rowClass: 'dimmed'
+      name: 'Freecash',
+      photo: 'images/Freecash.png',
+      bg: '#2a2a2a',
+      photoPosition: '50% 24%',
+      photoZoom: '1.28',
+      note: 'ACH Transfer',
+      date: 'Mar 20',
+      amount: '+$514.88',
+      amountClass: 'positive'
     }
   ];
 
@@ -1241,18 +1069,10 @@
 
   function imageMarkup(item, className, altOverride = '') {
     const altText = altOverride || item.alt || item.name || item.key;
-    const classes = [className, item.initial ? 'initial' : '', item.initialClass === 'alert' ? 'alert-initial' : '']
-      .filter(Boolean)
-      .join(' ');
-
-    const content = item.photo
-      ? `<img data-img="${escapeHtml(item.key)}" src="${escapeHtml(item.photo || '')}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;object-position:${escapeHtml(item.photoPosition || 'center')};display:block;transform:scale(${escapeHtml(item.photoZoom || '1.18')});transform-origin:center;" />`
-      : `<span class="avatar-initial${item.initialClass === 'alert' ? ' alert' : ''}">${escapeHtml(item.initial || '')}</span>`;
-
     return `
       <div class="av-wrap" data-person="${escapeHtml(item.key)}" onclick="editAvatar(this)">
-        <div class="${classes}" style="background:${escapeHtml(item.bg || '#2a2a2a')};overflow:hidden;">
-          ${content}
+        <div class="${className}" style="background:${escapeHtml(item.bg || '#2a2a2a')};overflow:hidden;">
+          <img data-img="${escapeHtml(item.key)}" src="${escapeHtml(item.photo || '')}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;object-position:${escapeHtml(item.photoPosition || 'center')};display:block;transform:scale(${escapeHtml(item.photoZoom || '1.18')});transform-origin:center;" />
         </div>
       </div>
     `;
@@ -1287,24 +1107,6 @@
   }
 
   function renderTransactionAction(item) {
-    if (item.actionType === 'review') {
-      return `<button class="review-btn">${escapeHtml(item.actionText || 'Review')}</button>`;
-    }
-
-    if (item.actionType === 'repay') {
-      return `
-        <button class="repay-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="17 1 21 5 17 9"></polyline>
-            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-            <polyline points="7 23 3 19 7 15"></polyline>
-            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-          </svg>
-          <span>${escapeHtml(item.actionText || '')}</span>
-        </button>
-      `;
-    }
-
     const amountClass = item.amountClass ? `tx-amount ${item.amountClass}` : 'tx-amount';
     return `<span class="${escapeHtml(amountClass)}">${escapeHtml(item.amount || '')}</span>`;
   }
@@ -1314,13 +1116,8 @@
     if (!list) return;
 
     list.innerHTML = ACTIVITY_ROWS.map((item) => {
-      if (item.type === 'section') {
-        return `<div class="section-title">${escapeHtml(item.title || '')}</div>`;
-      }
-
-      const rowClass = ['tx-row', item.rowClass || ''].filter(Boolean).join(' ');
       return `
-        <div class="${escapeHtml(rowClass)}" style="${escapeHtml(item.rowStyle || '')}">
+        <div class="tx-row" style="${escapeHtml(item.rowStyle || '')}">
           ${imageMarkup(item, 'tx-avatar', item.alt)}
           <div class="tx-info">
             <div class="tx-name">${escapeHtml(item.name || item.key)}</div>
