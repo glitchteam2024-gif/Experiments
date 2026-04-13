@@ -25,7 +25,6 @@
       position: relative;
     }
 
-    /* ─── SCREEN ─────────────────────────────────────────── */
     .screen {
       position: absolute;
       inset: 0;
@@ -33,6 +32,33 @@
       flex-direction: column;
     }
     .screen.active { display: flex; }
+
+    /* ─── EDITABLE AVATAR WRAPPER ────────────────────────── */
+    .av-wrap {
+      position: relative;
+      display: inline-flex;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .av-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.28);
+      pointer-events: none;
+    }
+    .av-wrap .av-cam {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .av-cam svg { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6)); }
 
     /* ─── PAY SCREEN ─────────────────────────────────────── */
     #pay-screen { background: #00C72C; }
@@ -70,7 +96,6 @@
       border-radius: 50%;
       overflow: hidden;
       border: 2px solid rgba(0,0,0,0.2);
-      flex-shrink: 0;
     }
     .avatar img {
       width: 100%;
@@ -78,7 +103,6 @@
       object-fit: cover;
       object-position: 94% 24%;
     }
-    .avatar-dark { border: none; }
 
     .amount-display {
       flex: 1;
@@ -96,9 +120,7 @@
     }
     .amount-display span.small { font-size: 56px; }
 
-    .numpad {
-      padding: 0 24px 8px;
-    }
+    .numpad { padding: 0 24px 8px; }
     .numpad-row {
       display: flex;
       justify-content: space-between;
@@ -163,7 +185,6 @@
       justify-content: space-around;
       padding: 12px 24px 16px;
     }
-
     .nav-btn {
       background: transparent;
       border: none;
@@ -173,18 +194,13 @@
       justify-content: center;
       min-width: 64px;
     }
-
     .nav-balance-pill {
       padding: 10px 18px;
       border-radius: 9999px;
       font-size: 14px;
       font-weight: 600;
     }
-    .nav-balance-text {
-      font-size: 14px;
-      font-weight: 500;
-    }
-
+    .nav-balance-text { font-size: 14px; font-weight: 500; }
     .nav-dollar-circle {
       width: 56px;
       height: 56px;
@@ -193,7 +209,6 @@
       align-items: center;
       justify-content: center;
     }
-
     .nav-clock-circle {
       width: 48px;
       height: 48px;
@@ -203,13 +218,11 @@
       justify-content: center;
     }
 
-    /* pay screen nav */
     #pay-screen .bottom-nav { background: transparent; }
     #pay-screen .nav-balance-text { color: rgba(0,80,10,0.75); }
     #pay-screen .nav-dollar-circle { background: rgba(0,100,20,0.45); }
     #pay-screen .nav-clock-circle { border: 1.5px solid rgba(0,80,10,0.6); }
 
-    /* dark screen nav */
     #money-screen .bottom-nav,
     #activity-screen .bottom-nav { background: #0f0f0f; }
 
@@ -223,11 +236,7 @@
       justify-content: space-between;
       padding: 48px 20px 16px;
     }
-    .screen-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #fff;
-    }
+    .screen-title { font-size: 22px; font-weight: 700; color: #fff; }
     .dark-topbar-right { display: flex; align-items: center; gap: 12px; }
 
     .search-circle {
@@ -247,7 +256,6 @@
       height: 40px;
       border-radius: 50%;
       overflow: hidden;
-      flex-shrink: 0;
     }
     .avatar-dark-wrap img {
       width: 100%;
@@ -270,7 +278,6 @@
       border-radius: 16px;
       margin-bottom: 12px;
     }
-
     .shipped-card {
       padding: 16px 20px;
       display: flex;
@@ -305,7 +312,6 @@
     }
     .balance-label { font-size: 14px; color: #888; font-weight: 500; }
     .balance-dots { font-size: 14px; color: #888; }
-    .balance-chevron { color: #888; }
     .eye-btn { background: transparent; border: none; cursor: pointer; }
     .balance-amount { font-size: 42px; font-weight: 700; color: #fff; margin-bottom: 28px; letter-spacing: -1px; }
     .balance-actions { display: flex; gap: 12px; }
@@ -369,7 +375,6 @@
       height: 40px;
       border-radius: 50%;
       overflow: hidden;
-      flex-shrink: 0;
     }
     .family-avatar img {
       width: 100%;
@@ -510,6 +515,8 @@
 </head>
 <body>
 
+<input type="file" id="avatar-upload" accept="image/*" style="display:none;" />
+
 <div class="phone">
 
   <!-- ═══════════════════════════════════════════════════════
@@ -530,8 +537,11 @@
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </button>
-        <div class="avatar">
-          <img src="images/Lady.png" alt="profile" />
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="avatar">
+            <img src="images/Lady.png" alt="profile" />
+          </div>
+          <div class="av-cam"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
       </div>
     </div>
@@ -612,8 +622,11 @@
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </button>
-        <div class="avatar-dark-wrap">
-          <img src="/Screenshot_2026-04-12_at_6.07.11_PM.png" alt="profile" />
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="avatar-dark-wrap">
+            <img src="images/Lady.png" alt="profile" />
+          </div>
+          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
       </div>
     </div>
@@ -682,8 +695,11 @@
       <div class="card family-card">
         <div class="family-label">Family</div>
         <div class="family-row">
-          <div class="family-avatar">
-            <img src="/Screenshot_2026-04-12_at_6.06.59_PM.png" alt="family" />
+          <div class="av-wrap" onclick="editAvatar(this)">
+            <div class="family-avatar">
+              <img src="images/Lady.png" alt="family" />
+            </div>
+            <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
           </div>
           <span class="family-name">Last active Aug 2024</span>
         </div>
@@ -734,8 +750,11 @@
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </button>
-        <div class="avatar-dark-wrap">
-          <img src="images/Lady.png" alt="profile" />
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="avatar-dark-wrap">
+            <img src="images/Lady.png" alt="profile" />
+          </div>
+          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
       </div>
     </div>
@@ -749,27 +768,47 @@
         </div>
         <span class="contact-name">Get $25</span>
       </div>
+
       <div class="contact-item">
-        <div class="contact-bubble" style="background:#E8622A;">D</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="contact-bubble" style="background:#E8622A;overflow:hidden;"><img src="images/Lady.png" alt="Damitri" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <span class="contact-name">Damitri</span>
       </div>
+
       <div class="contact-item">
-        <div class="contact-bubble" style="background:#00B89C;">M</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="contact-bubble" style="background:#00B89C;overflow:hidden;"><img src="images/Lady.png" alt="Marco" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <span class="contact-name">Marco</span>
       </div>
+
       <div class="contact-item">
-        <div class="contact-bubble" style="background:#555;overflow:hidden;">
-          <img src="/Screenshot_2026-04-12_at_6.07.11_PM.png" alt="Tiffany"
-               style="width:100%;height:100%;object-fit:cover;object-position:65% 68%;" />
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="contact-bubble" style="background:#555;overflow:hidden;">
+            <img src="images/Lady.png" alt="Tiffany"
+                 style="width:100%;height:100%;object-fit:cover;object-position:65% 68%;" />
+          </div>
+          <div class="av-cam"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
         <span class="contact-name">Tiffany</span>
       </div>
+
       <div class="contact-item">
-        <div class="contact-bubble" style="background:#E8622A;">M</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="contact-bubble" style="background:#E8622A;overflow:hidden;"><img src="images/Lady.png" alt="Mariana" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <span class="contact-name">Mariana</span>
       </div>
+
       <div class="contact-item">
-        <div class="contact-bubble" style="background:#8B7A2A;">E</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="contact-bubble" style="background:#8B7A2A;overflow:hidden;"><img src="images/Lady.png" alt="E" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <span class="contact-name">E</span>
       </div>
     </div>
@@ -779,7 +818,10 @@
       <div class="section-title">This month</div>
 
       <div class="tx-row">
-        <div class="tx-avatar" style="background:#E8622A;">D</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="tx-avatar" style="background:#E8622A;overflow:hidden;"><img src="images/Lady.png" alt="Damitri" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <div class="tx-info">
           <div class="tx-name">Damitri Perdue</div>
           <div class="tx-note">...</div>
@@ -788,8 +830,13 @@
         <span class="tx-amount positive">+$300</span>
       </div>
 
+      <div class="section-title" style="margin-top:16px;">March 2026</div>
+
       <div class="tx-row">
-        <div class="tx-avatar" style="background:#E84040;color:#fff;">!</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="tx-avatar" style="background:#E84040;overflow:hidden;"><img src="images/Lady.png" alt="device" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <div class="tx-info">
           <div class="tx-name">New device login</div>
           <div class="tx-note">Verification needed</div>
@@ -799,7 +846,10 @@
       </div>
 
       <div class="tx-row">
-        <div class="tx-avatar" style="background:#00B89C;">M</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="tx-avatar" style="background:#00B89C;overflow:hidden;"><img src="images/Lady.png" alt="Marco" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <div class="tx-info">
           <div class="tx-name">Marco Amaya</div>
           <div class="tx-note">you bettern not be lying nigga 🙂</div>
@@ -809,9 +859,12 @@
       </div>
 
       <div class="tx-row">
-        <div class="tx-avatar" style="background:#555;">
-          <img src="/Screenshot_2026-04-12_at_6.06.59_PM.png" alt="Tiffany"
-               style="width:100%;height:100%;object-fit:cover;object-position:7% 67%;" />
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="tx-avatar" style="background:#555;">
+            <img src="images/Lady.png" alt="Tiffany"
+                 style="width:100%;height:100%;object-fit:cover;object-position:7% 67%;" />
+          </div>
+          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
         <div class="tx-info">
           <div class="tx-name">Tiffany vargas</div>
@@ -830,7 +883,10 @@
       </div>
 
       <div class="tx-row">
-        <div class="tx-avatar" style="background:#E8622A;">M</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="tx-avatar" style="background:#E8622A;overflow:hidden;"><img src="images/Lady.png" alt="Mariana" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <div class="tx-info">
           <div class="tx-name">Mariana Govea</div>
           <div class="tx-note">tip</div>
@@ -840,7 +896,10 @@
       </div>
 
       <div class="tx-row">
-        <div class="tx-avatar" style="background:#00B89C;">M</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="tx-avatar" style="background:#00B89C;overflow:hidden;"><img src="images/Lady.png" alt="Marco" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <div class="tx-info">
           <div class="tx-name">Marco Amaya</div>
           <div class="tx-note">AFFILIATE COMMISSIONS</div>
@@ -850,7 +909,10 @@
       </div>
 
       <div class="tx-row" style="opacity:0.5;">
-        <div class="tx-avatar" style="background:#8B7A2A;">E</div>
+        <div class="av-wrap" onclick="editAvatar(this)">
+          <div class="tx-avatar" style="background:#8B7A2A;overflow:hidden;"><img src="images/Lady.png" alt="E" style="width:100%;height:100%;object-fit:cover;object-position:center;" /></div>
+          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        </div>
         <div class="tx-info">
           <div class="tx-name">E...</div>
           <div class="tx-note">P...</div>
@@ -933,6 +995,41 @@
     balanceVisible = !balanceVisible;
     document.getElementById('balance-display').textContent = balanceVisible ? '$315.00' : '••••••';
   }
+
+  let activeWrap = null;
+
+  function editAvatar(wrap) {
+    activeWrap = wrap;
+    const upload = document.getElementById('avatar-upload');
+    upload.value = '';
+    upload.click();
+  }
+
+  document.getElementById('avatar-upload').addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file || !activeWrap) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const url = e.target.result;
+      const inner = activeWrap.querySelector('.avatar, .avatar-dark-wrap, .contact-bubble, .tx-avatar, .family-avatar');
+      if (!inner) return;
+
+      let img = inner.querySelector('img');
+      if (img) {
+        img.src = url;
+        img.style.objectPosition = 'center';
+      } else {
+        inner.textContent = '';
+        img = document.createElement('img');
+        img.src = url;
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;object-position:center;display:block;';
+        inner.appendChild(img);
+      }
+      inner.style.overflow = 'hidden';
+    };
+    reader.readAsDataURL(file);
+  });
 </script>
 
 </body>
