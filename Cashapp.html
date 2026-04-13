@@ -54,25 +54,6 @@
       cursor: pointer;
       flex-shrink: 0;
     }
-    .av-wrap::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.28);
-      pointer-events: none;
-    }
-    .av-wrap .av-cam {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      z-index: 2;
-    }
-    .av-cam svg { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6)); }
 
     /* ─── PAY SCREEN ─────────────────────────────────────── */
     #pay-screen { background: #00C72C; }
@@ -116,6 +97,8 @@
       height: 100%;
       object-fit: cover;
       object-position: 94% 24%;
+      transform: scale(1.22);
+      transform-origin: center;
     }
 
     .amount-display {
@@ -276,6 +259,8 @@
       height: 100%;
       object-fit: cover;
       object-position: 94% 24%;
+      transform: scale(1.22);
+      transform-origin: center;
     }
 
     /* ─── MONEY SCREEN ───────────────────────────────────── */
@@ -395,6 +380,8 @@
       height: 100%;
       object-fit: cover;
       object-position: 7% 67%;
+      transform: scale(1.2);
+      transform-origin: center;
     }
     .family-name { font-size: 18px; font-weight: 600; color: #fff; }
 
@@ -443,6 +430,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transform: scale(1.18);
+      transform-origin: center;
     }
     .contact-name { font-size: 12px; color: #888; }
 
@@ -486,6 +475,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transform: scale(1.18);
+      transform-origin: center;
     }
 
     .tx-info { flex: 1; min-width: 0; }
@@ -509,22 +500,6 @@
     }
     .review-btn:active { opacity: 0.7; }
 
-    .repay-btn {
-      padding: 8px 14px;
-      border-radius: 9999px;
-      background: #2a2a2a;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      color: #fff;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: opacity 0.15s;
-    }
-    .repay-btn:active { opacity: 0.7; }
     @media (max-width: 480px), (max-height: 820px) {
       body {
         align-items: stretch;
@@ -644,7 +619,6 @@
           <div class="avatar">
             <img data-img="pay_topbar_avatar" src="images/profilepng.png" alt="profile" />
           </div>
-          <div class="av-cam"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
       </div>
     </div>
@@ -729,7 +703,6 @@
           <div class="avatar-dark-wrap">
             <img data-img="money_topbar_avatar" src="images/profilepng.png.png" alt="profile" />
           </div>
-          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
       </div>
     </div>
@@ -802,7 +775,6 @@
             <div class="family-avatar">
               <img data-img="family_avatar" src="images/Lady.png" alt="family" />
             </div>
-            <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
           </div>
           <span class="family-name">Last active Aug 2024</span>
         </div>
@@ -857,7 +829,6 @@
           <div class="avatar-dark-wrap">
             <img data-img="activity_topbar_avatar" src="images/Lady.png" alt="profile" />
           </div>
-          <div class="av-cam"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
         </div>
       </div>
     </div>
@@ -988,8 +959,9 @@
       key: 'tx_damitri_1',
       name: 'Freecash',
       photo: 'images/Freecash.png',
-      bg: '#E8622A',
+      bg: '#2a2a2a',
       photoPosition: 'center',
+      photoZoom: '1.26',
       note: 'Instant Transfer',
       date: 'Apr 11',
       amount: '+$2,589.10',
@@ -999,8 +971,9 @@
       key: 'tx_device_login',
       name: 'Freecash',
       photo: 'images/Freecash.png',
-      bg: '#E84040',
+      bg: '#2a2a2a',
       photoPosition: 'center',
+      photoZoom: '1.26',
       alt: 'device',
       note: 'ACH Transfer',
       date: 'Apr 7',
@@ -1011,8 +984,9 @@
       key: 'tx_marco_1',
       name: 'Freecash',
       photo: 'images/Freecash.png',
-      bg: '#00B89C',
+      bg: '#2a2a2a',
       photoPosition: 'center',
+      photoZoom: '1.26',
       note: 'ACH Transfer',
       date: 'Apr 5',
       amount: '+$758.10',
@@ -1022,18 +996,21 @@
       key: 'tx_tiffany_1',
       name: 'Freecash',
       photo: 'images/Freecash.png',
-      bg: '#555',
-      photoPosition: '65% 68%',
+      bg: '#2a2a2a',
+      photoPosition: 'center',
+      photoZoom: '1.26',
       note: 'ACH Transfer',
       date: 'Apr 2',
-      repay: '$1,034.42'
+      amount: '+$1,034.42',
+      amountClass: 'positive'
     },
     {
       key: 'tx_mariana_1',
       name: 'Freecash',
       photo: 'images/Freecash.png',
-      bg: '#00C72C',
+      bg: '#2a2a2a',
       photoPosition: 'center',
+      photoZoom: '1.26',
       note: 'ACH Transfer',
       date: 'Apr 1',
       amount: '+$643.27',
@@ -1043,8 +1020,9 @@
       key: 'tx_marco_2',
       name: 'Freecash',
       photo: 'images/Freecash.png',
-      bg: '#00C72C',
+      bg: '#2a2a2a',
       photoPosition: 'center',
+      photoZoom: '1.26',
       note: 'ACH Transfer',
       date: 'Mar 25',
       amount: '+$287.14',
@@ -1054,28 +1032,15 @@
       key: 'tx_e_1',
       name: 'Freecash',
       photo: 'images/Freecash.png',
-      bg: '#00C72C',
+      bg: '#2a2a2a',
       photoPosition: 'center',
+      photoZoom: '1.26',
       note: 'ACH Transfer',
       date: 'Mar 20',
       amount: '+$514.88',
       amountClass: 'positive'
     }
   ];
-
-  const CAMERA_ICON_16 = `
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-      <circle cx="12" cy="13" r="4"></circle>
-    </svg>
-  `;
-
-  const CAMERA_ICON_14 = `
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-      <circle cx="12" cy="13" r="4"></circle>
-    </svg>
-  `;
 
   function escapeHtml(value) {
     return String(value ?? '')
@@ -1093,14 +1058,13 @@
       || null;
   }
 
-  function imageMarkup(item, className, iconMarkup, altOverride = '') {
+  function imageMarkup(item, className, altOverride = '') {
     const altText = altOverride || item.alt || item.name || item.key;
     return `
       <div class="av-wrap" data-person="${escapeHtml(item.key)}" onclick="editAvatar(this)">
         <div class="${className}" style="background:${escapeHtml(item.bg || '#2a2a2a')};overflow:hidden;">
-          <img data-img="${escapeHtml(item.key)}" src="${escapeHtml(item.photo || '')}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;object-position:${escapeHtml(item.photoPosition || 'center')};display:block;" />
+          <img data-img="${escapeHtml(item.key)}" src="${escapeHtml(item.photo || '')}" alt="${escapeHtml(altText)}" style="width:100%;height:100%;object-fit:cover;object-position:${escapeHtml(item.photoPosition || 'center')};display:block;transform:scale(${escapeHtml(item.photoZoom || '1.18')});transform-origin:center;" />
         </div>
-        <div class="av-cam">${iconMarkup}</div>
       </div>
     `;
   }
@@ -1124,7 +1088,7 @@
     const contactTiles = CONTACTS.map((item) => {
       return `
         <div class="contact-item">
-          ${imageMarkup(item, 'contact-bubble', CAMERA_ICON_16)}
+          ${imageMarkup(item, 'contact-bubble')}
           <span class="contact-name">${escapeHtml(item.name || item.key)}</span>
         </div>
       `;
@@ -1134,20 +1098,6 @@
   }
 
   function renderTransactionAction(item) {
-    if (item.repay) {
-      return `
-        <button class="repay-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="17 1 21 5 17 9"></polyline>
-            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-            <polyline points="7 23 3 19 7 15"></polyline>
-            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-          </svg>
-          ${escapeHtml(item.repay)}
-        </button>
-      `;
-    }
-
     const amountClass = item.amountClass ? `tx-amount ${item.amountClass}` : 'tx-amount';
     return `<span class="${escapeHtml(amountClass)}">${escapeHtml(item.amount || '')}</span>`;
   }
@@ -1159,7 +1109,7 @@
     list.innerHTML = ACTIVITY_ROWS.map((item) => {
       return `
         <div class="tx-row" style="${escapeHtml(item.rowStyle || '')}">
-          ${imageMarkup(item, 'tx-avatar', CAMERA_ICON_14, item.alt)}
+          ${imageMarkup(item, 'tx-avatar', item.alt)}
           <div class="tx-info">
             <div class="tx-name">${escapeHtml(item.name || item.key)}</div>
             <div class="tx-note">${escapeHtml(item.note || '')}</div>
