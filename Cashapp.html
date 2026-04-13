@@ -737,7 +737,7 @@
             </svg>
           </button>
         </div>
-        <div class="balance-amount" id="balance-display">$315.00</div>
+        <div class="balance-amount" id="balance-display">$5,431.29.00</div>
         <div class="balance-actions">
           <button class="balance-action-btn">Add money</button>
           <button class="balance-action-btn">Withdraw</button>
@@ -792,7 +792,7 @@
 
     <div class="bottom-nav">
       <button class="nav-btn" onclick="switchTab('money')">
-        <span class="nav-balance-pill" style="background:#2a2a2a;color:#fff;">$315</span>
+        <span class="nav-balance-pill" style="background:#2a2a2a;color:#fff;">$5,431.29</span>
       </button>
       <button class="nav-btn" onclick="switchTab('pay')">
         <div class="nav-dollar-circle" style="background:#222;">
@@ -844,7 +844,7 @@
 
     <div class="bottom-nav">
       <button class="nav-btn" onclick="switchTab('money')">
-        <span class="nav-balance-text" style="color:#555;">$315</span>
+        <span class="nav-balance-text" style="color:#555;">$5,431.29</span>
       </button>
       <button class="nav-btn" onclick="switchTab('pay')">
         <div class="nav-dollar-circle" style="background:#222;">
@@ -1189,7 +1189,7 @@
   let balanceVisible = true;
   function toggleBalance() {
     balanceVisible = !balanceVisible;
-    document.getElementById('balance-display').textContent = balanceVisible ? '$315.00' : '••••••';
+    document.getElementById('balance-display').textContent = balanceVisible ? '$5,431.29.00' : '••••••';
   }
 
   let activeImageKey = null;
