@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cash App UI</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    }
+
+    .phone {
+      width: 390px;
+      height: 844px;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.85);
+      position: relative;
+    }
+
+    /* ─── SCREEN ─────────────────────────────────────────── */
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+    }
+    .screen.active { display: flex; }
+
+    /* ─── PAY SCREEN ─────────────────────────────────────── */
+    #pay-screen { background: #00C72C; }
+
+    .pay-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 48px 20px 8px;
+    }
+
+    .qr-icon {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 24px;
+      height: 24px;
+    }
+    .qr-icon span { width: 10px; height: 10px; background: #000; border-radius: 2px; }
+    .qr-icon span:last-child { background: transparent; border: 2px solid #000; border-radius: 2px; }
+
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+    .search-btn-green {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .search-btn-green svg { display: block; }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 94% 24%;
+    }
+    .avatar-dark { border: none; }
+
+    .amount-display {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .amount-display span {
+      font-size: 88px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -2px;
+      line-height: 1;
+      user-select: none;
+    }
+    .amount-display span.small { font-size: 56px; }
+
+    .numpad {
+      padding: 0 24px 8px;
+    }
+    .numpad-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .num-btn {
+      width: 33.33%;
+      height: 72px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 600;
+      color: #000;
+      border-radius: 12px;
+      transition: opacity 0.1s;
+    }
+    .num-btn:active { opacity: 0.5; transform: scale(0.95); }
+    .num-btn.dot { font-size: 20px; line-height: 1; }
+
+    .pay-actions {
+      padding: 0 16px 8px;
+      display: flex;
+      gap: 12px;
+    }
+    .action-btn {
+      flex: 1;
+      padding: 16px;
+      border-radius: 9999px;
+      background: rgba(0,100,20,0.35);
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      color: #000;
+      transition: opacity 0.15s;
+    }
+    .action-btn:active { opacity: 0.7; }
+
+    .pay-btn-wrap { padding: 0 16px 8px; }
+    .pay-btn {
+      width: 100%;
+      padding: 17px;
+      border-radius: 9999px;
+      background: #000;
+      border: none;
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      transition: opacity 0.15s;
+    }
+    .pay-btn:active { opacity: 0.75; }
+
+    /* ─── BOTTOM NAV ─────────────────────────────────────── */
+    .bottom-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 12px 24px 16px;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 64px;
+    }
+
+    .nav-balance-pill {
+      padding: 10px 18px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .nav-balance-text {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-dollar-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-clock-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* pay screen nav */
+    #pay-screen .bottom-nav { background: transparent; }
+    #pay-screen .nav-balance-text { color: rgba(0,80,10,0.75); }
+    #pay-screen .nav-dollar-circle { background: rgba(0,100,20,0.45); }
+    #pay-screen .nav-clock-circle { border: 1.5px solid rgba(0,80,10,0.6); }
+
+    /* dark screen nav */
+    #money-screen .bottom-nav,
+    #activity-screen .bottom-nav { background: #0f0f0f; }
+
+    /* ─── DARK SCREENS COMMON ────────────────────────────── */
+    #money-screen,
+    #activity-screen { background: #0f0f0f; }
+
+    .dark-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 48px 20px 16px;
+    }
+    .screen-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .dark-topbar-right { display: flex; align-items: center; gap: 12px; }
+
+    .search-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #1e1e1e;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-dark-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .avatar-dark-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 94% 24%;
+    }
+
+    /* ─── MONEY SCREEN ───────────────────────────────────── */
+    .money-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px 8px;
+      scrollbar-width: none;
+    }
+    .money-scroll::-webkit-scrollbar { display: none; }
+
+    .card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      margin-bottom: 12px;
+    }
+
+    .shipped-card {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .shipped-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #2a2a2a;
+      padding: 6px 12px;
+      border-radius: 9999px;
+    }
+    .shipped-badge span { font-size: 12px; color: #fff; font-weight: 500; }
+    .cashtag { font-size: 15px; font-weight: 600; color: #fff; }
+
+    .balance-card { padding: 20px 20px 24px; }
+    .balance-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .balance-label-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .balance-label { font-size: 14px; color: #888; font-weight: 500; }
+    .balance-dots { font-size: 14px; color: #888; }
+    .balance-chevron { color: #888; }
+    .eye-btn { background: transparent; border: none; cursor: pointer; }
+    .balance-amount { font-size: 42px; font-weight: 700; color: #fff; margin-bottom: 28px; letter-spacing: -1px; }
+    .balance-actions { display: flex; gap: 12px; }
+    .balance-action-btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 9999px;
+      background: #2a2a2a;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      transition: opacity 0.15s;
+    }
+    .balance-action-btn:active { opacity: 0.7; }
+
+    .green-card {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .green-card-left { display: flex; align-items: center; gap: 12px; }
+    .green-phone-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #00C72C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .green-card-label { font-size: 16px; color: #fff; font-weight: 500; }
+    .earn-status { font-size: 14px; color: #888; }
+
+    .btc-card { padding: 20px; }
+    .btc-header { display: flex; align-items: flex-start; justify-content: space-between; }
+    .btc-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .btc-amount { font-size: 30px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+    .btc-today { font-size: 13px; color: #555; margin-top: 4px; }
+    .btc-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1.5px solid #00C72C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: #00C72C;
+      flex-shrink: 0;
+    }
+
+    .family-card { padding: 16px 20px; }
+    .family-label { font-size: 13px; color: #888; margin-bottom: 8px; }
+    .family-row { display: flex; align-items: center; gap: 12px; }
+    .family-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .family-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 7% 67%;
+    }
+    .family-name { font-size: 18px; font-weight: 600; color: #fff; }
+
+    .more-section { margin-bottom: 12px; }
+    .more-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .taxes-card { padding: 16px 20px; }
+    .taxes-label { font-size: 13px; color: #888; margin-bottom: 4px; }
+    .taxes-text { font-size: 15px; color: #fff; font-weight: 500; }
+
+    /* ─── ACTIVITY SCREEN ────────────────────────────────── */
+    .contacts-row {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 0 20px 16px;
+      scrollbar-width: none;
+    }
+    .contacts-row::-webkit-scrollbar { display: none; }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .contact-bubble {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: #000;
+      overflow: hidden;
+    }
+    .contact-bubble.add-bubble {
+      background: transparent;
+      border: 2px solid #3a3a3a;
+      color: #fff;
+    }
+    .contact-bubble img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .contact-name { font-size: 12px; color: #888; }
+
+    .activity-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 20px;
+      scrollbar-width: none;
+    }
+    .activity-scroll::-webkit-scrollbar { display: none; }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+      margin-top: 8px;
+    }
+
+    .tx-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+    }
+
+    .tx-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: #000;
+      overflow: hidden;
+    }
+    .tx-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tx-info { flex: 1; min-width: 0; }
+    .tx-name { font-size: 15px; font-weight: 600; color: #fff; line-height: 1.3; }
+    .tx-note { font-size: 13px; color: #555; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tx-date { font-size: 11px; color: #444; margin-top: 2px; }
+    .tx-amount { font-size: 15px; font-weight: 600; color: #fff; flex-shrink: 0; }
+    .tx-amount.positive { color: #00C72C; }
+
+    .review-btn {
+      padding: 8px 16px;
+      border-radius: 9999px;
+      background: #2a2a2a;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      flex-shrink: 0;
+      transition: opacity 0.15s;
+    }
+    .review-btn:active { opacity: 0.7; }
+
+    .repay-btn {
+      padding: 8px 14px;
+      border-radius: 9999px;
+      background: #2a2a2a;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.15s;
+    }
+    .repay-btn:active { opacity: 0.7; }
+  </style>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAY SCREEN
+  ════════════════════════════════════════════════════════ -->
+  <div class="screen active" id="pay-screen">
+
+    <div class="pay-topbar">
+      <button style="background:none;border:none;cursor:pointer;padding:4px;">
+        <div class="qr-icon">
+          <span></span><span></span>
+          <span></span><span></span>
+        </div>
+      </button>
+      <div class="topbar-right">
+        <button class="search-btn-green">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+        <div class="avatar">
+          <img src="/Screenshot_2026-04-12_at_6.07.11_PM.png" alt="profile" />
+        </div>
+      </div>
+    </div>
+
+    <div class="amount-display">
+      <span id="pay-amount">$0</span>
+    </div>
+
+    <div class="numpad">
+      <div class="numpad-row">
+        <button class="num-btn" onclick="numPress('1')">1</button>
+        <button class="num-btn" onclick="numPress('2')">2</button>
+        <button class="num-btn" onclick="numPress('3')">3</button>
+      </div>
+      <div class="numpad-row">
+        <button class="num-btn" onclick="numPress('4')">4</button>
+        <button class="num-btn" onclick="numPress('5')">5</button>
+        <button class="num-btn" onclick="numPress('6')">6</button>
+      </div>
+      <div class="numpad-row">
+        <button class="num-btn" onclick="numPress('7')">7</button>
+        <button class="num-btn" onclick="numPress('8')">8</button>
+        <button class="num-btn" onclick="numPress('9')">9</button>
+      </div>
+      <div class="numpad-row">
+        <button class="num-btn dot" onclick="numPress('.')">•</button>
+        <button class="num-btn" onclick="numPress('0')">0</button>
+        <button class="num-btn" onclick="numPress('back')">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
+            <line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="pay-actions">
+      <button class="action-btn">Pool</button>
+      <button class="action-btn">Request</button>
+    </div>
+
+    <div class="pay-btn-wrap">
+      <button class="pay-btn">Pay</button>
+    </div>
+
+    <div class="bottom-nav">
+      <button class="nav-btn" onclick="switchTab('money')">
+        <span class="nav-balance-text">$315</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('pay')">
+        <div class="nav-dollar-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00D632" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+      </button>
+      <button class="nav-btn" onclick="switchTab('activity')">
+        <div class="nav-clock-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(0,80,10,0.75)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       MONEY SCREEN
+  ════════════════════════════════════════════════════════ -->
+  <div class="screen" id="money-screen">
+
+    <div class="dark-topbar">
+      <span class="screen-title">Money</span>
+      <div class="dark-topbar-right">
+        <button class="search-circle">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+        <div class="avatar-dark-wrap">
+          <img src="/Screenshot_2026-04-12_at_6.07.11_PM.png" alt="profile" />
+        </div>
+      </div>
+    </div>
+
+    <div class="money-scroll">
+
+      <div class="card shipped-card">
+        <div class="shipped-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          <span>Shipped</span>
+        </div>
+        <span class="cashtag">$lbyc69Style</span>
+      </div>
+
+      <div class="card balance-card">
+        <div class="balance-header">
+          <button class="balance-label-row">
+            <span class="balance-label">Cash balance</span>
+            <span class="balance-dots">•• 1455</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+          <button class="eye-btn" onclick="toggleBalance()">
+            <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <div class="balance-amount" id="balance-display">$315.00</div>
+        <div class="balance-actions">
+          <button class="balance-action-btn">Add money</button>
+          <button class="balance-action-btn">Withdraw</button>
+        </div>
+      </div>
+
+      <div class="card green-card">
+        <div class="green-card-left">
+          <div class="green-phone-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+              <line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </div>
+          <span class="green-card-label">Cash App Green</span>
+        </div>
+        <span class="earn-status">Earn status</span>
+      </div>
+
+      <div class="card btc-card">
+        <div class="btc-header">
+          <div>
+            <div class="btc-title">Bitcoin</div>
+            <div class="btc-amount">$0.00</div>
+            <div class="btc-today">0% today</div>
+          </div>
+          <div class="btc-icon">₿</div>
+        </div>
+      </div>
+
+      <div class="card family-card">
+        <div class="family-label">Family</div>
+        <div class="family-row">
+          <div class="family-avatar">
+            <img src="/Screenshot_2026-04-12_at_6.06.59_PM.png" alt="family" />
+          </div>
+          <span class="family-name">Last active Aug 2024</span>
+        </div>
+      </div>
+
+      <div class="more-section">
+        <div class="more-title">More for you</div>
+        <div class="card taxes-card">
+          <div class="taxes-label">Taxes</div>
+          <div class="taxes-text">File for free from start</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="bottom-nav">
+      <button class="nav-btn" onclick="switchTab('money')">
+        <span class="nav-balance-pill" style="background:#2a2a2a;color:#fff;">$315</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('pay')">
+        <div class="nav-dollar-circle" style="background:#222;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+      </button>
+      <button class="nav-btn" onclick="switchTab('activity')">
+        <div class="nav-clock-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ACTIVITY SCREEN
+  ════════════════════════════════════════════════════════ -->
+  <div class="screen" id="activity-screen">
+
+    <div class="dark-topbar">
+      <span class="screen-title">Activity</span>
+      <div class="dark-topbar-right">
+        <button class="search-circle">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+        <div class="avatar-dark-wrap">
+          <img src="/Screenshot_2026-04-12_at_6.07.11_PM.png" alt="profile" />
+        </div>
+      </div>
+    </div>
+
+    <div class="contacts-row">
+      <div class="contact-item">
+        <div class="contact-bubble add-bubble">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </div>
+        <span class="contact-name">Get $25</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-bubble" style="background:#E8622A;">D</div>
+        <span class="contact-name">Damitri</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-bubble" style="background:#00B89C;">M</div>
+        <span class="contact-name">Marco</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-bubble" style="background:#555;overflow:hidden;">
+          <img src="/Screenshot_2026-04-12_at_6.07.11_PM.png" alt="Tiffany"
+               style="width:100%;height:100%;object-fit:cover;object-position:65% 68%;" />
+        </div>
+        <span class="contact-name">Tiffany</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-bubble" style="background:#E8622A;">M</div>
+        <span class="contact-name">Mariana</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-bubble" style="background:#8B7A2A;">E</div>
+        <span class="contact-name">E</span>
+      </div>
+    </div>
+
+    <div class="activity-scroll">
+
+      <div class="section-title">This month</div>
+
+      <div class="tx-row">
+        <div class="tx-avatar" style="background:#E8622A;">D</div>
+        <div class="tx-info">
+          <div class="tx-name">Damitri Perdue</div>
+          <div class="tx-note">...</div>
+          <div class="tx-date">Apr 5</div>
+        </div>
+        <span class="tx-amount positive">+$300</span>
+      </div>
+
+      <div class="section-title" style="margin-top:16px;">March 2026</div>
+
+      <div class="tx-row">
+        <div class="tx-avatar" style="background:#E84040;color:#fff;">!</div>
+        <div class="tx-info">
+          <div class="tx-name">New device login</div>
+          <div class="tx-note">Verification needed</div>
+          <div class="tx-date">Mar 29 at 12:26 PM</div>
+        </div>
+        <button class="review-btn">Review</button>
+      </div>
+
+      <div class="tx-row">
+        <div class="tx-avatar" style="background:#00B89C;">M</div>
+        <div class="tx-info">
+          <div class="tx-name">Marco Amaya</div>
+          <div class="tx-note">you bettern not be lying nigga 🙂</div>
+          <div class="tx-date">Mar 29 · Replied ❤️</div>
+        </div>
+        <span class="tx-amount">$20</span>
+      </div>
+
+      <div class="tx-row">
+        <div class="tx-avatar" style="background:#555;">
+          <img src="/Screenshot_2026-04-12_at_6.06.59_PM.png" alt="Tiffany"
+               style="width:100%;height:100%;object-fit:cover;object-position:7% 67%;" />
+        </div>
+        <div class="tx-info">
+          <div class="tx-name">Tiffany vargas</div>
+          <div class="tx-note">Pay over time available</div>
+          <div class="tx-date">Mar 18 · Amen.</div>
+        </div>
+        <button class="repay-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"/>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+            <polyline points="7 23 3 19 7 15"/>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+          </svg>
+          $40
+        </button>
+      </div>
+
+      <div class="tx-row">
+        <div class="tx-avatar" style="background:#E8622A;">M</div>
+        <div class="tx-info">
+          <div class="tx-name">Mariana Govea</div>
+          <div class="tx-note">tip</div>
+          <div class="tx-date">Mar 8</div>
+        </div>
+        <span class="tx-amount">$20</span>
+      </div>
+
+      <div class="tx-row">
+        <div class="tx-avatar" style="background:#00B89C;">M</div>
+        <div class="tx-info">
+          <div class="tx-name">Marco Amaya</div>
+          <div class="tx-note">AFFILIATE COMMISSIONS</div>
+          <div class="tx-date">Mar 3</div>
+        </div>
+        <span class="tx-amount">$250</span>
+      </div>
+
+      <div class="tx-row" style="opacity:0.5;">
+        <div class="tx-avatar" style="background:#8B7A2A;">E</div>
+        <div class="tx-info">
+          <div class="tx-name">E...</div>
+          <div class="tx-note">P...</div>
+          <div class="tx-date">Mar...</div>
+        </div>
+        <span class="tx-amount">$45.16</span>
+      </div>
+
+    </div>
+
+    <div class="bottom-nav">
+      <button class="nav-btn" onclick="switchTab('money')">
+        <span class="nav-balance-text" style="color:#555;">$315</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('pay')">
+        <div class="nav-dollar-circle" style="background:#222;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+      </button>
+      <button class="nav-btn" onclick="switchTab('activity')">
+        <div class="nav-clock-circle" style="background:#2a2a2a;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let amount = '0';
+  let hasDecimal = false;
+
+  function updateDisplay() {
+    const el = document.getElementById('pay-amount');
+    const display = '$' + amount;
+    el.textContent = display;
+    el.className = display.length > 8 ? 'small' : '';
+  }
+
+  function numPress(key) {
+    if (key === 'back') {
+      if (amount.length <= 1) {
+        amount = '0';
+        hasDecimal = false;
+      } else {
+        amount = amount.slice(0, -1);
+        if (!amount.includes('.')) hasDecimal = false;
+      }
+    } else if (key === '.') {
+      if (hasDecimal) return;
+      hasDecimal = true;
+      amount += '.';
+    } else {
+      if (hasDecimal) {
+        const parts = amount.split('.');
+        if (parts[1] && parts[1].length >= 2) return;
+      }
+      if (amount === '0') {
+        amount = key;
+      } else {
+        amount += key;
+      }
+    }
+    updateDisplay();
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(tab + '-screen').classList.add('active');
+  }
+
+  let balanceVisible = true;
+  function toggleBalance() {
+    balanceVisible = !balanceVisible;
+    document.getElementById('balance-display').textContent = balanceVisible ? '$315.00' : '••••••';
+  }
+</script>
+
+</body>
+</html>
