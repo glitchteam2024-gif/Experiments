@@ -93,30 +93,5 @@ document.getElementById('age-gate').addEventListener('click',function(e){
   if(e.target===this) this.style.display='none';
 });
 </script>
-
-<script>
-  /* ── Page Protection (does NOT affect ads, pixels, or redirects) ── */
-  
-  // Block right-click context menu
-  document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-
-  // Block keyboard shortcuts: Ctrl+U, Ctrl+S, Ctrl+Shift+I/J/C, F12
-  document.addEventListener('keydown', function(e) {
-    if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); return false; }
-    if (e.ctrlKey && (e.key === 's' || e.key === 'S')) { e.preventDefault(); return false; }
-    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) { e.preventDefault(); return false; }
-    if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j')) { e.preventDefault(); return false; }
-    if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c')) { e.preventDefault(); return false; }
-    if (e.key === 'F12') { e.preventDefault(); return false; }
-  });
-
-  // Disable text selection (makes drag-copy harder)
-  document.body.style.userSelect = 'none';
-  document.body.style.webkitUserSelect = 'none';
-
-  // Disable drag on all elements (prevents drag-saving images/content)
-  document.addEventListener('dragstart', function(e) { e.preventDefault(); });
-</script>
-  
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"955a4581eba74285aba0d727d170cf9d","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body></html>
