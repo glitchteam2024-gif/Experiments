@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Static Image Page</title>
+  <style>
+    :root {
+      --bg1: #f5f7fb;
+      --bg2: #e9eef7;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --shadow: 0 20px 60px rgba(15, 23, 42, 0.14);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top, var(--bg2), var(--bg1) 45%, #ffffff 100%);
+      color: var(--text);
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      gap: 18px;
+      justify-items: center;
+    }
+
+    .caption {
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .phone-frame {
+      width: min(100%, 420px);
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(17, 24, 39, 0.06);
+    }
+
+    .phone-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 22px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 18px 10px;
+      }
+
+      .phone-frame {
+        width: 100%;
+        padding: 8px;
+        border-radius: 22px;
+      }
+
+      .phone-frame img {
+        border-radius: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrapper">
+    <div class="phone-frame">
+      <img src="Untitleddesign.webp" alt="Static banking app screen" />
+    </div>
+    <p class="caption">This page shows your provided design as a static image.</p>
+  </main>
+</body>
+</html>
