@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playful Rewards Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
+</head>
+<body class="bg-[#0e0a1a] text-white min-h-screen">
+  <div id="root"></div>
+
+  <!-- Translation System -->
+  <script>
+  var translations = {
+    en: {
+      availableBalance: "Available Balance",
+      balanceAmount: "$1,397.50",
+      settings: "Settings",
+      getPaidScrolling: "Get Paid To Game",
+      currentRate: "Current rate:",
+      rateAmount: "$32.50/hr",
+      hoursScrolled: "Games Completed",
+      hoursAmount: "12 Games",
+      recentActivity: "Recent Activity",
+      videoWatched: "Video Watched",
+      surveyCompleted: "Survey Completed",
+      activity1Amount: "+4.50",
+      activity1Time: "2 mins ago",
+      activity2Amount: "+8.25",
+      activity2Time: "15 mins ago",
+      activity3Amount: "+25.00",
+      activity3Time: "1 hour ago",
+      navHome: "Home",
+      navEarn: "Earn",
+      navRewards: "Rewards",
+      navProfile: "Profile"
+    },
+    de: {
+      availableBalance: "Verf\u00fcgbares Guthaben",
+      balanceAmount: "\u20ac920,50",
+      settings: "Einstellungen",
+      getPaidScrolling: "Verdiene beim Spielen",
+      currentRate: "Aktueller Satz:",
+      rateAmount: "\u20ac23/Std.",
+      hoursScrolled: "Spiele abgeschlossen",
+      hoursAmount: "12 Spiele",
+      recentActivity: "Letzte Aktivit\u00e4t",
+      videoWatched: "Video angesehen",
+      surveyCompleted: "Umfrage abgeschlossen",
+      activity1Amount: "+4,15\u20ac",
+      activity1Time: "vor 2 Min.",
+      activity2Amount: "+7,60\u20ac",
+      activity2Time: "vor 15 Min.",
+      activity3Amount: "+23,00\u20ac",
+      activity3Time: "vor 1 Stunde",
+      navHome: "Start",
+      navEarn: "Verdienen",
+      navRewards: "Pr\u00e4mien",
+      navProfile: "Profil"
+    },
+    fr: {
+      availableBalance: "Solde disponible",
+      balanceAmount: "920,50\u20ac",
+      settings: "Param\u00e8tres",
+      getPaidScrolling: "Gagnez en jouant",
+      currentRate: "Taux actuel :",
+      rateAmount: "23\u20ac/h",
+      hoursScrolled: "Jeux compl\u00e9t\u00e9s",
+      hoursAmount: "12 jeux",
+      recentActivity: "Activit\u00e9 r\u00e9cente",
+      videoWatched: "Vid\u00e9o regard\u00e9e",
+      surveyCompleted: "Sondage compl\u00e9t\u00e9",
+      activity1Amount: "+4,15\u20ac",
+      activity1Time: "il y a 2 min",
+      activity2Amount: "+7,60\u20ac",
+      activity2Time: "il y a 15 min",
+      activity3Amount: "+23,00\u20ac",
+      activity3Time: "il y a 1 heure",
+      navHome: "Accueil",
+      navEarn: "Gagner",
+      navRewards: "R\u00e9compenses",
+      navProfile: "Profil"
+    },
+    it: {
+      availableBalance: "Saldo disponibile",
+      balanceAmount: "\u20ac920,50",
+      settings: "Impostazioni",
+      getPaidScrolling: "Guadagna giocando",
+      currentRate: "Tariffa attuale:",
+      rateAmount: "\u20ac23/ora",
+      hoursScrolled: "Giochi completati",
+      hoursAmount: "12 giochi",
+      recentActivity: "Attivit\u00e0 recente",
+      videoWatched: "Video guardato",
+      surveyCompleted: "Sondaggio completato",
+      activity1Amount: "+4,15\u20ac",
+      activity1Time: "2 min fa",
+      activity2Amount: "+7,60\u20ac",
+      activity2Time: "15 min fa",
+      activity3Amount: "+23,00\u20ac",
+      activity3Time: "1 ora fa",
+      navHome: "Home",
+      navEarn: "Guadagna",
+      navRewards: "Premi",
+      navProfile: "Profilo"
+    },
+    nl: {
+      availableBalance: "Beschikbaar saldo",
+      balanceAmount: "\u20ac920,50",
+      settings: "Instellingen",
+      getPaidScrolling: "Verdien met gamen",
+      currentRate: "Huidig tarief:",
+      rateAmount: "\u20ac23/uur",
+      hoursScrolled: "Games voltooid",
+      hoursAmount: "12 games",
+      recentActivity: "Recente activiteit",
+      videoWatched: "Video bekeken",
+      surveyCompleted: "Enqu\u00eate voltooid",
+      activity1Amount: "+\u20ac4,15",
+      activity1Time: "2 min geleden",
+      activity2Amount: "+\u20ac7,60",
+      activity2Time: "15 min geleden",
+      activity3Amount: "+\u20ac23,00",
+      activity3Time: "1 uur geleden",
+      navHome: "Home",
+      navEarn: "Verdienen",
+      navRewards: "Beloningen",
+      navProfile: "Profiel"
+    },
+    ja: {
+      availableBalance: "\u5229\u7528\u53ef\u80fd\u6b8b\u9ad8",
+      balanceAmount: "\u00a5149,625",
+      settings: "\u8a2d\u5b9a",
+      getPaidScrolling: "\u30b2\u30fc\u30e0\u3067\u7a3c\u3050",
+      currentRate: "\u73fe\u5728\u306e\u30ec\u30fc\u30c8:",
+      rateAmount: "\u00a53,750/\u6642",
+      hoursScrolled: "\u5b8c\u4e86\u3057\u305f\u30b2\u30fc\u30e0",
+      hoursAmount: "12\u30b2\u30fc\u30e0",
+      recentActivity: "\u6700\u8fd1\u306e\u30a2\u30af\u30c6\u30a3\u30d3\u30c6\u30a3",
+      videoWatched: "\u52d5\u753b\u8996\u8074",
+      surveyCompleted: "\u30a2\u30f3\u30b1\u30fc\u30c8\u5b8c\u4e86",
+      activity1Amount: "+\u00a5675",
+      activity1Time: "2\u5206\u524d",
+      activity2Amount: "+\u00a51,237",
+      activity2Time: "15\u5206\u524d",
+      activity3Amount: "+\u00a53,750",
+      activity3Time: "1\u6642\u9593\u524d",
+      navHome: "\u30db\u30fc\u30e0",
+      navEarn: "\u7a3c\u3050",
+      navRewards: "\u5831\u916c",
+      navProfile: "\u30d7\u30ed\u30d5\u30a3\u30fc\u30eb"
+    },
+    kr: {
+      availableBalance: "\uc0ac\uc6a9 \uac00\ub2a5 \uc794\uc561",
+      balanceAmount: "\u20a91,396,500",
+      settings: "\uc124\uc815",
+      getPaidScrolling: "\uac8c\uc784\uc73c\ub85c \ub3c8 \ubc8c\uae30",
+      currentRate: "\ud604\uc7ac \uc694\uc728:",
+      rateAmount: "\u20a935,000/\uc2dc\uac04",
+      hoursScrolled: "\uc644\ub8cc\ud55c \uac8c\uc784",
+      hoursAmount: "12\uac8c\uc784",
+      recentActivity: "\ucd5c\uadfc \ud65c\ub3d9",
+      videoWatched: "\ub3d9\uc601\uc0c1 \uc2dc\uccad",
+      surveyCompleted: "\uc124\ubb38\uc870\uc0ac \uc644\ub8cc",
+      activity1Amount: "+\u20a96,300",
+      activity1Time: "2\ubd84 \uc804",
+      activity2Amount: "+\u20a911,550",
+      activity2Time: "15\ubd84 \uc804",
+      activity3Amount: "+\u20a935,000",
+      activity3Time: "1\uc2dc\uac04 \uc804",
+      navHome: "\ud648",
+      navEarn: "\ubc8c\uae30",
+      navRewards: "\ubcf4\uc0c1",
+      navProfile: "\ud504\ub85c\ud544"
+    },
+    pl: {
+      availableBalance: "Dost\u0119pne saldo",
+      balanceAmount: "3 850,00 z\u0142",
+      settings: "Ustawienia",
+      getPaidScrolling: "Zarabiaj graj\u0105c",
+      currentRate: "Aktualna stawka:",
+      rateAmount: "96 z\u0142/godz.",
+      hoursScrolled: "Uko\u0144czone gry",
+      hoursAmount: "12 gier",
+      recentActivity: "Ostatnia aktywno\u015b\u0107",
+      videoWatched: "Obejrzano film",
+      surveyCompleted: "Ankieta uko\u0144czona",
+      activity1Amount: "+17,40 z\u0142",
+      activity1Time: "2 min temu",
+      activity2Amount: "+31,80 z\u0142",
+      activity2Time: "15 min temu",
+      activity3Amount: "+96,50 z\u0142",
+      activity3Time: "1 godz. temu",
+      navHome: "G\u0142\u00f3wna",
+      navEarn: "Zarabiaj",
+      navRewards: "Nagrody",
+      navProfile: "Profil"
+    },
+    sv: {
+      availableBalance: "Tillg\u00e4ngligt saldo",
+      balanceAmount: "9 975 kr",
+      settings: "Inst\u00e4llningar",
+      getPaidScrolling: "F\u00e5 betalt f\u00f6r att spela",
+      currentRate: "Aktuell taxa:",
+      rateAmount: "250 kr/tim",
+      hoursScrolled: "Avklarade spel",
+      hoursAmount: "12 spel",
+      recentActivity: "Senaste aktivitet",
+      videoWatched: "Video visad",
+      surveyCompleted: "Enk\u00e4t slutf\u00f6rd",
+      activity1Amount: "+45 kr",
+      activity1Time: "2 min sedan",
+      activity2Amount: "+82 kr",
+      activity2Time: "15 min sedan",
+      activity3Amount: "+250 kr",
+      activity3Time: "1 timme sedan",
+      navHome: "Hem",
+      navEarn: "Tj\u00e4na",
+      navRewards: "Bel\u00f6ningar",
+      navProfile: "Profil"
+    }
+  };
+
+  var countryToLang = {
+    AU:'en', US:'en', GB:'en', CA:'en',
+    AT:'de', DE:'de', CH:'de',
+    FR:'fr', BE:'fr',
+    IT:'it',
+    NL:'nl',
+    JP:'ja',
+    KR:'kr',
+    PL:'pl',
+    SE:'sv'
+  };
+
+  function detectLanguage() {
+    var params = new URLSearchParams(window.location.search);
+    var lp = params.get('lang');
+    if (lp && translations[lp]) return lp;
+    var cp = params.get('country');
+    if (cp) { var m = countryToLang[cp.toUpperCase()]; if (m && translations[m]) return m; }
+    var bl = (navigator.language || navigator.userLanguage || 'en');
+    var short = bl.split('-')[0].toLowerCase();
+    if (translations[short]) return short;
+    var rm = bl.toUpperCase().match(/-([A-Z]{2})$/);
+    if (rm) { var m2 = countryToLang[rm[1]]; if (m2 && translations[m2]) return m2; }
+    return 'en';
+  }
+
+  var currentLang = detectLanguage();
+  var t = translations[currentLang] || translations['en'];
+  document.documentElement.lang = currentLang;
+  </script>
+
+  <script type="module">
+
+    // Playful Rewards logo base64
+    const playfulLogo = 'data:image/jpeg;base64,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';
+
+    // State management
+    let scrollToggle = true;
+
+    function toggleScroll() {
+      scrollToggle = !scrollToggle;
+      render();
+    }
+
+    function render() {
+      const root = document.getElementById('root');
+      const t = window.t;
+
+      root.innerHTML = `
+        <div class="max-w-md mx-auto min-h-screen bg-[#0e0a1a] relative">
+          <!-- Header with Brand Logo and Refresh Icon -->
+          <div class="flex items-center justify-between px-4 py-4 bg-[#0e0a1a]">
+            <div class="flex items-center gap-3">
+              <img
+                src="${playfulLogo}"
+                alt="Playful Rewards"
+                class="w-14 h-14 object-cover rounded-2xl"
+              />
+              <span class="text-white font-bold text-lg">PLAYFUL REWARDS</span>
+            </div>
+            <button class="text-[#a78bfa] hover:text-[#c4b5fd] transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Main Content -->
+          <div class="px-4 pt-6 pb-24">
+            <!-- Balance Card -->
+            <div class="bg-gradient-to-br from-[#7c3aed]/20 to-[#a855f7]/10 border border-[#a855f7]/30 rounded-2xl p-6 mb-4" style="box-shadow: 0 0 30px rgba(168,85,247,0.15);">
+              <div class="flex items-start justify-between">
+                <div>
+                  <p class="text-[#c4b5fd] text-sm mb-1">\${t.availableBalance}</p>
+                  <p class="text-4xl font-bold text-white mb-4" style="text-shadow: 0 0 20px rgba(168,85,247,0.3);">\${t.balanceAmount}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="mb-6">
+              <h3 class="text-xs text-[#a78bfa] tracking-wider mb-3 uppercase">\${t.settings}</h3>
+              <div class="rounded-2xl p-5 flex items-center justify-between transition-all" style="background: \${scrollToggle ? '#1a0f2e' : '#14101f'}; border: 1px solid \${scrollToggle ? 'rgba(168,85,247,0.4)' : '#1e1a2d'}; box-shadow: \${scrollToggle ? '0 0 25px rgba(168,85,247,0.2), inset 0 0 30px rgba(168,85,247,0.05)' : '0 0 20px rgba(168,85,247,0.08)'};">
+                <div class="flex items-center gap-4">
+                  <div class="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0" style="background: #1a0f2e; border: 1px solid rgba(168,85,247,0.4);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  </div>
+                  <div>
+                    <span class="text-lg font-bold text-[#f0f6ff] block">\${t.getPaidScrolling}</span>
+                    <span class="text-xs" style="color: \${scrollToggle ? '#a855f7' : '#8a8f9e'};">\${t.currentRate} <span class="font-semibold">\${t.rateAmount}</span></span>
+                  </div>
+                </div>
+                <button
+                  onclick="window.toggleScroll()"
+                  class="relative w-14 h-8 rounded-full transition-all flex-shrink-0 \${scrollToggle ? 'bg-[#a855f7]' : 'bg-[#2a2a3d]'}"
+                  style="\${scrollToggle ? 'box-shadow: 0 0 12px rgba(168,85,247,0.5);' : ''}"
+                >
+                  <div class="absolute top-1 \${scrollToggle ? 'right-1' : 'left-1'} w-6 h-6 bg-white rounded-full transition-all shadow-md"></div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Hours Scrolled Section -->
+            <div class="bg-[#14101f] border border-[#1e1a2d] rounded-2xl p-4 mb-8 flex items-center justify-between">
+              <span class="text-sm text-[#a78bfa]">\${t.hoursScrolled}</span>
+              <span class="text-lg font-bold text-[#a855f7]">\${t.hoursAmount}</span>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="mb-6">
+              <h3 class="text-xs text-[#a78bfa] tracking-wider mb-3 uppercase">\${t.recentActivity}</h3>
+              <div class="space-y-2">
+                \${[
+                  { amount: t.activity1Amount, desc: t.videoWatched, time: t.activity1Time },
+                  { amount: t.activity2Amount, desc: t.videoWatched, time: t.activity2Time },
+                  { amount: t.activity3Amount, desc: t.surveyCompleted, time: t.activity3Time }
+                ].map(activity => \`
+                  <div class="bg-[#14101f] border border-[#1e1a2d] rounded-xl p-4 flex items-center justify-between hover:border-[#a855f7]/30 transition-colors">
+                    <div>
+                      <p class="text-[#f0f6ff] text-sm font-medium">\${activity.desc}</p>
+                      <p class="text-[#a78bfa] text-xs mt-1">\${activity.time}</p>
+                    </div>
+                    <p class="text-[#a855f7] font-bold">\${activity.amount}</p>
+                  </div>
+                \`).join('')}
+              </div>
+            </div>
+          <!-- Bottom Navigation -->
+          <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#14101f] border-t border-[#1e1a2d] px-4 py-3">
+            <div class="flex items-center justify-around">
+              \${[
+                { icon: 'home', label: t.navHome, active: true },
+                { icon: 'dollar-sign', label: t.navEarn, active: false },
+                { icon: 'gift', label: t.navRewards, active: false },
+                { icon: 'user', label: t.navProfile, active: false }
+              ].map(item => \`
+                <button class="flex flex-col items-center gap-1 \${item.active ? 'text-[#a855f7]' : 'text-[#6b6b80]'} hover:text-[#a855f7] transition-colors">
+                  \${getIcon(item.icon)}
+                  <span class="text-xs">\${item.label}</span>
+                </button>
+              \`).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getIcon(name) {
+      const icons = {
+        'home': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+        'dollar-sign': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+        'gift': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg>',
+        'user': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+      };
+      return icons[name] || '';
+    }
+
+    // Make toggleScroll available globally
+    window.toggleScroll = toggleScroll;
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
