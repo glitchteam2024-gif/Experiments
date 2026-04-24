@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freecash Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
+</head>
+<body class="bg-[#0c0c14] text-white min-h-screen">
+  <div id="root"></div>
+
+  <!-- Translation System -->
+  <script>
+  var translations = {
+    en: {
+      availableBalance: "Available Balance",
+      balanceAmount: "$997.50",
+      settings: "Settings",
+      getPaidScrolling: "Get Paid Scroll",
+      currentRate: "Current rate:",
+      rateAmount: "$21.50/hr",
+      hoursScrolled: "Hours Scrolled",
+      hoursAmount: "23",
+      recentActivity: "Recent Activity",
+      videoWatched: "Video Watched",
+      surveyCompleted: "Survey Completed",
+      activity1Amount: "+4.50",
+      activity1Time: "2 mins ago",
+      activity2Amount: "+8.25",
+      activity2Time: "15 mins ago",
+      activity3Amount: "+25.00",
+      activity3Time: "1 hour ago",
+      navHome: "Home",
+      navEarn: "Earn",
+      navRewards: "Rewards",
+      navProfile: "Profile"
+    },
+    de: {
+      availableBalance: "Verf\u00fcgbares Guthaben",
+      balanceAmount: "\u20ac920,50",
+      settings: "Einstellungen",
+      getPaidScrolling: "Verdiene beim Scrollen",
+      currentRate: "Aktueller Satz:",
+      rateAmount: "\u20ac23/Std.",
+      hoursScrolled: "Stunden gescrollt diese Woche",
+      hoursAmount: "26 Stunden",
+      recentActivity: "Letzte Aktivit\u00e4t",
+      videoWatched: "Video angesehen",
+      surveyCompleted: "Umfrage abgeschlossen",
+      activity1Amount: "+4,15\u20ac",
+      activity1Time: "vor 2 Min.",
+      activity2Amount: "+7,60\u20ac",
+      activity2Time: "vor 15 Min.",
+      activity3Amount: "+23,00\u20ac",
+      activity3Time: "vor 1 Stunde",
+      navHome: "Start",
+      navEarn: "Verdienen",
+      navRewards: "Pr\u00e4mien",
+      navProfile: "Profil"
+    },
+    fr: {
+      availableBalance: "Solde disponible",
+      balanceAmount: "920,50\u20ac",
+      settings: "Param\u00e8tres",
+      getPaidScrolling: "Gagnez en scrollant",
+      currentRate: "Taux actuel :",
+      rateAmount: "23\u20ac/h",
+      hoursScrolled: "Heures scroll\u00e9es cette semaine",
+      hoursAmount: "26 heures",
+      recentActivity: "Activit\u00e9 r\u00e9cente",
+      videoWatched: "Vid\u00e9o regard\u00e9e",
+      surveyCompleted: "Sondage compl\u00e9t\u00e9",
+      activity1Amount: "+4,15\u20ac",
+      activity1Time: "il y a 2 min",
+      activity2Amount: "+7,60\u20ac",
+      activity2Time: "il y a 15 min",
+      activity3Amount: "+23,00\u20ac",
+      activity3Time: "il y a 1 heure",
+      navHome: "Accueil",
+      navEarn: "Gagner",
+      navRewards: "R\u00e9compenses",
+      navProfile: "Profil"
+    },
+    it: {
+      availableBalance: "Saldo disponibile",
+      balanceAmount: "\u20ac920,50",
+      settings: "Impostazioni",
+      getPaidScrolling: "Guadagna scrollando",
+      currentRate: "Tariffa attuale:",
+      rateAmount: "\u20ac23/ora",
+      hoursScrolled: "Ore scrollate questa settimana",
+      hoursAmount: "26 ore",
+      recentActivity: "Attivit\u00e0 recente",
+      videoWatched: "Video guardato",
+      surveyCompleted: "Sondaggio completato",
+      activity1Amount: "+4,15\u20ac",
+      activity1Time: "2 min fa",
+      activity2Amount: "+7,60\u20ac",
+      activity2Time: "15 min fa",
+      activity3Amount: "+23,00\u20ac",
+      activity3Time: "1 ora fa",
+      navHome: "Home",
+      navEarn: "Guadagna",
+      navRewards: "Premi",
+      navProfile: "Profilo"
+    },
+    nl: {
+      availableBalance: "Beschikbaar saldo",
+      balanceAmount: "\u20ac920,50",
+      settings: "Instellingen",
+      getPaidScrolling: "Verdien met scrollen",
+      currentRate: "Huidig tarief:",
+      rateAmount: "\u20ac23/uur",
+      hoursScrolled: "Uren gescrolld deze week",
+      hoursAmount: "26 uur",
+      recentActivity: "Recente activiteit",
+      videoWatched: "Video bekeken",
+      surveyCompleted: "Enqu\u00eate voltooid",
+      activity1Amount: "+\u20ac4,15",
+      activity1Time: "2 min geleden",
+      activity2Amount: "+\u20ac7,60",
+      activity2Time: "15 min geleden",
+      activity3Amount: "+\u20ac23,00",
+      activity3Time: "1 uur geleden",
+      navHome: "Home",
+      navEarn: "Verdienen",
+      navRewards: "Beloningen",
+      navProfile: "Profiel"
+    },
+    ja: {
+      availableBalance: "\u5229\u7528\u53ef\u80fd\u6b8b\u9ad8",
+      balanceAmount: "\u00a5149,625",
+      settings: "\u8a2d\u5b9a",
+      getPaidScrolling: "\u30b9\u30af\u30ed\u30fc\u30eb\u3057\u3066\u7a3c\u3050",
+      currentRate: "\u73fe\u5728\u306e\u30ec\u30fc\u30c8:",
+      rateAmount: "\u00a53,750/\u6642",
+      hoursScrolled: "\u4eca\u9031\u306e\u30b9\u30af\u30ed\u30fc\u30eb\u6642\u9593",
+      hoursAmount: "26\u6642\u9593",
+      recentActivity: "\u6700\u8fd1\u306e\u30a2\u30af\u30c6\u30a3\u30d3\u30c6\u30a3",
+      videoWatched: "\u52d5\u753b\u8996\u8074",
+      surveyCompleted: "\u30a2\u30f3\u30b1\u30fc\u30c8\u5b8c\u4e86",
+      activity1Amount: "+\u00a5675",
+      activity1Time: "2\u5206\u524d",
+      activity2Amount: "+\u00a51,237",
+      activity2Time: "15\u5206\u524d",
+      activity3Amount: "+\u00a53,750",
+      activity3Time: "1\u6642\u9593\u524d",
+      navHome: "\u30db\u30fc\u30e0",
+      navEarn: "\u7a3c\u3050",
+      navRewards: "\u5831\u916c",
+      navProfile: "\u30d7\u30ed\u30d5\u30a3\u30fc\u30eb"
+    },
+    kr: {
+      availableBalance: "\uc0ac\uc6a9 \uac00\ub2a5 \uc794\uc561",
+      balanceAmount: "\u20a91,396,500",
+      settings: "\uc124\uc815",
+      getPaidScrolling: "\uc2a4\ud06c\ub864\ud558\uba70 \ub3c8 \ubc8c\uae30",
+      currentRate: "\ud604\uc7ac \uc694\uc728:",
+      rateAmount: "\u20a935,000/\uc2dc\uac04",
+      hoursScrolled: "\uc774\ubc88 \uc8fc \uc2a4\ud06c\ub864 \uc2dc\uac04",
+      hoursAmount: "26\uc2dc\uac04",
+      recentActivity: "\ucd5c\uadfc \ud65c\ub3d9",
+      videoWatched: "\ub3d9\uc601\uc0c1 \uc2dc\uccad",
+      surveyCompleted: "\uc124\ubb38\uc870\uc0ac \uc644\ub8cc",
+      activity1Amount: "+\u20a96,300",
+      activity1Time: "2\ubd84 \uc804",
+      activity2Amount: "+\u20a911,550",
+      activity2Time: "15\ubd84 \uc804",
+      activity3Amount: "+\u20a935,000",
+      activity3Time: "1\uc2dc\uac04 \uc804",
+      navHome: "\ud648",
+      navEarn: "\ubc8c\uae30",
+      navRewards: "\ubcf4\uc0c1",
+      navProfile: "\ud504\ub85c\ud544"
+    },
+    pl: {
+      availableBalance: "Dost\u0119pne saldo",
+      balanceAmount: "3 850,00 z\u0142",
+      settings: "Ustawienia",
+      getPaidScrolling: "Zarabiaj scrolluj\u0105c",
+      currentRate: "Aktualna stawka:",
+      rateAmount: "96 z\u0142/godz.",
+      hoursScrolled: "Godziny scrollowania w tym tygodniu",
+      hoursAmount: "26 godzin",
+      recentActivity: "Ostatnia aktywno\u015b\u0107",
+      videoWatched: "Obejrzano film",
+      surveyCompleted: "Ankieta uko\u0144czona",
+      activity1Amount: "+17,40 z\u0142",
+      activity1Time: "2 min temu",
+      activity2Amount: "+31,80 z\u0142",
+      activity2Time: "15 min temu",
+      activity3Amount: "+96,50 z\u0142",
+      activity3Time: "1 godz. temu",
+      navHome: "G\u0142\u00f3wna",
+      navEarn: "Zarabiaj",
+      navRewards: "Nagrody",
+      navProfile: "Profil"
+    },
+    sv: {
+      availableBalance: "Tillg\u00e4ngligt saldo",
+      balanceAmount: "9 975 kr",
+      settings: "Inst\u00e4llningar",
+      getPaidScrolling: "F\u00e5 betalt f\u00f6r att scrolla",
+      currentRate: "Aktuell taxa:",
+      rateAmount: "250 kr/tim",
+      hoursScrolled: "Timmar scrollade denna vecka",
+      hoursAmount: "26 timmar",
+      recentActivity: "Senaste aktivitet",
+      videoWatched: "Video visad",
+      surveyCompleted: "Enk\u00e4t slutf\u00f6rd",
+      activity1Amount: "+45 kr",
+      activity1Time: "2 min sedan",
+      activity2Amount: "+82 kr",
+      activity2Time: "15 min sedan",
+      activity3Amount: "+250 kr",
+      activity3Time: "1 timme sedan",
+      navHome: "Hem",
+      navEarn: "Tj\u00e4na",
+      navRewards: "Bel\u00f6ningar",
+      navProfile: "Profil"
+    }
+  };
+
+  var countryToLang = {
+    AU:'en', US:'en', GB:'en', CA:'en',
+    AT:'de', DE:'de', CH:'de',
+    FR:'fr', BE:'fr',
+    IT:'it',
+    NL:'nl',
+    JP:'ja',
+    KR:'kr',
+    PL:'pl',
+    SE:'sv'
+  };
+
+  function detectLanguage() {
+    var params = new URLSearchParams(window.location.search);
+    var lp = params.get('lang');
+    if (lp && translations[lp]) return lp;
+    var cp = params.get('country');
+    if (cp) { var m = countryToLang[cp.toUpperCase()]; if (m && translations[m]) return m; }
+    var bl = (navigator.language || navigator.userLanguage || 'en');
+    var short = bl.split('-')[0].toLowerCase();
+    if (translations[short]) return short;
+    var rm = bl.toUpperCase().match(/-([A-Z]{2})$/);
+    if (rm) { var m2 = countryToLang[rm[1]]; if (m2 && translations[m2]) return m2; }
+    return 'en';
+  }
+
+  var currentLang = detectLanguage();
+  var t = translations[currentLang] || translations['en'];
+  document.documentElement.lang = currentLang;
+  </script>
+
+  <script type="module">
+
+    // State management
+    let scrollToggle = true;
+
+    function toggleScroll() {
+      scrollToggle = !scrollToggle;
+      render();
+    }
+
+    function render() {
+      const root = document.getElementById('root');
+      const t = window.t;
+
+      root.innerHTML = `
+        <div class="max-w-md mx-auto min-h-screen bg-[#0c0c14] relative">
+          <!-- Header with Brand Logo and Refresh Icon -->
+          <div class="flex items-center justify-between px-4 py-4 bg-[#0c0c14]">
+            <div class="flex items-center gap-3">
+              <img
+                src="images/freecash-logo.png"
+                alt="Freecash"
+                class="w-14 h-14 object-cover rounded-2xl"
+              />
+              <span class="text-white font-bold text-lg">FREECASH</span>
+            </div>
+            <button class="text-[#8a8f9e] hover:text-[#a0a5b4] transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Main Content -->
+          <div class="px-4 pt-6 pb-24">
+            <!-- Balance Card -->
+            <div class="bg-gradient-to-br from-[#00ff88]/10 to-[#00ff88]/5 border border-[#00ff88]/20 rounded-2xl p-6 mb-4" style="box-shadow: 0 0 30px rgba(255,215,0,0.08);">
+              <div class="flex items-start justify-between">
+                <div>
+                  <p class="text-[#8a8f9e] text-sm mb-2">${t.availableBalance}</p>
+                  <p class="font-black" style="font-size: 56px; line-height: 1; background: linear-gradient(135deg, #ffd700, #ffb800, #e6a800); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 20px rgba(255,215,0,0.35)) drop-shadow(0 0 40px rgba(255,184,0,0.15));">${t.balanceAmount}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="mb-6">
+              <h3 class="text-xs text-[#8a8f9e] tracking-wider mb-3 uppercase">${t.settings}</h3>
+              <div class="rounded-2xl p-5 flex items-center justify-between transition-all" style="background: ${scrollToggle ? '#0a1f14' : '#12121e'}; border: 1px solid ${scrollToggle ? 'rgba(0,255,136,0.3)' : '#1a1a27'}; box-shadow: ${scrollToggle ? '0 0 25px rgba(0,255,136,0.15), inset 0 0 30px rgba(0,255,136,0.05)' : '0 0 20px rgba(0,255,136,0.08)'};">
+                <div class="flex items-center gap-4">
+                  <div class="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0" style="background: #0a2a1a; border: 1px solid rgba(0,255,136,0.3);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  </div>
+                  <div>
+                    <span class="text-lg font-bold text-[#f0f6ff] block">${t.getPaidScrolling}</span>
+                    <span class="text-xs" style="color: ${scrollToggle ? '#00ff88' : '#8a8f9e'};">${t.currentRate} <span class="font-semibold">${t.rateAmount}</span></span>
+                  </div>
+                </div>
+                <button
+                  onclick="window.toggleScroll()"
+                  class="relative w-14 h-8 rounded-full transition-all flex-shrink-0 ${scrollToggle ? 'bg-[#00ff88]' : 'bg-[#2a2a3d]'}"
+                  style="${scrollToggle ? 'box-shadow: 0 0 12px rgba(0,255,136,0.4);' : ''}"
+                >
+                  <div class="absolute top-1 ${scrollToggle ? 'right-1' : 'left-1'} w-6 h-6 bg-white rounded-full transition-all shadow-md"></div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Hours Scrolled Section -->
+            <div class="bg-[#12121e] border border-[#1a1a27] rounded-2xl p-4 mb-8 flex items-center justify-between">
+              <span class="text-sm text-[#8a8f9e]">${t.hoursScrolled}</span>
+              <span class="text-lg font-bold text-[#00ff88]">${t.hoursAmount}</span>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="mb-6">
+              <h3 class="text-xs text-[#8a8f9e] tracking-wider mb-3 uppercase">${t.recentActivity}</h3>
+              <div class="space-y-2">
+                ${[
+                  { amount: t.activity1Amount, desc: t.videoWatched, time: t.activity1Time },
+                  { amount: t.activity2Amount, desc: t.videoWatched, time: t.activity2Time },
+                  { amount: t.activity3Amount, desc: t.surveyCompleted, time: t.activity3Time }
+                ].map(activity => `
+                  <div class="bg-[#12121e] border border-[#1a1a27] rounded-xl p-4 flex items-center justify-between hover:border-[#2a2a3d] transition-colors">
+                    <div>
+                      <p class="text-[#f0f6ff] text-sm font-medium">${activity.desc}</p>
+                      <p class="text-[#8a8f9e] text-xs mt-1">${activity.time}</p>
+                    </div>
+                    <p class="text-[#00ff88] font-bold">${activity.amount}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          <!-- Bottom Navigation -->
+          <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#12121e] border-t border-[#1a1a27] px-4 py-3">
+            <div class="flex items-center justify-around">
+              ${[
+                { icon: 'home', label: t.navHome, active: true },
+                { icon: 'dollar-sign', label: t.navEarn, active: false },
+                { icon: 'gift', label: t.navRewards, active: false },
+                { icon: 'user', label: t.navProfile, active: false }
+              ].map(item => `
+                <button class="flex flex-col items-center gap-1 ${item.active ? 'text-[#00ff88]' : 'text-[#8a8f9e]'} hover:text-[#00ff88] transition-colors">
+                  ${getIcon(item.icon)}
+                  <span class="text-xs">${item.label}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getIcon(name) {
+      const icons = {
+        'home': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+        'dollar-sign': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+        'gift': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg>',
+        'user': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+      };
+      return icons[name] || '';
+    }
+
+    // Make toggleScroll available globally
+    window.toggleScroll = toggleScroll;
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
